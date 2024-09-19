@@ -26,6 +26,24 @@
 
 namespace beman::execution26::detail
 {
+    struct empty {};
+    template <typename...> struct identity_or_empty;
+    template <typename T> struct identity_or_empty<T> { using type = T; };
+    template <> struct identity_or_empty<> { using type = void; };
+    template <typename... T>
+    using identity_or_empty_t = typename beman::execution26::detail::identity_or_empty<T...>::type;
+
+    struct optional_void
+    {
+        using value_type = void;
+        constexpr operator bool() const { return false; }
+        constexpr auto has_value() const -> bool { return false; }
+    };
+    template <typename T> struct optional { using type = ::std::optional<T>; };
+    template <> struct optional<void> { using type = ::beman::execution26::detail::optional_void; };
+    template <typename T>
+    using optional_t = typename ::beman::execution26::detail::optional<T>::type;
+
     struct sync_wait_env
     {
         ::beman::execution26::run_loop* loop{};
@@ -42,12 +60,13 @@ namespace beman::execution26::detail
 
     template <::beman::execution26::sender_in Sender>
     using sync_wait_result_type
-        = ::std::optional<
+        = ::beman::execution26::detail::optional_t<
             ::beman::execution26::value_types_of_t<
                 Sender,
                 ::beman::execution26::detail::sync_wait_env,
                 ::beman::execution26::detail::decayed_tuple,
-                ::std::type_identity_t
+                //::std::type_identity_t
+                ::beman::execution26::detail::identity_or_empty_t
             >
         >;
 

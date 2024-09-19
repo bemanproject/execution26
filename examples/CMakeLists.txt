@@ -9,6 +9,7 @@ include(GNUInstallDirs)
 
 set(EXAMPLES
   stop_token
+  stopped-only
 )
 
 foreach(EXAMPLE ${EXAMPLES})
