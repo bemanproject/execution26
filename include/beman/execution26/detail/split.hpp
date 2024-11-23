@@ -156,6 +156,10 @@ struct impls_for<split_impl_t> : ::beman::execution26::detail::default_impls {
             }
         }
 
+        // We use a queue to store the listeners that are waiting for the operation to complete.
+        // if the queue is empty, we start the operation
+        // if the queue is not empty, we push the listener to the queue
+        // if the queue is shutdown, we immediately notify the listener
         void add_listener(local_state_base* listener) noexcept {
             // try to push the listener to the queue, if the queue is empty and not shutdown, start the operation
             if (auto maybe_ptr = waiting_states.try_push(listener); maybe_ptr) {
@@ -185,6 +189,15 @@ struct impls_for<split_impl_t> : ::beman::execution26::detail::default_impls {
 
         void inc_ref() noexcept { ref_count.fetch_add(1); }
 
+        // This is the most complicated part of the split implementation.
+        // On construction, the operation state increments the ref count.
+        // Before the operation is started, at least one listener is added to the queue.
+        // If the ref count is decreased to one and the there are no listeners in the queue
+        // the operation state is the last object holding the shared state and we can safely
+        // destroy it
+        //
+        // it is not thread safe to destroy a split-sender and copy it at the same time
+        // this is similar to how a shared_ptr is not thread safe to copy and destroy at the same time
         void dec_ref() noexcept {
             std::size_t count = ref_count.load();
             if (count == 2 && waiting_states.empty_and_not_shutdown()) {
