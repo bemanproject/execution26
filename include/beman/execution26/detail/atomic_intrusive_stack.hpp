@@ -42,7 +42,7 @@ class atomic_intrusive_stack<Next> {
     //!
     //! @return  If the stack is empty, returns nullptr and pushes the item to the stack.
     //!          If the stack is in the closed state, returns std::nullopt.
-    auto try_push(Item* item) noexcept -> std::optional<void*> {
+    auto try_push(Item* item) noexcept -> std::optional<Item*> {
         void* ptr = head_.load();
         if (ptr == this) {
             return std::nullopt;
@@ -54,7 +54,7 @@ class atomic_intrusive_stack<Next> {
             }
             item->*Next = static_cast<Item*>(ptr);
         }
-        return ptr;
+        return static_cast<Item*>(ptr);
     }
 
     //! @brief  Tests if the stack is empty and not in the closed state.
