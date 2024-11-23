@@ -12,11 +12,13 @@ namespace beman::execution26::detail {
 template <auto Next>
 class intrusive_queue;
 
-template <class Item, Item* Item::* Next>
+//! @brief  This data structure is an intrusive queue that is not thread-safe.
+template <class Item, Item* Item::*Next>
 class intrusive_queue<Next> {
   public:
     ~intrusive_queue() { assert(!head_); }
 
+    //! @brief  Pushes an item to the queue.
     auto push(Item* item) noexcept -> void {
         if (last_) {
             assert(head_);
@@ -28,6 +30,9 @@ class intrusive_queue<Next> {
         }
     }
 
+    //! @brief  Pops one item from the queue.
+    //!
+    //! @return  The item that was popped from the queue, or nullptr if the queue is empty.
     auto pop() noexcept -> Item* {
         if (head_) {
             auto item = head_;
@@ -41,6 +46,7 @@ class intrusive_queue<Next> {
         return nullptr;
     }
 
+    //! @brief  Tests if the queue is empty.
     auto empty() const noexcept -> bool { return !head_; }
 
   private:

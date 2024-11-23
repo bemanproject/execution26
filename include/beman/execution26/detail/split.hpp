@@ -4,7 +4,7 @@
 #ifndef INCLUDED_BEMAN_EXECUTION26_DETAIL_SPLIT
 #define INCLUDED_BEMAN_EXECUTION26_DETAIL_SPLIT
 
-#include <beman/execution26/detail/atomic_intrusive_queue.hpp>
+#include <beman/execution26/detail/atomic_intrusive_stack.hpp>
 #include <beman/execution26/detail/connect_result_t.hpp>
 #include <beman/execution26/detail/default_impls.hpp>
 #include <beman/execution26/detail/emplace_from.hpp>
@@ -40,7 +40,6 @@ struct split_impl_t {};
 template <>
 struct impls_for<split_impl_t> : ::beman::execution26::detail::default_impls {
 
-    // [exec.split-9]
     template <class Sndr>
     struct shared_state;
 
@@ -140,7 +139,7 @@ struct impls_for<split_impl_t> : ::beman::execution26::detail::default_impls {
             ::beman::execution26::error_types_of_t<Sndr, split_env, error_tuples>,
             ::beman::execution26::value_types_of_t<Sndr, split_env, value_tuple>>>;
 
-        using state_list_type = ::beman::execution26::detail::atomic_intrusive_queue<&local_state_base::next>;
+        using state_list_type = ::beman::execution26::detail::atomic_intrusive_stack<&local_state_base::next>;
 
         using child_operation_state = ::beman::execution26::connect_result_t<Sndr, split_receiver<Sndr>>;
 
@@ -174,6 +173,9 @@ struct impls_for<split_impl_t> : ::beman::execution26::detail::default_impls {
         }
 
         void notify() noexcept {
+            // note: this is different from stdexec.
+            // we discussed lifetime durations of operation at LEWG and haven't decided yet
+            // whether we should keep the operation alive as long as possible
             op_state.reset();
             auto listeners = waiting_states.pop_all_and_shutdown();
             while (auto listener = listeners.pop()) {
