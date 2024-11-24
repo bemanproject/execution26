@@ -19,20 +19,20 @@ namespace beman::execution26 {
 namespace detail {
 template <class Sndr, class Promise>
 concept awaitable_sender = single_sender<Sndr, env_of_t<Promise>> && requires(Promise& prom) {
-    { p.unhandled_stop() } -> ::std::convertible_to<::std::coroutine_handle<>>
+    { prom.unhandled_stop() } -> ::std::convertible_to<::std::coroutine_handle<>>;
 };
 
 template <class Sndr, class Promise>
 class sender_awaitable {
     struct unit {};
     using value_type   = single_sender_value_type<Sndr, env_of_t<Promise>>;
-    using result_type  = conditional_t<::std::is_void_v<value_type>, unit, value_type>;
+    using result_type  = ::std::conditional_t<::std::is_void_v<value_type>, unit, value_type>;
     using variant_type = ::std::variant<::std::monostate, result_type, ::std::exception_ptr>;
     struct awaitable_receiver {
         using receiver_concept = beman::execution26::receiver_t;
 
-        ::std::variant<::std::monostate, result_type, ::std::exception_ptr>* result_ptr_;
-        ::std::coroutine_handle<>                                            continuation_;
+        variant_type*             result_ptr_;
+        ::std::coroutine_handle<> continuation_;
     };
     using op_state_type = ::beman::execution26::connect_result_t<Sndr, awaitable_receiver>;
 
