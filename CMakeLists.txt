@@ -11,6 +11,7 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
   message(FATAL_ERROR "In-source builds are not allowed!")
 endif()
 
+set(CMAKE_CXX_SCAN_FOR_MODULES ON)
 set(TARGET_NAME execution26)
 set(TARGET_NAMESPACE beman) # FIXME: not used in install(EXPORT ...) CK?
 set(TARGET_PREFIX ${TARGET_NAMESPACE}.${TARGET_NAME})

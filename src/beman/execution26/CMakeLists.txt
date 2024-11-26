@@ -16,7 +16,6 @@ cmake_print_variables(TARGET_ALIAS TARGET_LIBRARY TARGET_PREFIX PROJECT_SOURCE_D
 
 target_sources(
   ${TARGET_LIBRARY}
-  PRIVATE execution.cpp
   PUBLIC FILE_SET
          ${TARGET_LIBRARY}_public_headers
          TYPE
@@ -188,6 +187,13 @@ target_compile_features(${TARGET_LIBRARY} PUBLIC
   "$<$<NOT:$<COMPILE_FEATURES:cxx_std_26>>:cxx_std_23>"
 )
 
+target_sources(
+  beman_execution26
+  PUBLIC FILE_SET
+         beman_execution26 TYPE CXX_MODULES FILES execution.cpp
+)
+
+if(FALSE)
 install(
   TARGETS ${TARGET_LIBRARY}
   EXPORT ${TARGETS_EXPORT_NAME}1
@@ -195,7 +201,6 @@ install(
   FILE_SET ${TARGET_LIBRARY}_public_headers
   FILE_SET ${TARGET_LIBRARY}_detail_headers
 )
-# cmake-format: on
 
 install(
   EXPORT ${TARGETS_EXPORT_NAME}1
@@ -203,3 +208,13 @@ install(
   DESTINATION "${INSTALL_CONFIGDIR}"
   NAMESPACE ${TARGET_LIBRARY}::
 )
+
+#-dk:TODO build/default/src/beman/execution26/CMakeFiles/beman_execution26.dir/beman.execution26.pcm
+install(
+  TARGETS beman_execution26
+  EXPORT beman_execution26
+  COMPONENT FILE_SET beman_execution26
+  DESTINATION lib/beman/execution26
+)
+endif()
+# cmake-format: on

@@ -6,6 +6,7 @@
 list(
   APPEND
   EXAMPLES
+  modules
   playground
   sender-demo
   when_all-cancel
