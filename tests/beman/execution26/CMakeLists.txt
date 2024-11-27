@@ -49,6 +49,7 @@ list(
   exec-snd-expos.test
   exec-snd-transform.test
   exec-starts-on.test
+  exec-split.test
   exec-sync-wait.test
   exec-then.test
   exec-utils-cmplsigs.test
