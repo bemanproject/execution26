@@ -5,29 +5,7 @@ name: Linux Build
 
 on:
   push:
-    branches: ["main"]
-    paths:
-      - "include/**"
-      - "src/**"
-      - "tests/**"
-      - "examples/**"
-      - "cmake/**"
-      - "Makefile"
-      - "CMakePresets.json"
-      - "CMakeLists.txt"
-      - ".github/workflows/linux.yml"
   pull_request:
-    branches: ["main"]
-    paths:
-      - "include/**"
-      - "src/**"
-      - "tests/**"
-      - "examples/**"
-      - "cmake/**"
-      - "Makefile"
-      - "CMakePresets.json"
-      - "CMakeLists.txt"
-      - ".github/workflows/linux.yml"
 
 jobs:
   build:
@@ -38,7 +16,8 @@ jobs:
       matrix:
         # TODO: sanitizer: [debug, release, asan, usan, tsan, lsan, msan]
         preset: [debug, release]
-        compiler: [g++-14, clang++-19]
+        # TODO: compiler: [g++-15, clang++-19]
+        compiler: [clang++-19]
 
     steps:
       - uses: actions/checkout@v4

@@ -7,7 +7,8 @@ add_library(${TARGET_LIBRARY} STATIC)
 add_library(${TARGET_ALIAS} ALIAS ${TARGET_LIBRARY})
 
 if(CMAKE_BUILD_TYPE STREQUAL Debug)
-  target_link_libraries(${TARGET_LIBRARY} PUBLIC $<BUILD_INTERFACE:${TARGET_LIBRARY}_project_options>)
+  # NOTE: Sanitizer or gcov is not possible for CXX_MODULES! CK
+  # XXX target_link_libraries(${TARGET_LIBRARY} PUBLIC $<BUILD_INTERFACE:${TARGET_LIBRARY}_project_options>)
   target_link_libraries(${TARGET_LIBRARY} PUBLIC $<BUILD_INTERFACE:${TARGET_LIBRARY}_project_warnings>)
 endif()
 
@@ -188,33 +189,26 @@ target_compile_features(${TARGET_LIBRARY} PUBLIC
 )
 
 target_sources(
-  beman_execution26
-  PUBLIC FILE_SET
-         beman_execution26 TYPE CXX_MODULES FILES execution.cpp
+  ${TARGET_LIBRARY}
+  PUBLIC FILE_SET ${TARGET_LIBRARY}_modules
+         TYPE CXX_MODULES FILES execution.cppm
 )
 
-if(FALSE)
 install(
   TARGETS ${TARGET_LIBRARY}
-  EXPORT ${TARGETS_EXPORT_NAME}1
-  ARCHIVE DESTINATION lib/$<CONFIG>
+  EXPORT ${TARGETS_EXPORT_NAME}
+  ARCHIVE # XXX DESTINATION lib/$<CONFIG>
+  FILE_SET ${TARGET_LIBRARY}_modules
+    # There's currently no convention for this location
+    DESTINATION ${INSTALL_CONFIGDIR}/src
   FILE_SET ${TARGET_LIBRARY}_public_headers
   FILE_SET ${TARGET_LIBRARY}_detail_headers
 )
 
 install(
-  EXPORT ${TARGETS_EXPORT_NAME}1
-  FILE ${TARGETS_EXPORT_NAME}.cmake
+  EXPORT ${TARGETS_EXPORT_NAME}
   DESTINATION "${INSTALL_CONFIGDIR}"
+  CXX_MODULES_DIRECTORY .
   NAMESPACE ${TARGET_LIBRARY}::
 )
-
-#-dk:TODO build/default/src/beman/execution26/CMakeFiles/beman_execution26.dir/beman.execution26.pcm
-install(
-  TARGETS beman_execution26
-  EXPORT beman_execution26
-  COMPONENT FILE_SET beman_execution26
-  DESTINATION lib/beman/execution26
-)
-endif()
 # cmake-format: on

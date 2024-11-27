@@ -5,7 +5,7 @@
 #if 0
 #include <beman/execution26/execution.hpp>
 #else
-import beman.execution26;
+import beman_execution26;
 #endif
 
 // ----------------------------------------------------------------------------

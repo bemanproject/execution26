@@ -8,7 +8,7 @@ module;
 #include <beman/execution26/execution.hpp>
 #include <beman/execution26/stop_token.hpp>
 
-export module beman.execution26;
+export module beman_execution26;
 
 namespace beman::execution26 {
 export int version(0);

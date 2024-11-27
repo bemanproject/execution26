@@ -5,7 +5,7 @@
 #if 0
 #include <beman/execution26/execution.hpp>
 #else
-import beman.execution26;
+import beman_execution26;
 #endif
 
 // ----------------------------------------------------------------------------
@@ -172,8 +172,8 @@ TEST(execution_modules) {
 
     // [exec.util.cmplsig.trans]
     //-dk:TODO template <typename S> using transform_completion_signatures =
-    //test_stdex::transform_completion_signatures<S>; -dk:TODO template <typename S> using
-    //transform_completion_signatures_of = test_stdex::transform_completion_signatures_of<S>;
+    // test_stdex::transform_completion_signatures<S>; -dk:TODO template <typename S> using
+    // transform_completion_signatures_of = test_stdex::transform_completion_signatures_of<S>;
 
     // [exec.run.loop], run_loop
     test::use_type<test_stdex::run_loop>();

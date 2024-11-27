@@ -16,7 +16,7 @@
 
 namespace beman::execution26 {}
 
-namespace beman::execution26::detail {};
+namespace beman::execution26::detail {}
 
 namespace test_std    = ::beman::execution26;
 namespace test_stdex           = ::beman::execution26;
