@@ -3,13 +3,17 @@
 # SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 # cmake-format: on
 
-cmake_minimum_required(VERSION 3.25...3.31)
+cmake_minimum_required(VERSION 3.30...3.31)
 
-project(beman_execution26 VERSION 0.0.1 LANGUAGES CXX)
+project(beman_execution26 VERSION 0.1.0 LANGUAGES CXX)
 
 if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
   message(FATAL_ERROR "In-source builds are not allowed!")
 endif()
+
+# Note that scanning is only performed if C++20 or higher is enabled for the target. Scanning for modules in the target's
+# sources belonging to file sets of type CXX_MODULES is always performed.
+# not needed: set(CMAKE_CXX_SCAN_FOR_MODULES ON)
 
 set(TARGET_NAME execution26)
 set(TARGET_NAMESPACE beman) # FIXME: not used in install(EXPORT ...) CK?
@@ -18,6 +22,9 @@ set(TARGET_LIBRARY ${PROJECT_NAME})
 set(TARGET_ALIAS ${TARGET_LIBRARY}::${TARGET_LIBRARY})
 set(TARGET_PACKAGE_NAME ${PROJECT_NAME}-config)
 set(TARGETS_EXPORT_NAME ${PROJECT_NAME}-targets)
+
+# This variable is a special case of the more-general CMAKE_<CONFIG>_POSTFIX variable for the DEBUG configuration.
+set(CMAKE_DEBUG_POSTFIX D)
 
 include(GNUInstallDirs)
 set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
@@ -55,7 +62,7 @@ if(CMAKE_BUILD_TYPE STREQUAL Debug)
     ENABLE_SANITIZER_POINTER_COMPARE
     ENABLE_SANITIZER_POINTER_SUBTRACT
     ENABLE_CONTROL_FLOW_PROTECTION
-    ENABLE_STACK_PROTECTION
+    # XXX ENABLE_STACK_PROTECTION
     ENABLE_OVERFLOW_PROTECTION
     # ENABLE_ELF_PROTECTION
     # ENABLE_RUNTIME_SYMBOLS_RESOLUTION
@@ -85,7 +92,7 @@ include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
   ${CMAKE_CURRENT_BINARY_DIR}/${TARGET_PACKAGE_NAME}-version.cmake
   VERSION ${CMAKE_PROJECT_VERSION}
-  COMPATIBILITY AnyNewerVersion
+  COMPATIBILITY SameMajorVersion
 )
 
 configure_package_config_file(

@@ -5,27 +5,7 @@ name: Windows Build
 
 on:
   push:
-    branches: ["main"]
-    paths:
-      - "include/**"
-      - "src/**"
-      - "tests/**"
-      - "examples/**"
-      - "cmake/**"
-      - "CMakePresets.json"
-      - "CMakeLists.txt"
-      - ".github/workflows/windows.yml"
   pull_request:
-    branches: ["main"]
-    paths:
-      - "include/**"
-      - "src/**"
-      - "tests/**"
-      - "examples/**"
-      - "cmake/**"
-      - "CMakePresets.json"
-      - "CMakeLists.txt"
-      - ".github/workflows/windows.yml"
 
 jobs:
   build:

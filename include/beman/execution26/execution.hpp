@@ -20,6 +20,7 @@
 #include <beman/execution26/detail/operation_state.hpp>
 #include <beman/execution26/detail/sender.hpp>
 #include <beman/execution26/detail/sender_in.hpp>
+//-dk:TODO #include <beman/execution26/detail/sender_to.hpp>
 #include <beman/execution26/detail/scheduler.hpp>
 #include <beman/execution26/detail/receiver.hpp>
 #include <beman/execution26/detail/valid_completion_for.hpp>
@@ -37,6 +38,7 @@
 #include <beman/execution26/detail/start.hpp>
 #include <beman/execution26/detail/connect.hpp>
 #include <beman/execution26/detail/schedule.hpp>
+#include <beman/execution26/detail/schedule_result_t.hpp>
 
 #include <beman/execution26/detail/continues_on.hpp>
 #include <beman/execution26/detail/into_variant.hpp>

@@ -5,29 +5,7 @@ name: Macos Build
 
 on:
   push:
-    branches: ["main"]
-    paths:
-      - "include/**"
-      - "src/**"
-      - "tests/**"
-      - "examples/**"
-      - "cmake/**"
-      - "Makefile"
-      - "CMakePresets.json"
-      - "CMakeLists.txt"
-      - ".github/workflows/macos.yml"
   pull_request:
-    branches: ["main"]
-    paths:
-      - "include/**"
-      - "src/**"
-      - "tests/**"
-      - "examples/**"
-      - "cmake/**"
-      - "Makefile"
-      - "CMakePresets.json"
-      - "CMakeLists.txt"
-      - ".github/workflows/macos.yml"
 
 jobs:
   build:
@@ -37,8 +15,8 @@ jobs:
 
       matrix:
         preset: [debug, release]
-        # TODO: compiler: [g++, clang++-19]
-        compiler: [g++, clang++-18]
+        # TODO: compiler: [g++-15, clang++-19]
+        compiler: [clang++-19]
 
     steps:
       - uses: actions/checkout@v4
@@ -47,9 +25,6 @@ jobs:
         # if: startsWith(matrix.compiler, 'clang')
         uses: aminya/setup-cpp@v1
         with:
-          # TODO: compiler: llvm-19
-          # clangtidy: true
-          # cmake: true
           ninja: true
 
       - name: Install llvm-19
@@ -57,13 +32,13 @@ jobs:
         run: |
           brew install llvm@19 || echo ignored
 
-      - name: macos clang++-18 ${{ matrix.preset }}
+      - name: macos clang++-19 ${{ matrix.preset }}
         if: startsWith(matrix.compiler, 'clang')
-        run: CXX=$(brew --prefix llvm@18)/bin/clang++ cmake --workflow --preset ${{ matrix.preset }}
+        run: CXX=$(brew --prefix llvm@19)/bin/clang++ cmake --workflow --preset ${{ matrix.preset }}
 
-      - name: macos clang++-18 sanitizer
+      - name: macos clang++-19 sanitizer
         if: startsWith(matrix.compiler, 'clang') && startsWith(matrix.preset, 'debug')
-        run: CXX=$(brew --prefix llvm@18)/bin/clang++ make all
+        run: CXX=$(brew --prefix llvm@19)/bin/clang++ make all
 
       - name: macos g++ ${{ matrix.preset }}
         if: startsWith(matrix.compiler, 'g++')
