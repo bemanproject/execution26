@@ -36,12 +36,19 @@ struct get_completion_signatures_t {
             return typename sender_type::completion_signatures{};
         else if constexpr (::beman::execution26::detail::
                                is_awaitable<sender_type, ::beman::execution26::detail::env_promise<decayed_env>>) {
-            return ::beman::execution26::completion_signatures<
-                ::beman::execution26::set_value_t(
-                    ::beman::execution26::detail::
-                        await_result_type<sender_type, ::beman::execution26::detail::env_promise<decayed_env>>),
-                ::beman::execution26::set_error_t(::std::exception_ptr),
-                ::beman::execution26::set_stopped_t()>{};
+            using result_type = ::beman::execution26::detail::
+                await_result_type<sender_type, ::beman::execution26::detail::env_promise<decayed_env>>;
+            if constexpr (::std::same_as<void, result_type>) {
+                return ::beman::execution26::completion_signatures<::beman::execution26::set_value_t(),
+                                                                   ::beman::execution26::set_error_t(
+                                                                       ::std::exception_ptr),
+                                                                   ::beman::execution26::set_stopped_t()>{};
+            } else {
+                return ::beman::execution26::completion_signatures<::beman::execution26::set_value_t(result_type),
+                                                                   ::beman::execution26::set_error_t(
+                                                                       ::std::exception_ptr),
+                                                                   ::beman::execution26::set_stopped_t()>{};
+            }
         }
     }
 
