@@ -8,7 +8,6 @@
 #include <test/execution.hpp>
 
 #include <coroutine>
-#include <print>
 
 // This examples shows how to await on senders
 // but also how to use awaitables with sender algorithms
