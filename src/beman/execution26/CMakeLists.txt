@@ -24,6 +24,7 @@ target_sources(
          BASE_DIRS
          ${PROJECT_SOURCE_DIR}/include
          FILES
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/conqueue.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/execution.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/functional.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/stop_token.hpp
@@ -39,16 +40,22 @@ target_sources(
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/apply_sender.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/as_awaitable.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/as_except_ptr.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/async_concurrent_queue.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/atomic_intrusive_stack.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/await_result_type.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/await_suspend_result.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/awaitable_sender.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/basic_concurrent_queue.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/basic_operation.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/basic_receiver.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/basic_sender.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/basic_state.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/bounded_queue.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/call_result_t.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/callable.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/check_type_alias_exist.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/child_type.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/class_type.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/common.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/completion_domain.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/completion_signature.hpp
@@ -56,14 +63,18 @@ target_sources(
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/completion_signatures_for.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/completion_signatures_of_t.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/completion_tag.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/concurrent_queue.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/connect.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/connect_all.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/connect_all_result.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/connect_awaitable.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/connect_result_t.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/conqueue_errc.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/conqueue_error.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/continues_on.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/decayed_same_as.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/decayed_tuple.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/decayed_type_list.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/decayed_typeof.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/decays_to.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/default_domain.hpp
@@ -97,6 +108,8 @@ target_sources(
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/indirect_meta_apply.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/inplace_stop_source.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/into_variant.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/intrusive_queue.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/intrusive_stack.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/is_awaitable.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/is_awaiter.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/join_env.hpp
@@ -138,9 +151,12 @@ target_sources(
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/sender.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/sender_adaptor.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/sender_adaptor_closure.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/sender_awaitable.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/sender_decompose.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/sender_for.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/sender_in.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/sender_in_of.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/sender_of.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/sends_stopped.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/set_error.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/set_stopped.hpp
@@ -149,6 +165,7 @@ target_sources(
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/simple_counting_scope.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/single_sender.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/single_sender_value_type.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/split.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/start.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/starts_on.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/state_type.hpp
@@ -165,15 +182,18 @@ target_sources(
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/then.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/transform_sender.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/type_list.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/unspecified_promise.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/unstoppable_token.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/valid_completion_for.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/valid_completion_signatures.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/valid_specialization.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/value_signature.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/value_types_of_t.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/variant_or_empty.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/when_all.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/when_all_with_variant.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/with_await_transform.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/with_awaitable_senders.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/write_env.hpp
 )
 

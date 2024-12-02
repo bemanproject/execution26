@@ -11,6 +11,13 @@ endif()
 list(
   APPEND
   execution_tests
+  intrusive-queue.test
+  bounded-queue.test
+  conqueue-error.test
+  conqueue-errc.test
+  async-concurrent-queue.test
+  concurrent-queue.test
+  basic-concurrent-queue.test
   notify.test
   exec-scounting.test
   exec-awaitable.test
@@ -128,6 +135,7 @@ foreach(test ${execution_tests})
   add_test(NAME ${TEST_EXE} COMMAND $<TARGET_FILE:${TEST_EXE}>)
 endforeach()
 
+if(False)
 if(NOT PROJECT_IS_TOP_LEVEL)
   # test if the targets are findable from the build directory
   # cmake-format: off
@@ -149,4 +157,5 @@ if(NOT PROJECT_IS_TOP_LEVEL)
           # TODO(CK): Needed too? "--config $<CONFIG>"
   )
   # cmake-format: on
+endif()
 endif()

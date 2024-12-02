@@ -4,18 +4,13 @@
 #ifndef INCLUDED_BEMAN_EXECUTION26_DETAIL_SENDER_AWAITABLE
 #define INCLUDED_BEMAN_EXECUTION26_DETAIL_SENDER_AWAITABLE
 
-#include <beman/execution26/detail/as_awaitable.hpp>
 #include <beman/execution26/detail/as_except_ptr.hpp>
 #include <beman/execution26/detail/connect_result_t.hpp>
 #include <beman/execution26/detail/connect.hpp>
-#include <beman/execution26/detail/env_promise.hpp>
 #include <beman/execution26/detail/fwd_env.hpp>
 #include <beman/execution26/detail/get_env.hpp>
-#include <beman/execution26/detail/is_awaitable.hpp>
 #include <beman/execution26/detail/single_sender_value_type.hpp>
-#include <beman/execution26/detail/single_sender.hpp>
 #include <beman/execution26/detail/start.hpp>
-#include <beman/execution26/detail/unspecified_promise.hpp>
 
 #include <concepts>
 #include <coroutine>
