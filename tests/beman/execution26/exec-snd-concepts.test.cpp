@@ -1,6 +1,9 @@
 // src/beman/execution26/tests/exec-snd-concepts.test.cpp             -*-C++-*-
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
+#include <beman/execution26/detail/sender_of.hpp>
+#include <beman/execution26/detail/sender_in_of.hpp>
+#include <beman/execution26/detail/value_signature.hpp>
 #include <beman/execution26/detail/sender_for.hpp>
 #include <beman/execution26/detail/product_type.hpp>
 #include <beman/execution26/detail/sender_decompose.hpp>
@@ -14,6 +17,9 @@
 // ----------------------------------------------------------------------------
 
 namespace {
+struct env {};
+struct unsupported_env {};
+
 struct non_sender {};
 
 struct own_sender_t : test_std::sender_t {};
@@ -76,6 +82,21 @@ struct product_sender3 : test_detail::product_type<tag_t, int, int, int, int> {
 struct product_sender4 : test_detail::product_type<tag_t, int, int, int, int, int> {
     using sender_concept = test_std::sender_t;
 };
+
+struct sender_of {
+    using sender_concept = test_std::sender_t;
+
+    auto get_completion_signatures(const env&) const {
+        return test_std::completion_signatures<test_std::set_value_t(double, bool)>{};
+    }
+    auto get_completion_signatures(const test_std::empty_env&) const {
+        return test_std::completion_signatures<test_std::set_value_t(int, bool)>{};
+    }
+};
+
+static_assert(test_std::sender<sender_of>);
+static_assert(test_std::sender_in<sender_of, env>);
+static_assert(test_std::sender_in<sender_of, test_std::empty_env>);
 
 // -------------------------------------------------------------------------
 
@@ -164,6 +185,30 @@ auto test_sender_for() -> void {
     static_assert(test_std::sender<std_sender>);
     static_assert(not test_detail::sender_for<std_sender, tag_t>);
 }
+
+auto test_value_signature() -> void {
+    static_assert(std::same_as<test_detail::value_signature<>, test_std::set_value_t()>);
+    static_assert(std::same_as<test_detail::value_signature<int>, test_std::set_value_t(int)>);
+    static_assert(std::same_as<test_detail::value_signature<int, bool>, test_std::set_value_t(int, bool)>);
+    static_assert(
+        std::same_as<test_detail::value_signature<int, bool, double&>, test_std::set_value_t(int, bool, double&)>);
+}
+
+template <typename Sender>
+auto test_sender_in_of(Sender) -> void {
+    static_assert(not test_detail::sender_in_of<Sender, unsupported_env, double, bool>);
+    static_assert(not test_detail::sender_in_of<Sender, unsupported_env, int, bool>);
+    static_assert(test_detail::sender_in_of<Sender, env, double, bool>);
+    static_assert(not test_detail::sender_in_of<Sender, env, int, bool>);
+    static_assert(not test_detail::sender_in_of<Sender, test_std::empty_env, double, bool>);
+    static_assert(test_detail::sender_in_of<Sender, test_std::empty_env, int, bool>);
+}
+
+template <typename Sender>
+auto test_sender_of(Sender) -> void {
+    static_assert(not test_detail::sender_of<Sender, double, bool>);
+    static_assert(test_detail::sender_of<Sender, int, bool>);
+}
 } // namespace
 
 TEST(exec_snd_concepts) {
@@ -174,4 +219,7 @@ TEST(exec_snd_concepts) {
     test_sender_in();
     test_tag_of_t();
     test_sender_for();
+    test_value_signature();
+    test_sender_in_of(sender_of{});
+    test_sender_of(sender_of{});
 }
