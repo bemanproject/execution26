@@ -1,19 +1,19 @@
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/cpp
+    // For format details, see https://aka.ms/devcontainer.json. For config options, see the
+    // README at: https://github.com/devcontainers/templates/tree/main/src/cpp
 
-{
-	"name": "Beman Project Generic Devcontainer",
-	"build": {
-		"dockerfile": "Dockerfile"
-	},
-	"postCreateCommand": "bash .devcontainer/postcreate.sh",
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"ms-vscode.cpptools",
-				"ms-vscode.cmake-tools"
-			]
-		}
-	}
-}
+    {
+      "name": "Beman Project Generic Devcontainer",
+      "build": {
+        "dockerfile": "Dockerfile"
+      },
+      "postCreateCommand": "bash .devcontainer/postcreate.sh",
+      "customizations": {
+        "vscode": {
+          "extensions": [
+            "ms-vscode.cpptools",
+            "ms-vscode.cmake-tools"
+          ]
+        }
+      }
+    }

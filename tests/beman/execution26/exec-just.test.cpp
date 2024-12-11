@@ -212,7 +212,7 @@ TEST(exec_just) {
         test_just_constraints();
         test_just();
 #ifndef _MSC_VER
-        //-dk:TODO reenable allocator test for MSVC++
+        //-dk:TODO re-enable allocator test for MSVC++
         test_just_allocator();
 #endif
     } catch (...) {

@@ -21,7 +21,7 @@
  *
  * There are a few ingredients to using `std::execution`:
  *
- * - Sender algoritms to composes work into an asynchronous workflow.
+ * - Sender algorithms to composes work into an asynchronous workflow.
  * - Something holding and starting senders like `sync_wait()`
  *   or `counting_scope`.
  * - A coroutine binding like `task` to make sender composition
