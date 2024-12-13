@@ -8,7 +8,7 @@ TEST(stoptoken_never_general) {
     // Reference: [stoptoken.never.general]
     static_assert(::test_std::unstoppable_token<::test_std::never_stop_token>);
 
-    ::test_std::never_stop_token token;
+    ::test_std::never_stop_token       token;
     const ::test_std::never_stop_token other(token);
     static_assert(false == token.stop_requested());
     static_assert(false == token.stop_possible());

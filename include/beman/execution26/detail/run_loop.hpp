@@ -116,9 +116,9 @@ class run_loop {
     }
 
   public:
-    run_loop() noexcept  = default;
+    run_loop() noexcept       = default;
     run_loop(const run_loop&) = delete;
-    run_loop(run_loop&&) = delete;
+    run_loop(run_loop&&)      = delete;
     ~run_loop() {
         ::std::lock_guard guard(this->mutex);
         if (this->front != nullptr || this->current_state == state::running)

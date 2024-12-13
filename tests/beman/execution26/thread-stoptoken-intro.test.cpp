@@ -13,10 +13,10 @@ struct test_source : test_detail::immovable {
         callback_base()                                                = default;
         callback_base(callback_base&&)                                 = default;
         callback_base(const callback_base&)                            = default;
-        virtual ~callback_base()    = default;
+        virtual ~callback_base()                                       = default;
         auto         operator=(callback_base&&) -> callback_base&      = default;
         auto         operator=(const callback_base&) -> callback_base& = default;
-        virtual auto call() -> void = 0;
+        virtual auto call() -> void                                    = 0;
     };
     struct token {
         template <typename Fun>

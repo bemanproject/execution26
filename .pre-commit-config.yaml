@@ -4,19 +4,21 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
-      # TODO: - id: trailing-whitespace
-      # TODO: - id: end-of-file-fixer
-      # FIXME: - id: check-yaml
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-json
+      - id: check-yaml
+        exclude: ^\.clang-(format|tidy)$
       - id: check-added-large-files
 
-  # TODO: Clang-format for C++
   # This brings in a portable version of clang-format.
   # See also: https://github.com/ssciwr/clang-format-wheel
-  # - repo: https://github.com/pre-commit/mirrors-clang-format
-  #   rev: v19.1.4
-  #   hooks:
-  #     - id: clang-format
-  #       types_or: [c++, c, json]
+  - repo: https://github.com/pre-commit/mirrors-clang-format
+    rev: v19.1.4
+    hooks:
+      - id: clang-format
+        types_or: [c++, c, json]
+        exclude: docs/TODO.json
 
   # TODO: CMake linting and formatting
   # - repo: https://github.com/BlankSpruce/gersemi

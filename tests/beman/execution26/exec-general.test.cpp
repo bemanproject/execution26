@@ -15,15 +15,15 @@ struct error {
 };
 
 struct non_movable {
-    non_movable(non_movable&&) = delete;
+    non_movable(non_movable&&)                         = delete;
     non_movable(const non_movable&)                    = delete;
     ~non_movable()                                     = default;
     auto operator=(non_movable&&) -> non_movable&      = delete;
     auto operator=(const non_movable&) -> non_movable& = delete;
 };
 struct non_copyable {
-    non_copyable(non_copyable&&)      = default;
-    non_copyable(const non_copyable&) = delete;
+    non_copyable(non_copyable&&)                         = default;
+    non_copyable(const non_copyable&)                    = delete;
     ~non_copyable()                                      = default;
     auto operator=(non_copyable&&) -> non_copyable&      = default;
     auto operator=(const non_copyable&) -> non_copyable& = delete;

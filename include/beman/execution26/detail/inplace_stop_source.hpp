@@ -85,8 +85,8 @@ class beman::execution26::inplace_stop_callback final
     template <typename Init>
     inplace_stop_callback(::beman::execution26::inplace_stop_token, Init&&);
     inplace_stop_callback(const inplace_stop_callback&) = delete;
-    inplace_stop_callback(inplace_stop_callback&&) = delete;
-    ~inplace_stop_callback() override {
+    inplace_stop_callback(inplace_stop_callback&&)      = delete;
+    ~inplace_stop_callback() {
         if (this->source) {
             this->source->deregister(this);
         }

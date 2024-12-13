@@ -25,9 +25,7 @@ class join_env {
             requires(Env1&, const Query& query, Args&&... args) {
                 env1.query(query, ::std::forward<Args>(args)...);
             } ||
-            requires(Env2& e2, const Query& query, Args&&... args) {
-                e2.query(query, ::std::forward<Args>(args)...);
-            })
+            requires(Env2& e2, const Query& query, Args&&... args) { e2.query(query, ::std::forward<Args>(args)...); })
     auto query(const Query& query, Args&&... args) noexcept -> decltype(auto) {
         if constexpr (requires { env1.query(query, ::std::forward<Args>(args)...); }) {
             return env1.query(query, ::std::forward<Args>(args)...);

@@ -37,19 +37,19 @@ struct no_get_env {
 };
 
 struct not_move_constructible {
-    using receiver_concept                                = test_std::receiver_t;
-    not_move_constructible()                              = default;
-    not_move_constructible(const not_move_constructible&) = default;
-    not_move_constructible(not_move_constructible&&)      = delete;
+    using receiver_concept                                                   = test_std::receiver_t;
+    not_move_constructible()                                                 = default;
+    not_move_constructible(const not_move_constructible&)                    = default;
+    not_move_constructible(not_move_constructible&&)                         = delete;
     ~not_move_constructible()                                                = default;
     auto operator=(const not_move_constructible&) -> not_move_constructible& = default;
     auto operator=(not_move_constructible&&) -> not_move_constructible&      = delete;
 };
 struct not_copy_constructible {
-    using receiver_concept                                = test_std::receiver_t;
-    not_copy_constructible()                              = default;
-    not_copy_constructible(const not_copy_constructible&) = delete;
-    not_copy_constructible(not_copy_constructible&&)      = default;
+    using receiver_concept                                                   = test_std::receiver_t;
+    not_copy_constructible()                                                 = default;
+    not_copy_constructible(const not_copy_constructible&)                    = delete;
+    not_copy_constructible(not_copy_constructible&&)                         = default;
     ~not_copy_constructible()                                                = default;
     auto operator=(const not_copy_constructible&) -> not_copy_constructible& = delete;
     auto operator=(not_copy_constructible&&) -> not_copy_constructible&      = default;

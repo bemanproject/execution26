@@ -16,9 +16,9 @@
 
 namespace {
 struct not_movable {
-    not_movable()              = default;
+    not_movable()                                      = default;
     not_movable(const not_movable&)                    = delete;
-    not_movable(not_movable&&) = delete;
+    not_movable(not_movable&&)                         = delete;
     ~not_movable()                                     = default;
     auto operator=(const not_movable&) -> not_movable& = delete;
     auto operator=(not_movable&&) -> not_movable&      = delete;
@@ -173,10 +173,7 @@ struct counting_resource : std::pmr::memory_resource {
         ++this->count;
         return operator new(size);
     }
-    auto do_deallocate(void* p, std::size_t, std::size_t) -> void override
-    {
-        operator delete(p);
-    }
+    auto do_deallocate(void* p, std::size_t, std::size_t) -> void override { operator delete(p); }
     auto do_is_equal(const std::pmr::memory_resource& other) const noexcept -> bool override { return this == &other; }
 };
 auto test_just_allocator() -> void {

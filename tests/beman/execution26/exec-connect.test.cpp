@@ -24,7 +24,7 @@ struct state {
     template <typename R>
     state(int val, R&& r) : value(val), receiver(std::forward<R>(r)) {}
     state(const state&)                    = delete;
-    state(state&&) = delete;
+    state(state&&)                         = delete;
     ~state()                               = default;
     auto operator=(const state&) -> state& = delete;
     auto operator=(state&&) -> state&      = delete;
@@ -47,7 +47,7 @@ struct rvalue_sender {
 
     explicit rvalue_sender(int val) : value(val) {}
     rvalue_sender(const rvalue_sender&)                    = delete;
-    rvalue_sender(rvalue_sender&&) = default;
+    rvalue_sender(rvalue_sender&&)                         = default;
     auto operator=(const rvalue_sender&) -> rvalue_sender& = delete;
     auto operator=(rvalue_sender&&) -> rvalue_sender&      = default;
     ~rvalue_sender()                                       = default;
@@ -103,8 +103,8 @@ struct domain_receiver {
     using receiver_concept = test_std::receiver_t;
     int value{};
 
-    explicit domain_receiver(int val) : value(val) {}
-    domain_receiver(domain_receiver&&)                    = default;
+    explicit domain_receiver(int value) : value(value) {}
+    domain_receiver(domain_receiver&&)                         = default;
     domain_receiver(const domain_receiver&)                    = delete;
     ~domain_receiver()                                         = default;
     auto operator=(domain_receiver&&) -> domain_receiver&      = default;

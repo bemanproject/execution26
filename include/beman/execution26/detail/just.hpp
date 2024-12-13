@@ -108,15 +108,15 @@ using just_stopped_t = ::beman::execution26::detail::just_t<::beman::execution26
  * }
  * </pre>
  */
-inline constexpr ::beman::execution26::just_t         just{};
+inline constexpr ::beman::execution26::just_t just{};
 
 /*!
  * \brief <code>just_error(_error_)</code> yields a sender completing with <code>set_error_t(_Error_)</code>
  * \headerfile beman/execution26/execution.hpp <beman/execution26/execution.hpp>
  *
  * \details
- * `just_error` is a callable object of type `just_error_t`. Invoking <code>just_error(_error_)</code> yields a sender which
- * stores its argument and produces an error completion with this error when started. This sender completes
+ * `just_error` is a callable object of type `just_error_t`. Invoking <code>just_error(_error_)</code> yields a sender
+ * which stores its argument and produces an error completion with this error when started. This sender completes
  * synchronously when started.
  *
  * <h4>Usage</h4>
@@ -145,10 +145,9 @@ inline constexpr ::beman::execution26::just_t         just{};
  * uses that as the input for `upon_error` consuming the error and producing
  * a value completion: using <code>sync_wait(just_error(_error_))</code>
  * directly doesn't work because `sync_wait` requires exactly one value completion
- * from its argument and `set_error` only has an error completion. The function used with `upon_error` verifies that the
- * expected code was produced and also sets the flag `had_error` indicating it
- * was called at all. This flag is checked after waiting for the result
- * in `sync_wait`.
+ * from its argument and `set_error` only has an error completion. The function used with `upon_error` verifies that
+ * the expected code was produced and also sets the flag `had_error` indicating it was called at all. This flag is
+ * checked after waiting for the result in `sync_wait`.
  *
  * <pre example="doc-just_error.cpp">
  * #include <beman/execution26/execution.hpp>
@@ -167,16 +166,15 @@ inline constexpr ::beman::execution26::just_t         just{};
  * }
  * </pre>
  */
-inline constexpr ::beman::execution26::just_error_t   just_error{};
+inline constexpr ::beman::execution26::just_error_t just_error{};
 
 /*!
  * \brief <code>just_stopped(_)</code> yields a sender completing with <code>set_stopped_t()</code>
  * \headerfile beman/execution26/execution.hpp <beman/execution26/execution.hpp>
  *
  * \details
- * `just_stopped` is a callable object of type `just_stopped_t`. Invoking <code>just_stopped()</code> yields a sender which
- * produces a cancellation completion when started. This sender completes
- * synchronously when started.
+ * `just_stopped` is a callable object of type `just_stopped_t`. Invoking <code>just_stopped()</code> yields a sender
+ * which produces a cancellation completion when started. This sender completes synchronously when started.
  *
  * <h4>Usage</h4>
  * <pre>
@@ -200,7 +198,7 @@ inline constexpr ::beman::execution26::just_error_t   just_error{};
  * uses that as the input for `upon_stopped` consuming the cancellation and producing
  * a value completion: using <code>sync_wait(just_stopped())</code>
  * directly doesn't work because `sync_wait` requires exactly one value completion
- * from its argument and `set_stopped` only has a cancellation completion. The function used with `upon_stopped` 
+ * from its argument and `set_stopped` only has a cancellation completion. The function used with `upon_stopped`
  * sets the flag `had_stopped` indicating it
  * was called at all. This flag is checked after waiting for the result
  * in `sync_wait`.

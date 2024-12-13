@@ -16,7 +16,7 @@ template <auto Next>
 class intrusive_stack;
 
 //! @brief  This data structure is an intrusive stack that is not thread-safe.
-template <class Item, Item* Item::*Next>
+template <class Item, Item* Item::* Next>
 class intrusive_stack<Next> {
   public:
     //! @brief  Pushes an item to the stack.

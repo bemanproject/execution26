@@ -144,7 +144,7 @@ class beman::execution26::stop_callback final : private CallbackFun, beman::exec
         this->setup();
     }
     stop_callback(const stop_callback&) = delete;
-    stop_callback(stop_callback&&) = delete;
+    stop_callback(stop_callback&&)      = delete;
     ~stop_callback() { this->deregister(); }
     auto operator=(stop_callback&&) -> stop_callback&      = delete;
     auto operator=(const stop_callback&) -> stop_callback& = delete;

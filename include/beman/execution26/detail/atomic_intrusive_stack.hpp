@@ -31,7 +31,7 @@ class atomic_intrusive_stack;
 //!
 //! @tparam Item  The type of the item in the stack.
 //! @tparam Next  The pointer to the next item in the stack.
-template <class Item, Item* Item::*Next>
+template <class Item, Item* Item::* Next>
 class atomic_intrusive_stack<Next> {
   public:
     atomic_intrusive_stack() = default;

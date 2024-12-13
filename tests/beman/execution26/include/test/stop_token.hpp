@@ -215,7 +215,7 @@ inline auto test::stop_callback_dtor_same_thread(Token token, Stop stop) -> void
         Base()                               = default;
         Base(Base&&)                         = default;
         Base(const Base&)                    = default;
-        virtual ~Base() = default;
+        virtual ~Base()                      = default;
         auto operator=(Base&&) -> Base&      = default;
         auto operator=(const Base&) -> Base& = default;
     };

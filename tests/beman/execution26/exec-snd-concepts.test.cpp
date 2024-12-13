@@ -142,7 +142,7 @@ auto test_sender_in() -> void {
         non_queryable()                                        = default;
         non_queryable(non_queryable&&)                         = default;
         non_queryable(const non_queryable&)                    = default;
-        ~non_queryable() = delete;
+        ~non_queryable()                                       = delete;
         auto operator=(non_queryable&&) -> non_queryable&      = default;
         auto operator=(const non_queryable&) -> non_queryable& = default;
     };
