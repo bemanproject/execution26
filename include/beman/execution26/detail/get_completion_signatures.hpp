@@ -25,9 +25,8 @@ struct get_completion_signatures_t {
     static auto get(Sender&& sender, Env&& env) noexcept {
         auto new_sender{[](auto&& sndr, auto&& e) -> decltype(auto) {
             auto domain{::beman::execution26::detail::get_domain_late(sndr, e)};
-            return ::beman::execution26::transform_sender(domain,
-                                                          ::std::forward<Sender>(sndr),
-                                                          ::std::forward<Env>(e));
+            return ::beman::execution26::transform_sender(
+                domain, ::std::forward<Sender>(sndr), ::std::forward<Env>(e));
         }};
 
         using sender_type = ::std::remove_cvref_t<decltype(new_sender(sender, env))>;

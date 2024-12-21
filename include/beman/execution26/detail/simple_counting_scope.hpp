@@ -118,8 +118,7 @@ class beman::execution26::simple_counting_scope::assoc {
 
   private:
     friend class beman::execution26::simple_counting_scope::token;
-    explicit assoc(beman::execution26::simple_counting_scope* scp)
-        : scope(scp ? scp->try_associate() : nullptr) {}
+    explicit assoc(beman::execution26::simple_counting_scope* scp) : scope(scp ? scp->try_associate() : nullptr) {}
     beman::execution26::simple_counting_scope* scope{};
 };
 // NOLINTEND(misc-unconventional-assign-operator,hicpp-special-member-functions)

@@ -67,8 +67,7 @@ struct receiver {
     int   value{};
     bool* set_stopped_called{};
 
-    explicit receiver(int val, bool* called = {})
-        : value(val), set_stopped_called(called) {}
+    explicit receiver(int val, bool* called = {}) : value(val), set_stopped_called(called) {}
     receiver(receiver&&)                           = default;
     receiver(const receiver&)                      = delete;
     ~receiver()                                    = default;
@@ -295,7 +294,7 @@ auto test_connect_awaitable() -> void {
 }
 
 auto test_connect_with_awaiter() -> void {
-    struct awaiter {
+    struct local_awaiter {
         ::std::coroutine_handle<>& handle;
         auto                       await_ready() -> bool { return {}; }
         auto                       await_suspend(std::coroutine_handle<> h) -> void { this->handle = h; }
@@ -311,7 +310,7 @@ auto test_connect_with_awaiter() -> void {
 
     std::coroutine_handle<> handle{};
     bool                    result{};
-    auto                    op{test_std::connect(awaiter{handle}, local_receiver{result})};
+    auto                    op{test_std::connect(local_awaiter{handle}, local_receiver{result})};
     ASSERT(handle == std::coroutine_handle{});
     test_std::start(op);
     ASSERT(handle != std::coroutine_handle{});
