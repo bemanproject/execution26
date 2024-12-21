@@ -39,7 +39,6 @@ class run_loop {
     };
 
     struct opstate_base : ::beman::execution26::detail::virtual_immovable {
-        // virtual ~opstate_base() override = default;
         opstate_base* next{};
         virtual auto  execute() noexcept -> void = 0;
     };
