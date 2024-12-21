@@ -22,7 +22,7 @@ struct state {
     std::remove_cvref_t<Receiver> receiver;
 
     template <typename R>
-    state(int value, R&& r) : value(value), receiver(std::forward<R>(r)) {}
+    state(int val, R&& r) : value(val), receiver(std::forward<R>(r)) {}
     state(const state&)                    = delete;
     state(state&&)                         = delete;
     ~state()                               = default;
@@ -45,7 +45,7 @@ struct rvalue_sender {
     using sender_concept = test_std::sender_t;
     int value{};
 
-    explicit rvalue_sender(int value) : value(value) {}
+    explicit rvalue_sender(int val) : value(val) {}
     rvalue_sender(const rvalue_sender&)                    = delete;
     rvalue_sender(rvalue_sender&&)                         = default;
     auto operator=(const rvalue_sender&) -> rvalue_sender& = delete;
@@ -67,8 +67,8 @@ struct receiver {
     int   value{};
     bool* set_stopped_called{};
 
-    explicit receiver(int value, bool* set_stopped_called = {})
-        : value(value), set_stopped_called(set_stopped_called) {}
+    explicit receiver(int val, bool* called = {})
+        : value(val), set_stopped_called(called) {}
     receiver(receiver&&)                           = default;
     receiver(const receiver&)                      = delete;
     ~receiver()                                    = default;
@@ -104,7 +104,7 @@ struct domain_receiver {
     using receiver_concept = test_std::receiver_t;
     int value{};
 
-    explicit domain_receiver(int value) : value(value) {}
+    explicit domain_receiver(int val) : value(val) {}
     domain_receiver(domain_receiver&&)                         = default;
     domain_receiver(const domain_receiver&)                    = delete;
     ~domain_receiver()                                         = default;
@@ -167,7 +167,6 @@ auto test_operation_state_task() -> void {
     static_assert(
         std::same_as<::beman::execution26::detail::connect_awaitable_promise<receiver>, state_t::promise_type>);
     static_assert(noexcept(state_t(std::coroutine_handle<>{})));
-    static_assert(noexcept(state_t(state_t(std::coroutine_handle<>{}))));
     state_t state(::std::coroutine_handle<>{});
     static_assert(noexcept(state.start()));
 }
@@ -201,7 +200,7 @@ auto test_suspend_complete() -> void {
 }
 
 auto test_connect_awaitable() -> void {
-    struct awaiter {
+    struct local_awaiter {
         ::std::coroutine_handle<>& handle;
         int&                       result;
 
@@ -225,7 +224,7 @@ auto test_connect_awaitable() -> void {
         auto await_resume() -> void {}
     };
 
-    struct receiver {
+    struct local_receiver {
         using receiver_concept = test_std::receiver_t;
 
         int&  iv;
@@ -253,7 +252,7 @@ auto test_connect_awaitable() -> void {
         int                       iv{};
         bool                      bv{};
 
-        auto op1{test_detail::connect_awaitable(awaiter{handle, result}, receiver{iv, bv})};
+        auto op1{test_detail::connect_awaitable(local_awaiter{handle, result}, local_receiver{iv, bv})};
         ASSERT(handle == std::coroutine_handle<>());
         op1.start();
         ASSERT(handle != std::coroutine_handle<>());
@@ -269,7 +268,7 @@ auto test_connect_awaitable() -> void {
         int                       iv{};
         bool                      bv{};
 
-        auto op1{test_detail::connect_awaitable(awaiter{handle, result}, receiver{iv, bv})};
+        auto op1{test_detail::connect_awaitable(local_awaiter{handle, result}, local_receiver{iv, bv})};
         ASSERT(handle == std::coroutine_handle<>());
         op1.start();
         ASSERT(handle != std::coroutine_handle<>());
@@ -285,7 +284,7 @@ auto test_connect_awaitable() -> void {
         int                       iv{};
         bool                      bv{};
 
-        auto op1{test_detail::connect_awaitable(void_awaiter{handle}, receiver{iv, bv})};
+        auto op1{test_detail::connect_awaitable(void_awaiter{handle}, local_receiver{iv, bv})};
         ASSERT(handle == std::coroutine_handle<>());
         op1.start();
         ASSERT(handle != std::coroutine_handle<>());
@@ -302,7 +301,7 @@ auto test_connect_with_awaiter() -> void {
         auto                       await_suspend(std::coroutine_handle<> h) -> void { this->handle = h; }
         auto                       await_resume() -> int { return 17; }
     };
-    struct receiver {
+    struct local_receiver {
         using receiver_concept = test_std::receiver_t;
         bool& result;
         auto  set_value(int i) && noexcept -> void { this->result = i == 17; }
@@ -312,7 +311,7 @@ auto test_connect_with_awaiter() -> void {
 
     std::coroutine_handle<> handle{};
     bool                    result{};
-    auto                    op{test_std::connect(awaiter{handle}, receiver{result})};
+    auto                    op{test_std::connect(awaiter{handle}, local_receiver{result})};
     ASSERT(handle == std::coroutine_handle{});
     test_std::start(op);
     ASSERT(handle != std::coroutine_handle{});

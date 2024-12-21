@@ -192,8 +192,8 @@ inline auto beman::execution26::detail::stop_callback_base::deregister() -> void
 
 inline auto beman::execution26::detail::stop_callback_base::call() -> void { this->do_call(); }
 
-inline beman::execution26::stop_token::stop_token(::std::shared_ptr<::beman::execution26::detail::stop_state> state)
-    : state(::std::move(state)) {}
+inline beman::execution26::stop_token::stop_token(::std::shared_ptr<::beman::execution26::detail::stop_state> st)
+    : state(::std::move(st)) {}
 
 inline auto beman::execution26::stop_token::swap(stop_token& other) noexcept -> void { this->state.swap(other.state); }
 

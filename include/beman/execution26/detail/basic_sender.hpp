@@ -66,7 +66,7 @@ struct basic_sender : ::beman::execution26::detail::product_type<Tag, Data, Chil
     }
 #else
     template <::beman::execution26::detail::decays_to<basic_sender> Self, ::beman::execution26::receiver Receiver>
-    auto connect(this Self&& self, Receiver receiver) && noexcept(
+    auto connect(this Self&& self, Receiver receiver) noexcept(
         noexcept(::beman::execution26::detail::basic_operation<basic_sender, Receiver>{::std::forward<Self>(self),
                                                                                        ::std::move(receiver)}))
         -> ::beman::execution26::detail::basic_operation<Self, Receiver> {
