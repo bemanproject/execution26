@@ -10,8 +10,9 @@
 // ----------------------------------------------------------------------------
 
 namespace {
-struct error {
+struct error : std::exception {
     int value;
+    explicit error(int v) : value(v) {}
 };
 
 struct non_movable {

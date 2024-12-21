@@ -7,6 +7,7 @@
 #include <optional>
 #include <type_traits>
 #include <utility>
+#include <cassert>
 
 namespace ex = beman::execution26;
 
@@ -106,11 +107,15 @@ struct eager {
         std::optional<helper> inner_state;
 
         template <typename R, typename S>
-        state(R&& r, S&& s) : outer_receiver(std::forward<R>(r)), inner_state() {
-            inner_state.emplace(std::forward<S>(s), receiver{this});
+        state(R&& r, S&& s)
+            : outer_receiver(std::forward<R>(r)), inner_state(std::in_place, std::forward<S>(s), receiver{this}) {}
+        auto start() & noexcept -> void {
+            if (this->inner_state) {
+                ex::start((*this->inner_state).st);
+            } else {
+                assert(this->inner_state);
+            }
         }
-        // TODO on next line: bugprone-unchecked-optional-access
-        auto start() & noexcept -> void { ex::start((*this->inner_state).st); }
     };
     template <ex::receiver Receiver>
     auto connect(Receiver&& receiver) {

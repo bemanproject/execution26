@@ -37,6 +37,9 @@ struct with_awaitable_senders {
     }
 
   private:
+    friend Promise;
+    with_awaitable_senders() = default;
+
     [[noreturn]] static auto default_unhandled_stopped(void*) noexcept -> ::std::coroutine_handle<> {
         ::std::terminate();
     }

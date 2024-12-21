@@ -4,7 +4,6 @@
 #ifndef INCLUDED_BEMAN_EXECUTION26_DETAIL_SENDER_AWAITABLE
 #define INCLUDED_BEMAN_EXECUTION26_DETAIL_SENDER_AWAITABLE
 
-#include <beman/execution26/detail/as_awaitable.hpp>
 #include <beman/execution26/detail/as_except_ptr.hpp>
 #include <beman/execution26/detail/connect_result_t.hpp>
 #include <beman/execution26/detail/connect.hpp>

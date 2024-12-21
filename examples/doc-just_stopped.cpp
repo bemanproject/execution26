@@ -11,5 +11,6 @@ int main() {
     bool stopped{false};
 
     auto result = ex::sync_wait(ex::just_stopped() | ex::upon_stopped([&] { stopped = true; }));
+    assert(result);
     assert(stopped);
 }

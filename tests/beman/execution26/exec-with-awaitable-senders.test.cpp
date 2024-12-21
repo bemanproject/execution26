@@ -14,6 +14,7 @@
 
 namespace exec = beman::execution26;
 
+namespace {
 struct promise;
 
 struct awaitable {
@@ -50,10 +51,10 @@ coroutine test_await_void() { co_await exec::just(); }
 
 void test_sync_wait_awaitable() {
     try {
-        auto [v] = exec::sync_wait(awaitable{}).value();
+        auto [v] = exec::sync_wait(awaitable{}).value_or(std::tuple(0));
         ASSERT(v == 1);
     } catch (...) {
-        ASSERT(false);
+        ASSERT_UNREACHABLE();
     }
 }
 
@@ -61,7 +62,7 @@ void test_sync_wait_void_awaitable() {
     try {
         ASSERT(exec::sync_wait(void_awaitable{}));
     } catch (...) {
-        ASSERT(false);
+        ASSERT_UNREACHABLE();
     }
 }
 
@@ -70,6 +71,8 @@ coroutine test_mix_awaitable_and_sender() {
     ASSERT(just == 0);
     ASSERT(value == 1);
 }
+
+} // namespace
 
 TEST(exec_with_awaitable_senders) {
     test_await_tuple().resume();

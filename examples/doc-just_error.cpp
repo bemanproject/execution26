@@ -13,5 +13,6 @@ int main() {
                                     assert(ec.value() == 17);
                                     had_error = true;
                                 }));
+    assert(result);
     assert(had_error);
 }

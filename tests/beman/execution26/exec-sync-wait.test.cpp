@@ -29,8 +29,9 @@ struct arg {
     int  value{};
     auto operator==(const arg&) const -> bool = default;
 };
-struct error {
+struct error : std::exception {
     int value{};
+    explicit error(int v) : value(v) {}
 };
 struct sender {
     using sender_concept = test_std::sender_t;

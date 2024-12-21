@@ -11,6 +11,8 @@
 
 // ----------------------------------------------------------------------------
 
+namespace {
+
 struct timed_scheduler_t : beman::execution26::scheduler_t {};
 
 class some_thread_pool {
@@ -198,6 +200,7 @@ void test_multiple_completions_from_other_threads() {
         ASSERT(val2 == 42);
     }
 }
+} // namespace
 
 TEST(exec_split) {
     test_destroy_unused_split();
