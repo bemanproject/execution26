@@ -659,7 +659,7 @@ auto test_state_type() -> void {
     struct state {};
     struct sender {
         local_tag t;
-        state s;
+        state     s;
     };
     struct local_receiver {};
 
