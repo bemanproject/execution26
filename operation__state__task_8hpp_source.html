@@ -108,7 +108,7 @@ $(function() {
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Receiver&gt;</div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="keyword">struct </span>beman::execution26::detail::connect_awaitable_promise</div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    : ::beman::execution26::detail::with_await_transform&lt;connect_awaitable_promise&lt;Receiver&gt;&gt; {</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    connect_awaitable_promise(<span class="keyword">auto</span>&amp;&amp;, Receiver&amp; receiver) noexcept : receiver(receiver) {}</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    connect_awaitable_promise(<span class="keyword">auto</span>&amp;&amp;, Receiver&amp; rcvr) noexcept : receiver(rcvr) {}</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keyword">auto</span>              initial_suspend() noexcept -&gt; ::std::suspend_always { <span class="keywordflow">return</span> {}; }</div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    [[noreturn]] <span class="keyword">auto</span> final_suspend() noexcept -&gt; ::std::suspend_always { ::std::terminate(); }</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    [[noreturn]] <span class="keyword">auto</span> unhandled_exception() noexcept -&gt; <span class="keywordtype">void</span> { ::std::terminate(); }</div>
@@ -136,7 +136,7 @@ $(function() {
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keyword">using </span>operation_state_concept = <a class="code hl_struct" href="structbeman_1_1execution26_1_1operation__state__t.html">::beman::execution26::operation_state_t</a>;</div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keyword">using </span>promise_type            = ::beman::execution26::detail::connect_awaitable_promise&lt;Receiver&gt;;</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keyword">explicit</span> operation_state_task(::std::coroutine_handle&lt;&gt; handle) noexcept : handle(handle) {}</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keyword">explicit</span> operation_state_task(::std::coroutine_handle&lt;&gt; hndl) noexcept : handle(hndl) {}</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    operation_state_task(<span class="keyword">const</span> operation_state_task&amp;) = <span class="keyword">delete</span>;</div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    operation_state_task(operation_state_task&amp;&amp; other) noexcept : handle(::std::exchange(other.handle, {})) {}</div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    ~operation_state_task() {</div>

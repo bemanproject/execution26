@@ -138,8 +138,8 @@ $(function() {
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keyword">struct </span>state : ::beman::execution26::detail::notifier::base {</div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        ::beman::execution26::detail::notifier* n;</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        ::std::remove_cvref_t&lt;Receiver&gt;&amp;        receiver{};</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        state(::beman::execution26::detail::notifier* n, ::std::remove_cvref_t&lt;Receiver&gt;&amp; receiver)</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>            : n(n), receiver(receiver) {}</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        state(::beman::execution26::detail::notifier* nn, ::std::remove_cvref_t&lt;Receiver&gt;&amp; rcvr)</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>            : n(nn), receiver(rcvr) {}</div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        <span class="keyword">auto</span> complete() -&gt; <span class="keywordtype">void</span> <span class="keyword">override</span> { <a class="code hl_variable" href="namespacebeman_1_1execution26.html#ae49d099ae6a14cda99cd4b5a7f0be069">::beman::execution26::set_value</a>(::std::move(this-&gt;receiver)); }</div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    };</div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keyword">auto</span> get_state{[]&lt;<span class="keyword">typename</span> Sender, <span class="keyword">typename</span> Receiver&gt;(Sender&amp;&amp; sender, Receiver&amp;&amp; receiver) {</div>
