@@ -545,8 +545,8 @@ auto test_default_impls_get_state() -> void {
     };
     struct local_sender1 {
         local_tag t{};
-        data d{1, 2};
-        int  i1{};
+        data      d{1, 2};
+        int       i1{};
     };
     struct local_sender2 {
         local_tag t{};
