@@ -1253,11 +1253,11 @@ auto test_write_env() -> void {
 template <typename... T>
 struct child_sender : test_detail::product_type<T...> {};
 auto test_child_type() -> void {
-    static_assert(std::same_as<int, test_detail::child_type<child_sender<bool, char, int, double>>>);
-    static_assert(std::same_as<int&, test_detail::child_type<child_sender<bool, char, int, double>>&>);
-    static_assert(std::same_as<const int&, const test_detail::child_type<child_sender<bool, char, int, double>>&>);
-    static_assert(std::same_as<int, test_detail::child_type<child_sender<bool, char, int, double>, 0>>);
-    static_assert(std::same_as<double, test_detail::child_type<child_sender<bool, char, int, double>, 1>>);
+    static_assert(std::same_as<int&&, test_detail::child_type<child_sender<bool, char, int, double>>>);
+    static_assert(std::same_as<int&, test_detail::child_type<child_sender<bool, char, int, double>&>>);
+    static_assert(std::same_as<const int&, test_detail::child_type<const child_sender<bool, char, int, double>&>>);
+    static_assert(std::same_as<int&&, test_detail::child_type<child_sender<bool, char, int, double>, 0>>);
+    static_assert(std::same_as<double&&, test_detail::child_type<child_sender<bool, char, int, double>, 1>>);
 }
 } // namespace
 
