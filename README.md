@@ -3,6 +3,8 @@ SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 -->
 # beman.execution26: Building Block For Asynchronous Programs
 
+<img src="https://github.com/bemanproject/beman/blob/main/images/logos/beman_logo-beman_library_under_development.png" style="width:5%; height:auto;">
+
 `beman.execution26` provides the basic vocabulary for asynchronous
 programming as well as important algorithms implemented in terms
 of this vocabulary. The key entities of the vocabulary are:
@@ -33,7 +35,9 @@ e.g.:
     completed.
 - `bulk(...)` to executed execute work, potentially concurrently.
 
-**Implements:** [`std::execution` (P2300)](http://wg21.link/p2300).
+**Implements:** [`std::execution` (P2300R10)](http://wg21.link/P2300R10).
+
+**Status**: [Under development and not yet ready for production use.](https://github.com/bemanproject/beman/blob/main/docs/BEMAN_LIBRARY_MATURITY_MODEL.md#under-development-and-not-yet-ready-for-production-use)
 
 ## Help Welcome!
 
