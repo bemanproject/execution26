@@ -673,7 +673,7 @@ auto test_basic_state() -> void {
     struct data {};
     struct local_sender {
         local_tag t;
-        data d;
+        data      d;
     };
     struct local_receiver {};
 
