@@ -711,7 +711,7 @@ auto test_env_type() -> void {
     struct local_env {};
     struct local_sender {
         local_tag t;
-        data d;
+        data      d;
     };
     struct sender_with_env {
         local_tag t;
