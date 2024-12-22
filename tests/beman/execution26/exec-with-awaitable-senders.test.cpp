@@ -52,10 +52,10 @@ coroutine test_await_void() { co_await exec::just(); }
 void test_sync_wait_awaitable() {
     bool not_reached{true};
     try {
-        auto [v] = exec::sync_wait(awaitable{}).value_or(::std::tuple(0));
+        auto [v] = exec::sync_wait(awaitable{}).value_or(std::tuple(0));
         ASSERT(v == 1);
     } catch (...) {
-        not_reached = false;
+        ASSERT_UNREACHABLE();
     }
     ASSERT(not_reached);
 }
@@ -64,7 +64,7 @@ void test_sync_wait_void_awaitable() {
     try {
         ASSERT(exec::sync_wait(void_awaitable{}));
     } catch (...) {
-        ASSERT(false);
+        ASSERT_UNREACHABLE();
     }
 }
 

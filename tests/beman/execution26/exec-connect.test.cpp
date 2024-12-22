@@ -103,7 +103,7 @@ struct domain_receiver {
     using receiver_concept = test_std::receiver_t;
     int value{};
 
-    explicit domain_receiver(int value) : value(value) {}
+    explicit domain_receiver(int val) : value(val) {}
     domain_receiver(domain_receiver&&)                         = default;
     domain_receiver(const domain_receiver&)                    = delete;
     ~domain_receiver()                                         = default;
@@ -166,7 +166,6 @@ auto test_operation_state_task() -> void {
     static_assert(
         std::same_as<::beman::execution26::detail::connect_awaitable_promise<receiver>, state_t::promise_type>);
     static_assert(noexcept(state_t(std::coroutine_handle<>{})));
-    static_assert(noexcept(state_t(std::coroutine_handle<>{})));
     state_t state(::std::coroutine_handle<>{});
     static_assert(noexcept(state.start()));
 }
@@ -200,7 +199,7 @@ auto test_suspend_complete() -> void {
 }
 
 auto test_connect_awaitable() -> void {
-    struct awaiter_t {
+    struct local_awaiter {
         ::std::coroutine_handle<>& handle;
         int&                       result;
 
@@ -224,7 +223,7 @@ auto test_connect_awaitable() -> void {
         auto await_resume() -> void {}
     };
 
-    struct areceiver {
+    struct local_receiver {
         using receiver_concept = test_std::receiver_t;
 
         int&  iv;
@@ -252,7 +251,7 @@ auto test_connect_awaitable() -> void {
         int                       iv{};
         bool                      bv{};
 
-        auto op1{test_detail::connect_awaitable(awaiter_t{handle, result}, areceiver{iv, bv})};
+        auto op1{test_detail::connect_awaitable(local_awaiter{handle, result}, local_receiver{iv, bv})};
         ASSERT(handle == std::coroutine_handle<>());
         op1.start();
         ASSERT(handle != std::coroutine_handle<>());
@@ -268,7 +267,7 @@ auto test_connect_awaitable() -> void {
         int                       iv{};
         bool                      bv{};
 
-        auto op1{test_detail::connect_awaitable(awaiter_t{handle, result}, areceiver{iv, bv})};
+        auto op1{test_detail::connect_awaitable(local_awaiter{handle, result}, local_receiver{iv, bv})};
         ASSERT(handle == std::coroutine_handle<>());
         op1.start();
         ASSERT(handle != std::coroutine_handle<>());
@@ -284,7 +283,7 @@ auto test_connect_awaitable() -> void {
         int                       iv{};
         bool                      bv{};
 
-        auto op1{test_detail::connect_awaitable(void_awaiter{handle}, areceiver{iv, bv})};
+        auto op1{test_detail::connect_awaitable(void_awaiter{handle}, local_receiver{iv, bv})};
         ASSERT(handle == std::coroutine_handle<>());
         op1.start();
         ASSERT(handle != std::coroutine_handle<>());
@@ -295,13 +294,13 @@ auto test_connect_awaitable() -> void {
 }
 
 auto test_connect_with_awaiter() -> void {
-    struct awaiter_t {
+    struct local_awaiter {
         ::std::coroutine_handle<>& handle;
         auto                       await_ready() -> bool { return {}; }
         auto                       await_suspend(std::coroutine_handle<> h) -> void { this->handle = h; }
         auto                       await_resume() -> int { return 17; }
     };
-    struct areceiver {
+    struct local_receiver {
         using receiver_concept = test_std::receiver_t;
         bool& result;
         auto  set_value(int i) && noexcept -> void { this->result = i == 17; }
@@ -311,7 +310,7 @@ auto test_connect_with_awaiter() -> void {
 
     std::coroutine_handle<> handle{};
     bool                    result{};
-    auto                    op{test_std::connect(awaiter_t{handle}, areceiver{result})};
+    auto                    op{test_std::connect(local_awaiter{handle}, local_receiver{result})};
     ASSERT(handle == std::coroutine_handle{});
     test_std::start(op);
     ASSERT(handle != std::coroutine_handle{});

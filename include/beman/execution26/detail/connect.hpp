@@ -21,14 +21,39 @@ namespace beman::execution26::detail {
  * \internal
  */
 struct connect_t {
+  private:
     template <typename Sender, typename Receiver>
-    auto operator()(Sender&& sender, Receiver&& receiver) const noexcept(true /*-dk:TODO*/) {
+    static auto make_new_sender(Sender&& sender, Receiver&& receiver) noexcept(true) -> decltype(auto) {
+        return ::beman::execution26::transform_sender(
+            decltype(::beman::execution26::detail::get_domain_late(::std::forward<Sender>(sender),
+                                                                   ::beman::execution26::get_env(receiver))){},
+            ::std::forward<Sender>(sender),
+            ::beman::execution26::get_env(receiver));
+    }
+    template <typename Sender, typename Receiver>
+    static constexpr auto connect_noexcept() -> bool {
+        if constexpr (requires {
+                          make_new_sender(::std::declval<Sender>(), ::std::declval<Receiver>())
+                              .connect(::std::declval<Receiver>());
+                      }) {
+            return noexcept(make_new_sender(::std::declval<Sender>(), ::std::declval<Receiver>())
+                                .connect(::std::declval<Receiver>()));
+        } else if constexpr (requires {
+                                 ::beman::execution26::detail::connect_awaitable(
+                                     make_new_sender(::std::declval<Sender>(), ::std::declval<Receiver>()),
+                                     ::std::declval<Receiver>());
+                             }) {
+            return noexcept(::beman::execution26::detail::connect_awaitable(
+                make_new_sender(::std::declval<Sender>(), ::std::declval<Receiver>()), ::std::declval<Receiver>()));
+        }
+        return true;
+    }
+
+  public:
+    template <typename Sender, typename Receiver>
+    auto operator()(Sender&& sender, Receiver&& receiver) const noexcept(connect_noexcept<Sender, Receiver>()) {
         auto new_sender = [&sender, &receiver]() -> decltype(auto) {
-            return ::beman::execution26::transform_sender(
-                decltype(::beman::execution26::detail::get_domain_late(::std::forward<Sender>(sender),
-                                                                       ::beman::execution26::get_env(receiver))){},
-                ::std::forward<Sender>(sender),
-                ::beman::execution26::get_env(receiver));
+            return make_new_sender(::std::forward<Sender>(sender), ::std::forward<Receiver>(receiver));
         };
 
         if constexpr (requires { new_sender().connect(::std::forward<Receiver>(receiver)); }) {

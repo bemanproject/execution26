@@ -44,25 +44,32 @@ struct basic_sender : ::beman::execution26::detail::product_type<Tag, Data, Chil
     auto connect(Receiver receiver) = BEMAN_EXECUTION26_DELETE("the passed receiver doesn't model receiver");
 
   private:
-#if __cpp_explicit_this_parameter < 202110L
+#if __cpp_explicit_this_parameter < 302110L //-dk:TODO need to figure out how to use explicit this with forwarding
     template <::beman::execution26::receiver Receiver>
-    auto connect(Receiver receiver) & noexcept(true /*-dk:TODO*/)
+    auto connect(Receiver receiver) & noexcept(
+        noexcept(::beman::execution26::detail::basic_operation<basic_sender&, Receiver>{*this, ::std::move(receiver)}))
         -> ::beman::execution26::detail::basic_operation<basic_sender&, Receiver> {
         return {*this, ::std::move(receiver)};
     }
     template <::beman::execution26::receiver Receiver>
-    auto connect(Receiver receiver) const& noexcept(true /*-dk:TODO*/)
+    auto connect(Receiver receiver) const& noexcept(noexcept(
+        ::beman::execution26::detail::basic_operation<const basic_sender&, Receiver>{*this, ::std::move(receiver)}))
         -> ::beman::execution26::detail::basic_operation<const basic_sender&, Receiver> {
         return {*this, ::std::move(receiver)};
     }
     template <::beman::execution26::receiver Receiver>
-    auto connect(Receiver receiver) && noexcept(true /*-dk:TODO*/)
+    auto connect(Receiver receiver) && noexcept(
+        noexcept(::beman::execution26::detail::basic_operation<basic_sender, Receiver>{::std::move(*this),
+                                                                                       ::std::move(receiver)}))
         -> ::beman::execution26::detail::basic_operation<basic_sender, Receiver> {
         return {::std::move(*this), ::std::move(receiver)};
     }
 #else
     template <::beman::execution26::detail::decays_to<basic_sender> Self, ::beman::execution26::receiver Receiver>
-    auto connect(this Self&& self, Receiver receiver) noexcept(true /*-dk:TODO*/)
+    auto
+    connect(this Self&& self,
+            Receiver receiver) noexcept(noexcept(::beman::execution26::detail::basic_operation<basic_sender, Receiver>{
+        ::std::forward<Self>(self), ::std::move(receiver)}))
         -> ::beman::execution26::detail::basic_operation<Self, Receiver> {
         return {::std::forward<Self>(self), ::std::move(receiver)};
     }

@@ -51,7 +51,7 @@ class run_loop {
         Receiver  receiver;
 
         template <typename R>
-        opstate(run_loop* lp, R&& rcvr) : loop(lp), receiver(::std::forward<Receiver>(rcvr)) {}
+        opstate(run_loop* l, R&& rcvr) : loop(l), receiver(::std::forward<Receiver>(rcvr)) {}
         auto start() & noexcept -> void {
             try {
                 this->loop->push_back(this);

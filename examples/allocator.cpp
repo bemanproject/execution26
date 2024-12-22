@@ -12,7 +12,7 @@ namespace {
 template <std::size_t Size>
 struct inline_resource : std::pmr::memory_resource {
     const char* name;
-    explicit inline_resource(const char* nm) : name(nm) {}
+    explicit inline_resource(const char* n) : name(n) {}
     std::byte  buffer[Size]{};      // NOLINT(hicpp-avoid-c-arrays)
     std::byte* next{+this->buffer}; // NOLINT(hicpp-no-array-decay)
 
@@ -39,7 +39,7 @@ struct allocator_aware_fun {
 
     template <typename F>
         requires std::same_as<std::remove_cvref_t<F>, std::remove_cvref_t<Fun>>
-    explicit allocator_aware_fun(F&& fn) : fun(std::forward<F>(fn)) {}
+    explicit allocator_aware_fun(F&& f) : fun(std::forward<F>(f)) {}
     allocator_aware_fun(const allocator_aware_fun& other, allocator_type alloc = {})
         : fun(other.fun), allocator(alloc) {}
     allocator_aware_fun(allocator_aware_fun&& other) noexcept

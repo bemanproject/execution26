@@ -4,6 +4,7 @@
 #include <beman/execution26/stop_token.hpp>
 #include <condition_variable>
 #include <iostream>
+#include <exception>
 #include <latch>
 #include <mutex>
 #include <thread>
@@ -91,18 +92,21 @@ auto inactive(Token token) -> void {
 #endif
 } // namespace
 
-auto main() -> int try {
-    exec::stop_source source;
-    ::std::thread     act([token = source.get_token()] { active(token); });
-    ::std::thread     inact([token = source.get_token()] { inactive(token); });
+auto main() -> int {
+    try {
 
-    print("threads started\n");
-    source.request_stop();
-    print("threads cancelled\n");
+        exec::stop_source source;
+        ::std::thread     act([token = source.get_token()] { active(token); });
+        ::std::thread     inact([token = source.get_token()] { inactive(token); });
 
-    act.join();
-    inact.join();
-    print("done\n");
-} catch (...) {
-    abort();
+        print("threads started\n");
+        source.request_stop();
+        print("threads cancelled\n");
+
+        act.join();
+        inact.join();
+        print("done\n");
+    } catch (const std::exception& ex) {
+        std::cout << "ERROR: " << ex.what() << "\n";
+    }
 }
