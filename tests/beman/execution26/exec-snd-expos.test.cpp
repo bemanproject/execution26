@@ -621,7 +621,7 @@ auto test_default_impls_complete(Impls) -> void {
     };
     struct state {};
 
-    bool     called{false};
+    bool           called{false};
     auto           non_tag = [](local_receiver&&, int) {};
     auto           tag     = [](local_receiver&& r, int, arg) { r.called = true; };
     local_receiver r{called};
