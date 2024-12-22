@@ -563,11 +563,11 @@ auto test_default_impls_get_state() -> void {
     };
     struct local_sender4 {
         local_tag t{};
-        data d{1, 2};
-        int  i1{};
-        int  i2{};
-        int  i3{};
-        int  i4{};
+        data      d{1, 2};
+        int       i1{};
+        int       i2{};
+        int       i3{};
+        int       i4{};
     };
     struct local_receiver {};
 
