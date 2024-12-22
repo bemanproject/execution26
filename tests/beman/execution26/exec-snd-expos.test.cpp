@@ -715,7 +715,7 @@ auto test_env_type() -> void {
     };
     struct sender_with_env {
         local_tag t;
-        data d;
+        data      d;
         auto      get_env() const noexcept -> local_env { return {}; }
     };
     struct local_receiver {};
