@@ -767,7 +767,7 @@ auto test_basic_receiver() -> void {
 
     {
         test_detail::basic_state<local_sender, local_receiver> op(local_sender{}, local_receiver{});
-        basic_receiver                             br{&op};
+        basic_receiver                                         br{&op};
         static_assert(not requires { test_std::set_value(std::move(br)); });
         static_assert(not requires { test_std::set_value(std::move(br), 42, 1); });
         static_assert(requires { test_std::set_value(std::move(br), 42); });
