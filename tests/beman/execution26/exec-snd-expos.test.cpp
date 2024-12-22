@@ -744,7 +744,7 @@ auto test_basic_receiver() -> void {
     };
     struct local_sender {
         local_tag t{};
-        data d{};
+        data      d{};
     };
     struct local_receiver {
         T    value{};
