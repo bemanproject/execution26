@@ -789,7 +789,7 @@ auto test_basic_receiver() -> void {
     }
     {
         test_detail::basic_state<local_sender, local_receiver> op(local_sender{}, local_receiver{});
-        basic_receiver                             br{&op};
+        basic_receiver                                         br{&op};
         static_assert(requires { test_std::set_stopped(std::move(br)); });
         static_assert(noexcept(test_std::set_stopped(std::move(br))));
         ASSERT(op.receiver.stopped == false);
