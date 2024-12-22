@@ -142,8 +142,8 @@ template <class... Args>
 using to_set_value_t = type_list<beman::execution26::set_value_t(Args...)>;
 
 void test_completion_sigs_and_sync_wait_on_split() {
-    auto just          = beman::execution26::just(NonCopyable{});
-    auto split         = beman::execution26::split(std::move(just));
+    auto just                        = beman::execution26::just(NonCopyable{});
+    auto split                       = beman::execution26::split(std::move(just));
     using split_sender               = std::decay_t<decltype(split)>;
     using expected_value_completions = type_list<beman::execution26::set_value_t(const NonCopyable&)>;
     using value_completions = beman::execution26::value_types_of_t<split_sender, empty_env, to_set_value_t, combine>;
