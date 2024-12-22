@@ -14,8 +14,8 @@ struct just_op_state {
     std::pmr::string              value;
 
     template <typename R>
-    just_op_state(R&& r, std::pmr::string&& value)
-        : rec(std::forward<R>(r)), value(std::move(value), ex::get_allocator(ex::get_env(rec))) {}
+    just_op_state(R&& r, std::pmr::string&& val)
+        : rec(std::forward<R>(r)), value(std::move(val), ex::get_allocator(ex::get_env(rec))) {}
 
     void start() & noexcept { ex::set_value(std::move(rec), std::move(value)); }
 };

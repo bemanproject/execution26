@@ -187,11 +187,11 @@ struct allocator_fun {
     std::pmr::polymorphic_allocator<> alloc;
     std::byte*                        data{nullptr};
 
-    explicit allocator_fun(std::pmr::polymorphic_allocator<> alloc) : alloc(alloc), data(alloc.allocate(1)) {}
+    explicit allocator_fun(std::pmr::polymorphic_allocator<> all) : alloc(all), data(alloc.allocate(1)) {}
     allocator_fun(const allocator_fun&, std::pmr::polymorphic_allocator<> = {}) {}
     allocator_fun(allocator_fun&& other) noexcept : alloc(other.alloc), data(std::exchange(other.data, nullptr)) {}
-    allocator_fun(allocator_fun&& other, std::pmr::polymorphic_allocator<> alloc)
-        : alloc(alloc), data(alloc == other.alloc ? std::exchange(other.data, nullptr) : alloc.allocate(1)) {}
+    allocator_fun(allocator_fun&& other, std::pmr::polymorphic_allocator<> all)
+        : alloc(all), data(alloc == other.alloc ? std::exchange(other.data, nullptr) : alloc.allocate(1)) {}
     ~allocator_fun() {
         if (this->data)
             this->alloc.deallocate(this->data, 1u);

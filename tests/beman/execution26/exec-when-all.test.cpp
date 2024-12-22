@@ -58,7 +58,7 @@ struct await_cancel {
         using operation_state_concept = test_std::operation_state_t;
         struct callback {
             Receiver* receiver;
-            explicit callback(Receiver* receiver) : receiver(receiver) {}
+            explicit callback(Receiver* rcvr) : receiver(rcvr) {}
             auto operator()() const noexcept -> void { test_std::set_stopped(std::move(*this->receiver)); }
         };
 
@@ -116,9 +116,9 @@ struct test_sender {
         std::remove_cvref_t<Receiver>                                                                   receiver;
         decltype(test_std::connect(std::declval<Sender>(), std::declval<upstream<Result, Receiver>>())) inner_state;
         template <typename S, typename R>
-        state(S&& sender, auto&& expect, R&& receiver)
-            : expect(expect),
-              receiver(std::forward<R>(receiver)),
+        state(S&& sender, auto&& exp, R&& rcvr)
+            : expect(exp),
+              receiver(std::forward<R>(rcvr)),
               inner_state(test_std::connect(std::forward<S>(sender),
                                             upstream<Result, Receiver>{this->expect, this->receiver})) {}
         auto start() & noexcept -> void { test_std::start(this->inner_state); }

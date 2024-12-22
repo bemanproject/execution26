@@ -22,7 +22,7 @@ namespace {
 struct env {
     ex::inplace_stop_token token;
 
-    env(ex::inplace_stop_token token) : token(token) {} // NOLINT(hicpp-explicit-conversions)
+    explicit env(ex::inplace_stop_token t) : token(t) {} // NOLINT(hicpp-explicit-conversions)
 
     auto query(const ex::get_stop_token_t&) const noexcept { return this->token; }
 };
@@ -38,7 +38,7 @@ struct inject_cancel_sender {
         std::remove_cvref_t<Receiver> inner_receiver;
         ex::inplace_stop_token        token{};
 
-        auto get_env() const noexcept -> env { return {this->token}; }
+        auto get_env() const noexcept -> env { return env(this->token); }
 
         template <typename... T>
         auto set_value(T&&... t) noexcept -> void {

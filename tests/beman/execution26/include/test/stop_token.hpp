@@ -84,7 +84,7 @@ inline auto test::stop_callback(const Token& token, Stop stop) -> void {
 
     struct Callback {
         Data* data;
-        explicit Callback(Data* data) : data(data) {}
+        explicit Callback(Data* d) : data(d) {}
         auto operator()() {
             ++this->data->count;
             this->data->stop_requested = this->data->token.stop_requested();
@@ -124,7 +124,7 @@ auto test::stop_callback_dtor_deregisters(const Token& token, Stop stop) -> void
 
     struct Callback {
         bool* ptr;
-        explicit Callback(bool* ptr) : ptr(ptr) {}
+        explicit Callback(bool* p) : ptr(p) {}
         auto operator()() { *this->ptr = true; }
     };
 
@@ -166,7 +166,7 @@ inline auto test::stop_callback_dtor_other_thread(const Token& token, Stop stop)
     };
     struct Callback {
         Data* data;
-        explicit Callback(Data* data) : data(data) {}
+        explicit Callback(Data* d) : data(d) {}
         auto operator()() -> void {
             using namespace ::std::chrono_literals;
             {
@@ -221,7 +221,7 @@ inline auto test::stop_callback_dtor_same_thread(Token token, Stop stop) -> void
     };
     struct Callback {
         ::std::unique_ptr<Base>* self;
-        explicit Callback(::std::unique_ptr<Base>* self) : self(self) {}
+        explicit Callback(::std::unique_ptr<Base>* s) : self(s) {}
         auto operator()() { this->self->reset(); }
     };
     struct Object : Base {

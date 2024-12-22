@@ -91,7 +91,7 @@ namespace ex = test_std;
 struct fun {
     std::pmr::polymorphic_allocator<> allocator{};
     fun() {}
-    explicit fun(std::pmr::polymorphic_allocator<> allocator) : allocator(allocator) {}
+    explicit fun(std::pmr::polymorphic_allocator<> alloc) : allocator(alloc) {}
     auto operator()(std::span<int> s) noexcept {
         return ex::just(std::pmr::vector<int>(s.begin(), s.end(), this->allocator));
     }

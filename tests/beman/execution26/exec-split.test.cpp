@@ -144,8 +144,7 @@ using to_set_value_t = type_list<beman::execution26::set_value_t(Args...)>;
 void test_completion_sigs_and_sync_wait_on_split() {
     auto just          = beman::execution26::just(NonCopyable{});
     auto split         = beman::execution26::split(std::move(just));
-    using split_sender = std::decay_t<decltype(split)>;
-    struct empty_env {};
+    using split_sender               = std::decay_t<decltype(split)>;
     using expected_value_completions = type_list<beman::execution26::set_value_t(const NonCopyable&)>;
     using value_completions = beman::execution26::value_types_of_t<split_sender, empty_env, to_set_value_t, combine>;
     static_assert(std::same_as<value_completions, expected_value_completions>);
@@ -173,6 +172,7 @@ void test_completion_from_another_thread() {
     auto split     = beman::execution26::split(scheduler.schedule_after(1ms));
     auto return_42 = beman::execution26::then(split, [] { return 42; });
     auto result    = beman::execution26::sync_wait(return_42);
+    ASSERT(scheduler == scheduler); // avoid a warning about the required op== being unused
     ASSERT(result.has_value());
     if (result.has_value()) {
         auto [val] = *result;
