@@ -3,22 +3,22 @@
 # SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 # cmake-format: on
 
-add_library(${TARGET_LIBRARY} STATIC)
-add_library(${TARGET_ALIAS} ALIAS ${TARGET_LIBRARY})
+add_library(${TARGET_NAME} STATIC)
+add_library(${TARGET_ALIAS} ALIAS ${TARGET_NAME})
 
 if(CMAKE_BUILD_TYPE STREQUAL Debug)
-  target_link_libraries(${TARGET_LIBRARY} PUBLIC $<BUILD_INTERFACE:${TARGET_LIBRARY}_project_options>)
-  target_link_libraries(${TARGET_LIBRARY} PUBLIC $<BUILD_INTERFACE:${TARGET_LIBRARY}_project_warnings>)
+  target_link_libraries(${TARGET_NAME} PUBLIC $<BUILD_INTERFACE:${TARGET_NAME}_project_options>)
+  target_link_libraries(${TARGET_NAME} PUBLIC $<BUILD_INTERFACE:${TARGET_NAME}_project_warnings>)
 endif()
 
 include(CMakePrintHelpers)
-cmake_print_variables(TARGET_ALIAS TARGET_LIBRARY TARGET_PREFIX PROJECT_SOURCE_DIR)
+cmake_print_variables(TARGET_ALIAS TARGET_NAME TARGET_PREFIX PROJECT_SOURCE_DIR)
 
 target_sources(
-  ${TARGET_LIBRARY}
+  ${TARGET_NAME}
   PRIVATE execution.cpp
   PUBLIC FILE_SET
-         ${TARGET_LIBRARY}_public_headers
+         ${TARGET_NAME}_public_headers
          TYPE
          HEADERS
          BASE_DIRS
@@ -29,7 +29,7 @@ target_sources(
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/functional.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/stop_token.hpp
   PUBLIC FILE_SET
-         ${TARGET_LIBRARY}_detail_headers
+         ${TARGET_NAME}_detail_headers
          TYPE
          HEADERS
          BASE_DIRS
@@ -198,22 +198,22 @@ target_sources(
 )
 
 # cmake-format: off
-get_property(DETAIL_HEADER_FILES TARGET ${TARGET_LIBRARY} PROPERTY HEADER_SET_${TARGET_LIBRARY}_detail_headers)
+get_property(DETAIL_HEADER_FILES TARGET ${TARGET_NAME} PROPERTY HEADER_SET_${TARGET_NAME}_detail_headers)
 source_group("Header Files\\detail" FILES ${DETAIL_HEADER_FILES})
 
-set_target_properties(${TARGET_LIBRARY} PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON)
+set_target_properties(${TARGET_NAME} PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON)
 
-target_compile_features(${TARGET_LIBRARY} PUBLIC
+target_compile_features(${TARGET_NAME} PUBLIC
   "$<$<COMPILE_FEATURES:cxx_std_26>:cxx_std_26>"
   "$<$<NOT:$<COMPILE_FEATURES:cxx_std_26>>:cxx_std_23>"
 )
 
 install(
-  TARGETS ${TARGET_LIBRARY}
+  TARGETS ${TARGET_NAME}
   EXPORT ${TARGETS_EXPORT_NAME}1
   ARCHIVE DESTINATION lib/$<CONFIG>
-  FILE_SET ${TARGET_LIBRARY}_public_headers
-  FILE_SET ${TARGET_LIBRARY}_detail_headers
+  FILE_SET ${TARGET_NAME}_public_headers
+  FILE_SET ${TARGET_NAME}_detail_headers
 )
 # cmake-format: on
 
@@ -221,5 +221,5 @@ install(
   EXPORT ${TARGETS_EXPORT_NAME}1
   FILE ${TARGETS_EXPORT_NAME}.cmake
   DESTINATION "${INSTALL_CONFIGDIR}"
-  NAMESPACE ${TARGET_LIBRARY}::
+  NAMESPACE ${TARGET_NAMESPACE}::
 )
