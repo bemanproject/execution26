@@ -39,7 +39,6 @@ target_sources(
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/apply_sender.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/as_awaitable.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/as_except_ptr.hpp
-         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/await_result_type.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/atomic_intrusive_stack.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/await_result_type.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/await_suspend_result.hpp
@@ -102,6 +101,7 @@ target_sources(
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/indirect_meta_apply.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/inplace_stop_source.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/into_variant.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/intrusive_stack.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/is_awaitable.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/is_awaiter.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/join_env.hpp
@@ -155,6 +155,7 @@ target_sources(
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/simple_counting_scope.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/single_sender.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/single_sender_value_type.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/split.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/start.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/starts_on.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/state_type.hpp

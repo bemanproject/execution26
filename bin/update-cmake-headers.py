@@ -29,7 +29,7 @@ sections = {
 }
 
 file_set_re = re.compile(" *FILE_SET.*")
-section_re = re.compile(" *\${TARGET_LIBRARY}_(?P<section>.*)_headers$")
+section_re = re.compile(" *\${TARGET_NAME}_(?P<section>.*)_headers$")
 header_re = re.compile(" *\${PROJECT_SOURCE_DIR}/include/beman/.*/.*\.hpp")
 
 if len(sys.argv) != 2:
