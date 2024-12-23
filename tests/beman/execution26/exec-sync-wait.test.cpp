@@ -223,6 +223,15 @@ auto test_sync_wait() -> void {
         // NOLINTEND(cert-dcl03-c,hicpp-static-assert,misc-static-assert)
     }
 }
+
+auto test_provides_scheduler() -> void {
+    ASSERT(test_std::sync_wait(test_std::then(test_std::read_env(test_std::get_scheduler()), [](auto&&) noexcept {})));
+}
+
+auto test_provides_delegation_scheduler() -> void {
+    ASSERT(test_std::sync_wait(
+        test_std::then(test_std::read_env(test_std::get_delegation_scheduler()), [](auto&&) noexcept {})));
+}
 } // namespace
 
 TEST(exec_sync_wait) {
