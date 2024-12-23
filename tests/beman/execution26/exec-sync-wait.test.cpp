@@ -13,6 +13,9 @@
 #include <beman/execution26/detail/sender.hpp>
 #include <beman/execution26/detail/sender_in.hpp>
 #include <beman/execution26/detail/just.hpp>
+#include <beman/execution26/detail/read_env.hpp>
+#include <beman/execution26/detail/get_delegation_scheduler.hpp>
+#include <beman/execution26/detail/then.hpp>
 #include <test/execution.hpp>
 
 #include <exception>
@@ -225,12 +228,12 @@ auto test_sync_wait() -> void {
 }
 
 auto test_provides_scheduler() -> void {
-    ASSERT(test_std::sync_wait(test_std::then(test_std::read_env(test_std::get_scheduler()), [](auto&&) noexcept {})));
+    ASSERT(test_std::sync_wait(test_std::then(test_std::read_env(test_std::get_scheduler), [](auto&&) noexcept {})));
 }
 
 auto test_provides_delegation_scheduler() -> void {
     ASSERT(test_std::sync_wait(
-        test_std::then(test_std::read_env(test_std::get_delegation_scheduler()), [](auto&&) noexcept {})));
+        test_std::then(test_std::read_env(test_std::get_delegation_scheduler), [](auto&&) noexcept {})));
 }
 } // namespace
 
@@ -245,4 +248,6 @@ TEST(exec_sync_wait) {
     test_sync_wait_state();
     test_sync_wait_receiver();
     test_sync_wait();
+    test_provides_scheduler();
+    test_provides_delegation_scheduler();
 }
