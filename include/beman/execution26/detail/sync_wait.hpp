@@ -32,7 +32,7 @@ struct sync_wait_env {
     auto query(::beman::execution26::get_delegation_scheduler_t) const noexcept { return this->loop->get_scheduler(); }
 };
 
-template <::beman::execution26::sender_in Sender>
+template <::beman::execution26::sender_in<::beman::execution26::detail::sync_wait_env> Sender>
 using sync_wait_result_type =
     ::std::optional<::beman::execution26::value_types_of_t<Sender,
                                                            ::beman::execution26::detail::sync_wait_env,
@@ -67,6 +67,9 @@ struct sync_wait_receiver {
             this->state->error = ::std::current_exception();
         }
         this->state->loop.finish();
+    }
+    auto get_env() const noexcept -> ::beman::execution26::detail::sync_wait_env {
+        return ::beman::execution26::detail::sync_wait_env{&this->state->loop};
     }
 };
 
