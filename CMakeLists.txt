@@ -12,10 +12,10 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 endif()
 
 set(TARGET_NAME execution26)
-set(TARGET_NAMESPACE beman) # FIXME: not used in install(EXPORT ...) CK?
+set(TARGET_NAMESPACE beman)
 set(TARGET_PREFIX ${TARGET_NAMESPACE}.${TARGET_NAME})
 set(TARGET_LIBRARY ${PROJECT_NAME})
-set(TARGET_ALIAS ${TARGET_LIBRARY}::${TARGET_LIBRARY})
+set(TARGET_ALIAS ${TARGET_NAMESPACE}::${TARGET_NAME})
 set(TARGET_PACKAGE_NAME ${PROJECT_NAME}-config)
 set(TARGETS_EXPORT_NAME ${PROJECT_NAME}-targets)
 
@@ -40,7 +40,7 @@ if(CMAKE_BUILD_TYPE STREQUAL Debug)
   # uncomment to enable the options. Some of them accept one or more inputs:
   project_options(
     PREFIX
-    ${PROJECT_NAME}
+    ${TARGET_NAME}
     ENABLE_CACHE
     # NO! # ENABLE_CLANG_TIDY
     # NO! ENABLE_VS_ANALYSIS

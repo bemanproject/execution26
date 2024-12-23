@@ -3,22 +3,22 @@
 # SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 # cmake-format: on
 
-add_library(${TARGET_LIBRARY} STATIC)
-add_library(${TARGET_ALIAS} ALIAS ${TARGET_LIBRARY})
+add_library(${TARGET_NAME} STATIC)
+add_library(${TARGET_ALIAS} ALIAS ${TARGET_NAME})
 
 if(CMAKE_BUILD_TYPE STREQUAL Debug)
-  target_link_libraries(${TARGET_LIBRARY} PUBLIC $<BUILD_INTERFACE:${TARGET_LIBRARY}_project_options>)
-  target_link_libraries(${TARGET_LIBRARY} PUBLIC $<BUILD_INTERFACE:${TARGET_LIBRARY}_project_warnings>)
+  target_link_libraries(${TARGET_NAME} PUBLIC $<BUILD_INTERFACE:${TARGET_NAME}_project_options>)
+  target_link_libraries(${TARGET_NAME} PUBLIC $<BUILD_INTERFACE:${TARGET_NAME}_project_warnings>)
 endif()
 
 include(CMakePrintHelpers)
-cmake_print_variables(TARGET_ALIAS TARGET_LIBRARY TARGET_PREFIX PROJECT_SOURCE_DIR)
+cmake_print_variables(TARGET_ALIAS TARGET_NAME TARGET_PREFIX PROJECT_SOURCE_DIR)
 
 target_sources(
-  ${TARGET_LIBRARY}
+  ${TARGET_NAME}
   PRIVATE execution.cpp
   PUBLIC FILE_SET
-         ${TARGET_LIBRARY}_public_headers
+         ${TARGET_NAME}_public_headers
          TYPE
          HEADERS
          BASE_DIRS
@@ -28,7 +28,7 @@ target_sources(
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/functional.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/stop_token.hpp
   PUBLIC FILE_SET
-         ${TARGET_LIBRARY}_detail_headers
+         ${TARGET_NAME}_detail_headers
          TYPE
          HEADERS
          BASE_DIRS
@@ -40,7 +40,10 @@ target_sources(
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/as_awaitable.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/as_except_ptr.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/await_result_type.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/atomic_intrusive_stack.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/await_result_type.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/await_suspend_result.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/awaitable_sender.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/basic_operation.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/basic_receiver.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/basic_sender.hpp
@@ -49,6 +52,7 @@ target_sources(
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/callable.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/check_type_alias_exist.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/child_type.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/class_type.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/common.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/completion_domain.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/completion_signature.hpp
@@ -64,6 +68,7 @@ target_sources(
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/continues_on.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/decayed_same_as.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/decayed_tuple.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/decayed_type_list.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/decayed_typeof.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/decays_to.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/default_domain.hpp
@@ -138,6 +143,7 @@ target_sources(
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/sender.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/sender_adaptor.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/sender_adaptor_closure.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/sender_awaitable.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/sender_decompose.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/sender_for.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/sender_in.hpp
@@ -165,6 +171,7 @@ target_sources(
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/then.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/transform_sender.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/type_list.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/unspecified_promise.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/unstoppable_token.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/valid_completion_for.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/valid_completion_signatures.hpp
@@ -174,26 +181,27 @@ target_sources(
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/when_all.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/when_all_with_variant.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/with_await_transform.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/with_awaitable_senders.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/write_env.hpp
 )
 
 # cmake-format: off
-get_property(DETAIL_HEADER_FILES TARGET ${TARGET_LIBRARY} PROPERTY HEADER_SET_${TARGET_LIBRARY}_detail_headers)
+get_property(DETAIL_HEADER_FILES TARGET ${TARGET_NAME} PROPERTY HEADER_SET_${TARGET_NAME}_detail_headers)
 source_group("Header Files\\detail" FILES ${DETAIL_HEADER_FILES})
 
-set_target_properties(${TARGET_LIBRARY} PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON)
+set_target_properties(${TARGET_NAME} PROPERTIES VERIFY_INTERFACE_HEADER_SETS ON)
 
-target_compile_features(${TARGET_LIBRARY} PUBLIC
+target_compile_features(${TARGET_NAME} PUBLIC
   "$<$<COMPILE_FEATURES:cxx_std_26>:cxx_std_26>"
   "$<$<NOT:$<COMPILE_FEATURES:cxx_std_26>>:cxx_std_23>"
 )
 
 install(
-  TARGETS ${TARGET_LIBRARY}
+  TARGETS ${TARGET_NAME}
   EXPORT ${TARGETS_EXPORT_NAME}1
   ARCHIVE DESTINATION lib/$<CONFIG>
-  FILE_SET ${TARGET_LIBRARY}_public_headers
-  FILE_SET ${TARGET_LIBRARY}_detail_headers
+  FILE_SET ${TARGET_NAME}_public_headers
+  FILE_SET ${TARGET_NAME}_detail_headers
 )
 # cmake-format: on
 
@@ -201,5 +209,5 @@ install(
   EXPORT ${TARGETS_EXPORT_NAME}1
   FILE ${TARGETS_EXPORT_NAME}.cmake
   DESTINATION "${INSTALL_CONFIGDIR}"
-  NAMESPACE ${TARGET_LIBRARY}::
+  NAMESPACE ${TARGET_NAMESPACE}::
 )

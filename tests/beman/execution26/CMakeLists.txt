@@ -124,7 +124,7 @@ remove_definitions(-DNDEBUG) # NOTE: we want ASSERT statements in Release too! C
 foreach(test ${execution_tests})
   set(TEST_EXE ${TARGET_PREFIX}.${test})
   add_executable(${TEST_EXE} ${test}.cpp)
-  target_link_libraries(${TEST_EXE} PRIVATE beman_execution26::beman_execution26)
+  target_link_libraries(${TEST_EXE} PRIVATE beman::execution26)
   add_test(NAME ${TEST_EXE} COMMAND $<TARGET_FILE:${TEST_EXE}>)
 endforeach()
 
