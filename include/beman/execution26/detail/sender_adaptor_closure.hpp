@@ -20,7 +20,15 @@ namespace beman::execution26 {
 template <typename>
 struct sender_adaptor_closure : ::beman::execution26::detail::pipeable::sender_adaptor_closure_base {};
 // NOLINTEND(bugprone-crtp-constructor-accessibility)
+
 } // namespace beman::execution26
+
+namespace beman::execution26::detail {
+template <typename Closure>
+concept is_sender_adaptor_closure =
+    ::std::derived_from<::std::decay_t<Closure>,
+                        ::beman::execution26::sender_adaptor_closure<::std::decay_t<Closure>>>;
+}
 
 namespace beman::execution26::detail::pipeable {
 template <::beman::execution26::sender Sender, typename Adaptor>

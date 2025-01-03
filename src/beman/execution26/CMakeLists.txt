@@ -123,6 +123,7 @@ target_sources(
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/nostopstate.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/nothrow_callable.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/notify.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/on.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/on_stop_request.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/operation_state.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/operation_state_task.hpp
