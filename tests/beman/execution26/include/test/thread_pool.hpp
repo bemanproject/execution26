@@ -20,10 +20,16 @@ struct thread_pool;
 
 struct test::thread_pool {
     struct node {
-        node*        next;
+        node*        next{};
         virtual void run() = 0;
 
+        node(const node&)            = delete;
+        node(node&&)                 = delete;
+        node& operator=(const node&) = delete;
+        node& operator=(node&&)      = delete;
+
       protected:
+        node()  = default;
         ~node() = default;
     };
 
@@ -42,13 +48,16 @@ struct test::thread_pool {
         }
     }};
 
-    thread_pool()              = default;
-    thread_pool(thread_pool&&) = delete;
+    thread_pool()                   = default;
+    thread_pool(thread_pool&&)      = delete;
+    thread_pool(const thread_pool&) = delete;
     ~thread_pool() {
         this->stop();
         this->driver.join();
     }
-    void stop() {
+    thread_pool& operator=(thread_pool&&)      = delete;
+    thread_pool& operator=(const thread_pool&) = delete;
+    void         stop() {
         {
             std::lock_guard cerberus(this->mutex);
             stopped = true;

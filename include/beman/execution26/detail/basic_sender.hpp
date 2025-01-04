@@ -74,7 +74,7 @@ struct basic_sender : ::beman::execution26::detail::product_type<Tag, Data, Chil
         return {::std::forward<Self>(self), ::std::move(receiver)};
     }
 #endif
-#if __cpp_explicit_this_parameter < 202110L
+#if __cpp_explicit_this_parameter < 302110L
     template <typename Env>
     auto
     get_completion_signatures(Env&&) && -> ::beman::execution26::detail::completion_signatures_for<basic_sender, Env> {
@@ -82,7 +82,7 @@ struct basic_sender : ::beman::execution26::detail::product_type<Tag, Data, Chil
     }
     template <typename Env>
     auto get_completion_signatures(
-        Env&&) const&& -> ::beman::execution26::detail::completion_signatures_for<basic_sender, Env> {
+        Env&&) const&& -> ::beman::execution26::detail::completion_signatures_for<const basic_sender, Env> {
         return {};
     }
     template <typename Env>
@@ -92,7 +92,7 @@ struct basic_sender : ::beman::execution26::detail::product_type<Tag, Data, Chil
     }
     template <typename Env>
     auto get_completion_signatures(
-        Env&&) const& -> ::beman::execution26::detail::completion_signatures_for<basic_sender, Env> {
+        Env&&) const& -> ::beman::execution26::detail::completion_signatures_for<const basic_sender, Env> {
         return {};
     }
 #else

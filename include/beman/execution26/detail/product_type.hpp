@@ -24,7 +24,7 @@ template <::std::size_t... I, typename... T>
 struct product_type_base<::std::index_sequence<I...>, T...>
     : ::beman::execution26::detail::product_type_element<I, T>... {
     static constexpr ::std::size_t size() { return sizeof...(T); }
-    static constexpr bool is_product_type{true};
+    static constexpr bool          is_product_type{true};
 
     template <::std::size_t J, typename S>
     static auto element_get(::beman::execution26::detail::product_type_element<J, S>& self) noexcept -> S& {
@@ -67,8 +67,7 @@ struct product_type_base<::std::index_sequence<I...>, T...>
 };
 
 template <typename T>
-concept is_product_type_c = requires(T const& t){ T::is_product_type; };
-
+concept is_product_type_c = requires(const T& t) { T::is_product_type; };
 
 template <typename... T>
 struct product_type : ::beman::execution26::detail::product_type_base<::std::index_sequence_for<T...>, T...> {
@@ -115,15 +114,13 @@ constexpr auto is_product_type(const ::beman::execution26::detail::product_type<
 
 namespace std {
 template <typename T>
-     requires ::beman::execution26::detail::is_product_type_c<T>
-struct tuple_size<T>
-    : ::std::integral_constant<std::size_t, T::size()> {};
+    requires ::beman::execution26::detail::is_product_type_c<T>
+struct tuple_size<T> : ::std::integral_constant<std::size_t, T::size()> {};
 
 template <::std::size_t I, typename T>
-     requires ::beman::execution26::detail::is_product_type_c<T>
+    requires ::beman::execution26::detail::is_product_type_c<T>
 struct tuple_element<I, T> {
-    using type =
-        ::std::decay_t<decltype(::std::declval<T>().template get<I>())>;
+    using type = ::std::decay_t<decltype(::std::declval<T>().template get<I>())>;
 };
 } // namespace std
 

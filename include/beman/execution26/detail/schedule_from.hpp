@@ -5,11 +5,13 @@
 #define INCLUDED_BEMAN_EXECUTION26_DETAIL_SCHEDULE_FROM
 
 #include <beman/execution26/detail/child_type.hpp>
+#include <beman/execution26/detail/meta_combine.hpp>
 #include <beman/execution26/detail/completion_signatures_of_t.hpp>
 #include <beman/execution26/detail/connect.hpp>
 #include <beman/execution26/detail/decayed_tuple.hpp>
 #include <beman/execution26/detail/default_domain.hpp>
 #include <beman/execution26/detail/default_impls.hpp>
+#include <beman/execution26/detail/error_types_of_t.hpp>
 #include <beman/execution26/detail/env_of_t.hpp>
 #include <beman/execution26/detail/fwd_env.hpp>
 #include <beman/execution26/detail/get_domain.hpp>
@@ -144,10 +146,15 @@ struct impls_for<::beman::execution26::detail::schedule_from_t> : ::beman::execu
                 ::std::monostate,
                 ::beman::execution26::detail::meta::transform<
                     ::beman::execution26::detail::as_tuple_t,
-                    ::beman::execution26::detail::meta::to<::std::variant,
-                                                           ::beman::execution26::completion_signatures_of_t<
-                                                               ::beman::execution26::detail::child_type<Sender>,
-                                                               ::beman::execution26::env_of_t<Receiver>>>>>>;
+                    ::beman::execution26::detail::meta::to<
+                        ::std::variant,
+                        ::beman::execution26::detail::meta::combine<
+                            ::beman::execution26::completion_signatures_of_t<
+                                ::beman::execution26::detail::child_type<Sender>,
+                                ::beman::execution26::env_of_t<Receiver>>,
+                            //-dk:TODO get proper error completion signatures
+                            ::beman::execution26::completion_signatures<::beman::execution26::set_error_t(
+                                ::std::exception_ptr)>>>>>>;
 
             return state_type<Receiver, sched_t, variant_t>(sch, receiver);
         }};
@@ -176,8 +183,15 @@ template <typename Scheduler, typename Sender, typename Env>
 struct completion_signatures_for_impl<
     ::beman::execution26::detail::basic_sender<::beman::execution26::detail::schedule_from_t, Scheduler, Sender>,
     Env> {
-    using type =
-        decltype(::beman::execution26::get_completion_signatures(::std::declval<Sender>(), ::std::declval<Env>()));
+    using scheduler_sender = decltype(::beman::execution26::schedule(::std::declval<Scheduler>()));
+    template <typename... E>
+    using as_set_error = ::beman::execution26::completion_signatures<::beman::execution26::set_error_t(E)...>;
+    using type         = ::beman::execution26::detail::meta::combine<
+                decltype(::beman::execution26::get_completion_signatures(::std::declval<Sender>(), ::std::declval<Env>())),
+                ::beman::execution26::error_types_of_t<scheduler_sender, Env, as_set_error>,
+                ::beman::execution26::completion_signatures<::beman::execution26::set_error_t(
+            ::std::exception_ptr)> //-dk:TODO this one should be deduced
+                >;
 };
 } // namespace beman::execution26::detail
 

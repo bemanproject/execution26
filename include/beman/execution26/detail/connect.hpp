@@ -23,7 +23,9 @@ namespace beman::execution26::detail {
 struct connect_t {
   private:
     template <typename Sender, typename Receiver>
-    static auto make_new_sender(Sender&& sender, Receiver&& receiver) noexcept(true) -> decltype(auto) {
+    static auto make_new_sender(Sender&& sender, Receiver&& receiver)
+        //-dk:TODO this noexcept needs to get confirmed/fixed
+        noexcept(true) -> decltype(auto) {
         return ::beman::execution26::transform_sender(
             decltype(::beman::execution26::detail::get_domain_late(::std::forward<Sender>(sender),
                                                                    ::beman::execution26::get_env(receiver))){},

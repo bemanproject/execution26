@@ -865,16 +865,16 @@ auto test_product_type() -> void {
     static_assert(std::same_as<int, std::tuple_element<0u, decltype(prod)>::type>);
     static_assert(std::same_as<bool, std::tuple_element<1u, decltype(prod)>::type>);
     static_assert(std::same_as<char, std::tuple_element<2u, decltype(prod)>::type>);
-    auto&&[i, b, c] = prod;
+    auto&& [i, b, c] = prod;
     test::use(i, b, c);
 
-    struct derived: decltype(prod) {};
+    struct derived : decltype(prod) {};
     static_assert(3u == std::tuple_size<derived>::value);
     static_assert(std::same_as<int, std::tuple_element<0u, derived>::type>);
     static_assert(std::same_as<bool, std::tuple_element<1u, derived>::type>);
     static_assert(std::same_as<char, std::tuple_element<2u, derived>::type>);
     derived d{1, true, 'c'};
-    auto&&[di, db, dc] = d;
+    auto&& [di, db, dc] = d;
     assert(di == d.get<0>());
     assert(db == d.get<1>());
     assert(dc == d.get<2>());

@@ -42,7 +42,7 @@
 #include <beman/execution26/detail/into_variant.hpp>
 #include <beman/execution26/detail/just.hpp>
 #include <beman/execution26/detail/let.hpp>
-// #include <beman/execution26/detail/on.hpp>
+#include <beman/execution26/detail/on.hpp>
 #include <beman/execution26/detail/read_env.hpp>
 #include <beman/execution26/detail/schedule_from.hpp>
 #include <beman/execution26/detail/starts_on.hpp>
