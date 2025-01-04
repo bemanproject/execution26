@@ -11,6 +11,8 @@
 #include <test/thread_pool.hpp>
 #include <concepts>
 
+#include <beman/execution26/detail/suppress_push.hpp>
+
 // ----------------------------------------------------------------------------
 
 namespace {
@@ -43,6 +45,7 @@ auto test_interface(Sch sch, Sndr sndr, Closure closure, Both both) -> void {
 template <test_detail::sender_for<test_std::on_t> OutSndr>
 auto test_transform_env(OutSndr out_sndr) -> void {
     auto e{test_std::on.transform_env(out_sndr, test_std::empty_env{})};
+    test::use(e);
 }
 
 template <test_detail::sender_for<test_std::on_t> OutSndr>

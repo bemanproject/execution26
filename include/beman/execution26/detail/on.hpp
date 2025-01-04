@@ -24,6 +24,8 @@
 #include <beman/execution26/detail/write_env.hpp>
 #include <utility>
 
+#include <beman/execution26/detail/suppress_push.hpp>
+
 // ----------------------------------------------------------------------------
 
 namespace beman::execution26::detail {
@@ -161,5 +163,7 @@ inline constexpr ::beman::execution26::on_t on{};
 } // namespace beman::execution26
 
 // ----------------------------------------------------------------------------
+
+#include <beman/execution26/detail/suppress_pop.hpp>
 
 #endif
