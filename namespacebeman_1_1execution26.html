@@ -231,6 +231,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>let_stopped_t</b> = 
 <tr class="memitem:a649a15600de0a473577909853b2d64a2"><td class="memItemLeft" align="right" valign="top"><a id="a649a15600de0a473577909853b2d64a2" name="a649a15600de0a473577909853b2d64a2"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>let_value_t</b> = ::beman::execution26::detail::let_t&lt;<a class="el" href="structbeman_1_1execution26_1_1set__value__t.html">::beman::execution26::set_value_t</a> &gt;</td></tr>
 <tr class="separator:a649a15600de0a473577909853b2d64a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15ccdb3b3725b99a4b6c7e969eee9395"><td class="memItemLeft" align="right" valign="top"><a id="a15ccdb3b3725b99a4b6c7e969eee9395" name="a15ccdb3b3725b99a4b6c7e969eee9395"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>on_t</b> = ::beman::execution26::detail::on_t</td></tr>
+<tr class="separator:a15ccdb3b3725b99a4b6c7e969eee9395"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad943609f52080183bcf8c1dfedca4828"><td class="memItemLeft" align="right" valign="top"><a id="ad943609f52080183bcf8c1dfedca4828" name="ad943609f52080183bcf8c1dfedca4828"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>read_env_t</b> = beman::execution26::detail::read_env_t</td></tr>
 <tr class="separator:ad943609f52080183bcf8c1dfedca4828"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -295,16 +298,16 @@ template&lt;typename CallbackFun &gt; </td></tr>
 template&lt;typename CallbackFun &gt; </td></tr>
 <tr class="memitem:af8924c30a54901305bcac87f467d2a0a"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>stop_callback</b> (<a class="el" href="classbeman_1_1execution26_1_1stop__token.html">::beman::execution26::stop_token</a>, CallbackFun) -&gt; <a class="el" href="classbeman_1_1execution26_1_1stop__callback.html">stop_callback</a>&lt; CallbackFun &gt;</td></tr>
 <tr class="separator:af8924c30a54901305bcac87f467d2a0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55cfdefd1a47034ce232bd5079fa00c9"><td class="memTemplParams" colspan="2"><a id="a55cfdefd1a47034ce232bd5079fa00c9" name="a55cfdefd1a47034ce232bd5079fa00c9"></a>
+<tr class="memitem:abdd36b3bd88ff4e4e785ce4a86c11ea8"><td class="memTemplParams" colspan="2"><a id="abdd36b3bd88ff4e4e785ce4a86c11ea8" name="abdd36b3bd88ff4e4e785ce4a86c11ea8"></a>
 template&lt;typename Domain , ::beman::execution26::sender Sender, typename... Env&gt; <br />
-requires (sizeof...(Env) &lt; 2) &amp;&amp; requires(Domain dom, Sender&amp;&amp; sender, const Env&amp;... env) { dom.transform_sender(::std::forward&lt;Sender&gt;(sender), env...); } &amp;&amp; (::std::same_as&lt; ::std::remove_cvref_t&lt;Sender&gt;, std::remove_cvref_t&lt;decltype(::std::declval&lt;Domain&gt;().transform_sender(::std::declval&lt;Sender&gt;()))&gt;&gt;)</td></tr>
-<tr class="memitem:a55cfdefd1a47034ce232bd5079fa00c9"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>transform_sender</b> (Domain, Sender &amp;&amp;sender, const Env &amp;...) noexcept -&gt; ::beman::execution26::sender decltype(auto)</td></tr>
-<tr class="separator:a55cfdefd1a47034ce232bd5079fa00c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ab455ec97642735d2804419abf2408a"><td class="memTemplParams" colspan="2"><a id="a9ab455ec97642735d2804419abf2408a" name="a9ab455ec97642735d2804419abf2408a"></a>
+requires (sizeof...(Env) &lt; 2) &amp;&amp; requires(Domain dom, Sender&amp;&amp; sender, const Env&amp;... env) { dom.transform_sender(::std::forward&lt;Sender&gt;(sender), env...); } &amp;&amp; (::std::same_as&lt;::std::remove_cvref_t&lt;Sender&gt;, std::remove_cvref_t&lt;decltype(::std::declval&lt;Domain&gt;().transform_sender( ::std::declval&lt;Sender&gt;(), ::std::declval&lt;const Env&amp;&gt;()...))&gt;&gt;)</td></tr>
+<tr class="memitem:abdd36b3bd88ff4e4e785ce4a86c11ea8"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>transform_sender</b> (Domain, Sender &amp;&amp;sender, const Env &amp;...) noexcept -&gt; ::beman::execution26::sender decltype(auto)</td></tr>
+<tr class="separator:abdd36b3bd88ff4e4e785ce4a86c11ea8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04df0e90878b87265b9e1a2b01935804"><td class="memTemplParams" colspan="2"><a id="a04df0e90878b87265b9e1a2b01935804" name="a04df0e90878b87265b9e1a2b01935804"></a>
 template&lt;typename Domain , ::beman::execution26::sender Sender, typename... Env&gt; <br />
-requires (sizeof...(Env) &lt; 2) &amp;&amp; requires(Domain dom, Sender&amp;&amp; sender, const Env&amp;... env) { dom.transform_sender(::std::forward&lt;Sender&gt;(sender), env...); } &amp;&amp; (not::std::same_as&lt; ::std::remove_cvref_t&lt;Sender&gt;, std::remove_cvref_t&lt;decltype(::std::declval&lt;Domain&gt;().transform_sender(::std::declval&lt;Sender&gt;()))&gt;&gt;)</td></tr>
-<tr class="memitem:a9ab455ec97642735d2804419abf2408a"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>transform_sender</b> (Domain dom, Sender &amp;&amp;sender, const Env &amp;... env) noexcept -&gt; ::beman::execution26::sender auto</td></tr>
-<tr class="separator:a9ab455ec97642735d2804419abf2408a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+requires (sizeof...(Env) &lt; 2) &amp;&amp; requires(Domain dom, Sender&amp;&amp; sender, const Env&amp;... env) { dom.transform_sender(::std::forward&lt;Sender&gt;(sender), env...); } &amp;&amp; (not::std::same_as&lt;::std::remove_cvref_t&lt;Sender&gt;, std::remove_cvref_t&lt;decltype(::std::declval&lt;Domain&gt;().transform_sender( ::std::declval&lt;Sender&gt;(), ::std::declval&lt;const Env&amp;&gt;()...))&gt;&gt;)</td></tr>
+<tr class="memitem:a04df0e90878b87265b9e1a2b01935804"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>transform_sender</b> (Domain dom, Sender &amp;&amp;sender, const Env &amp;... env) noexcept -&gt; ::beman::execution26::sender auto</td></tr>
+<tr class="separator:a04df0e90878b87265b9e1a2b01935804"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad1d4f32e5bcd2c4c6fc2f888225b1b0c"><td class="memTemplParams" colspan="2"><a id="ad1d4f32e5bcd2c4c6fc2f888225b1b0c" name="ad1d4f32e5bcd2c4c6fc2f888225b1b0c"></a>
 template&lt;typename Domain , ::beman::execution26::sender Sender, typename... Env&gt; <br />
 requires (sizeof...(Env) &lt; 2) &amp;&amp; (not requires(Domain dom, Sender&amp;&amp; sender, const Env&amp;... env) { dom.transform_sender(::std::forward&lt;Sender&gt;(sender), env...); }) &amp;&amp; ::std::same_as&lt;::std::remove_cvref_t&lt;Sender&gt;, ::std::remove_cvref_t&lt;decltype(<a class="el" href="structbeman_1_1execution26_1_1default__domain.html">::beman::execution26::default_domain</a>{}.transform_sender( ::std::declval&lt;Sender&gt;(), ::std::declval&lt;Env&gt;()...))&gt;&gt;</td></tr>
@@ -380,6 +383,9 @@ constexpr ::beman::execution26::let_value_t&#160;</td><td class="memItemRight" v
 <tr class="memitem:aebc89ac5345e70b65733c103a97ab6b2"><td class="memItemLeft" align="right" valign="top"><a id="aebc89ac5345e70b65733c103a97ab6b2" name="aebc89ac5345e70b65733c103a97ab6b2"></a>
 constexpr <a class="el" href="structbeman_1_1execution26_1_1nostopstate__t.html">nostopstate_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>nostopstate</b> {}</td></tr>
 <tr class="separator:aebc89ac5345e70b65733c103a97ab6b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abeaf7da5e6c1f2cbfdd98ff9a8d2d99d"><td class="memItemLeft" align="right" valign="top"><a id="abeaf7da5e6c1f2cbfdd98ff9a8d2d99d" name="abeaf7da5e6c1f2cbfdd98ff9a8d2d99d"></a>
+constexpr ::beman::execution26::on_t&#160;</td><td class="memItemRight" valign="bottom"><b>on</b> {}</td></tr>
+<tr class="separator:abeaf7da5e6c1f2cbfdd98ff9a8d2d99d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a34b5103f035b68c6462cb2eb73a23d61"><td class="memItemLeft" align="right" valign="top"><a id="a34b5103f035b68c6462cb2eb73a23d61" name="a34b5103f035b68c6462cb2eb73a23d61"></a>
 constexpr read_env_t&#160;</td><td class="memItemRight" valign="bottom"><b>read_env</b> {}</td></tr>
 <tr class="separator:a34b5103f035b68c6462cb2eb73a23d61"><td class="memSeparator" colspan="2">&#160;</td></tr>
