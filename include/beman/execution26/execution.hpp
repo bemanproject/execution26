@@ -42,15 +42,16 @@
 #include <beman/execution26/detail/into_variant.hpp>
 #include <beman/execution26/detail/just.hpp>
 #include <beman/execution26/detail/let.hpp>
+#include <beman/execution26/detail/on.hpp>
 #include <beman/execution26/detail/read_env.hpp>
 #include <beman/execution26/detail/schedule_from.hpp>
 #include <beman/execution26/detail/starts_on.hpp>
 #include <beman/execution26/detail/sync_wait.hpp>
 #include <beman/execution26/detail/then.hpp>
-#include <beman/execution26/detail/write_env.hpp>
 #include <beman/execution26/detail/when_all.hpp>
 #include <beman/execution26/detail/when_all_with_variant.hpp>
 #include <beman/execution26/detail/with_awaitable_senders.hpp>
+#include <beman/execution26/detail/write_env.hpp>
 
 // ----------------------------------------------------------------------------
 

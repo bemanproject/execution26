@@ -18,6 +18,7 @@ list(
   async-concurrent-queue.test
   concurrent-queue.test
   basic-concurrent-queue.test
+  exec-on.test
   notify.test
   exec-scounting.test
   exec-awaitable.test
