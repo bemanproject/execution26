@@ -45,12 +45,16 @@ struct get_completion_behaviour_t {
 
         if constexpr (requires { typename new_sender_type::completion_behaviour; }) {
             return typename new_sender_type::completion_behaviour{};
-        } else if constexpr (requires { ::std::move(new_sender).get_completion_behaviour(std::forward<Env>(env)); }) {
-            return std::move(new_sender).get_completion_behaviour(std::forward<Env>(env));
+        } else if constexpr (requires {
+                                 new_sender(::std::forward<Sender>(sender), ::std::forward<Env>(env))
+                                     .get_completion_behaviour(std::forward<Env>(env));
+                             }) {
+            return new_sender(::std::forward<Sender>(sender), ::std::forward<Env>(env))
+                .get_completion_behaviour(std::forward<Env>(env));
         } else if constexpr (::beman::execution26::detail::is_awaitable<
                                  new_sender_type,
                                  ::beman::execution26::detail::env_promise<decayed_env>>) {
-            if (new_sender(sender, env).await_ready()) {
+            if (new_sender(::std::forward<Sender>(sender), ::std::forward<Env>(env)).await_ready()) {
                 return completion_behaviour::inline_completion;
             } else {
                 return completion_behaviour::unknown;

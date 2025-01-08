@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
 #include <beman/execution26/detail/get_completion_behaviour.hpp>
+#include <beman/execution26/detail/just.hpp>
 
 #include <test/execution.hpp>
 
@@ -44,10 +45,17 @@ void test_constexpr_sender() {
     ASSERT(test_std::completion_behaviour::inline_completion == completion_behaviour);
 }
 
+void test_just() {
+    auto just                 = test_std::just();
+    auto completion_behaviour = test_std::get_completion_behaviour(just, test_std::empty_env{});
+    ASSERT(test_std::completion_behaviour::inline_completion == completion_behaviour);
+}
+
 } // namespace
 
 TEST(exec_get_completion_behaviour) {
     test_constexpr_awaitable();
     test_typedef_sender();
     test_constexpr_sender();
+    test_just();
 }
