@@ -50,7 +50,7 @@ struct impls_for<just_t<Completion>> : ::beman::execution26::detail::default_imp
         }(::std::make_index_sequence<State::size()>{});
     };
 
-    static constexpr auto get_completion_behaviour = [](const auto&, const auto&, const auto&) {
+    static constexpr auto get_completion_behaviour = [](const auto&, const auto&, const auto&...) {
         return ::beman::execution26::completion_behaviour::inline_completion;
     };
 };
