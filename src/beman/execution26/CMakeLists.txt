@@ -53,6 +53,7 @@ target_sources(
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/child_type.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/class_type.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/common.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/completion_behaviour.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/completion_domain.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/completion_signature.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/completion_signatures.hpp
@@ -84,6 +85,7 @@ target_sources(
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/gather_signatures.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/get_allocator.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/get_awaiter.hpp
+         ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/get_completion_behaviour.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/get_completion_scheduler.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/get_completion_signatures.hpp
          ${PROJECT_SOURCE_DIR}/include/beman/execution26/detail/get_delegation_scheduler.hpp
