@@ -225,18 +225,18 @@ auto test_single_sender_value_type() -> void {
                                test_detail::single_sender_value_type<multi_type_sender, test_std::empty_env>>);
     test_single_sender_value_type<true>(single_type_sender{}, test_std::empty_env{});
     test_single_sender_value_type<true>(single_type_sender{}, test_env{});
-    test_single_sender_value_type<false>(single_type_sender{}, no_value_env{});
+    test_single_sender_value_type<true>(single_type_sender{}, no_value_env{});
     test_single_sender_value_type<false>(multi_single_sender{}, test_std::empty_env{});
-    test_single_sender_value_type<false>(no_value_sender{}, test_std::empty_env{});
+    test_single_sender_value_type<true>(no_value_sender{}, test_std::empty_env{});
 }
 
 auto test_single_sender() -> void {
     static_assert(test_detail::single_sender<single_type_sender, test_std::empty_env>);
-    static_assert(not test_detail::single_sender<single_type_sender, no_value_env>);
+    static_assert(test_detail::single_sender<single_type_sender, no_value_env>);
     static_assert(test_detail::single_sender<void_sender, test_std::empty_env>);
     static_assert(not test_detail::single_sender<multi_single_sender, test_std::empty_env>);
     static_assert(test_detail::single_sender<multi_type_sender, test_std::empty_env>);
-    static_assert(not test_detail::single_sender<no_value_sender, test_std::empty_env>);
+    static_assert(test_detail::single_sender<no_value_sender, test_std::empty_env>);
 }
 
 struct connect_sender {

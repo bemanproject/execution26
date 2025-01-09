@@ -7,6 +7,8 @@
 #include <memory>
 #include <cstddef>
 
+#include <beman/execution26/detail/suppress_push.hpp>
+
 // ----------------------------------------------------------------------------
 
 namespace beman::execution26::detail {
@@ -125,5 +127,7 @@ struct tuple_element<I, T> {
 } // namespace std
 
 // ----------------------------------------------------------------------------
+
+#include <beman/execution26/detail/suppress_pop.hpp>
 
 #endif
