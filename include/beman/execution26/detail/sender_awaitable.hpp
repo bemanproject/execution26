@@ -54,7 +54,8 @@ class sender_awaitable {
 
         void set_stopped() && noexcept {
             auto handle = static_cast<::std::coroutine_handle<>>(continuation_.promise().unhandled_stopped());
-            if (handle) handle.resume();
+            if (handle)
+                handle.resume();
         }
 
         auto get_env() const noexcept {
