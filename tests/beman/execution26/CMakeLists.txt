@@ -23,6 +23,7 @@ list(
   exec-general.test
   exec-get-allocator.test
   exec-get-compl-sched.test
+  exec-get-completion-behaviour.test
   exec-get-delegation-scheduler.test
   exec-get-domain.test
   exec-get-env.test
