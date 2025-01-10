@@ -93,7 +93,9 @@ struct sync_wait_t {
             typename ::beman::execution26::detail::sync_wait_result_type<Sender>;
             {
                 ::beman::execution26::apply_sender(
-                    ::beman::execution26::detail::get_domain_early(std::forward<Sender>(sender)), self, ::std::forward<Sender>(sender))
+                    ::beman::execution26::detail::get_domain_early(std::forward<Sender>(sender)),
+                    self,
+                    ::std::forward<Sender>(sender))
             } -> ::std::same_as<::beman::execution26::detail::sync_wait_result_type<Sender>>;
         }
     auto operator()(Sender&& sender) const {
