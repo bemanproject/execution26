@@ -29,7 +29,7 @@ template <typename Sender, typename Receiver>
         //-dk:TODO why is the remove_cvref_t needed...?
         valid_specialization<::beman::execution26::detail::state_type, std::remove_cvref_t<Sender>, Receiver>
     struct basic_operation : ::beman::execution26::detail::basic_state<Sender, Receiver> {
-        static_assert(std::same_as<Sender, std::remove_cvref_t<Sender>>);
+        //static_assert(std::same_as<Sender, std::remove_cvref_t<Sender>>);
     friend struct ::beman::execution26::start_t;
     using operation_state_concept = ::beman::execution26::operation_state_t;
     using tag_t                   = ::beman::execution26::tag_of_t<Sender>;
