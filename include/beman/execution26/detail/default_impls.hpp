@@ -14,6 +14,7 @@
 #include <beman/execution26/detail/product_type.hpp>
 #include <beman/execution26/detail/sender_decompose.hpp>
 #include <beman/execution26/detail/start.hpp>
+#include <beman/execution26/detail/get_completion_behaviour.hpp>
 
 #include <utility>
 

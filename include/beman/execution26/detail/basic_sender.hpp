@@ -12,7 +12,7 @@
 #include <beman/execution26/detail/sender.hpp>
 #include <beman/execution26/detail/sender_decompose.hpp>
 #include <beman/execution26/detail/connect.hpp>
-#include <beman/execution26/detail/get_completion_signatures.hpp>
+#include <beman/execution26/detail/get_completion_behaviour.hpp>
 #include <utility>
 
 #include <beman/execution26/detail/suppress_push.hpp>
@@ -39,7 +39,23 @@ struct basic_sender : ::beman::execution26::detail::product_type<Tag, Data, Chil
             data.children);
     }
 
-    template <class Self, class Env>
+#if __cpp_explicit_this_parameter < 302110L //-dk:TODO need to figure out how to use explicit this with forwarding
+    template <class Env>
+    constexpr auto get_completion_behaviour(Env&& env) noexcept -> decltype(auto) {
+        return []<typename Self>(Self&& self, Env&& env) ->decltype(auto) {
+            auto data{::beman::execution26::detail::get_sender_data(self)};
+            return ::std::apply(
+                [&data, &env](auto&&... cs) {
+                    return ::beman::execution26::detail::impls_for<Tag>::get_completion_behaviour(
+                        ::std::forward<Env>(env),
+                        ::beman::execution26::detail::forward_like<Self>(data.data),
+                        ::beman::execution26::detail::forward_like<Self>(cs)...);
+                },
+                ::beman::execution26::detail::forward_like<Self>(data.children));
+            }(*this, ::std::forward<Env>(env));
+    }
+#else
+    template <class Env>
     constexpr auto get_completion_behaviour(this Self&& self, Env&& env) noexcept -> decltype(auto) {
         auto data{::beman::execution26::detail::get_sender_data(self)};
         return ::std::apply(
@@ -51,6 +67,7 @@ struct basic_sender : ::beman::execution26::detail::product_type<Tag, Data, Chil
             },
             ::beman::execution26::detail::forward_like<Self>(data.children));
     }
+#endif
 
     template <typename Receiver>
         requires(not ::beman::execution26::receiver<Receiver>)
