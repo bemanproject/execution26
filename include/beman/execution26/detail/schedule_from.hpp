@@ -124,8 +124,8 @@ struct impls_for<::beman::execution26::detail::schedule_from_t> : ::beman::execu
             return noexcept(::beman::execution26::connect(::beman::execution26::schedule(::std::declval<Scheduler>()),
                                                           receiver_t{nullptr}));
         }
-        explicit state_type(Scheduler& sch, Receiver& receiver) noexcept(nothrow())
-            : state_base<Receiver, Variant>{receiver},
+        explicit state_type(Scheduler& sch, Receiver& rcvr) noexcept(nothrow())
+            : state_base<Receiver, Variant>{rcvr},
               op_state(::beman::execution26::connect(::beman::execution26::schedule(sch), receiver_t{this})) {}
     };
 
