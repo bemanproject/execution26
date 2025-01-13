@@ -50,7 +50,7 @@ using filter = ::beman::execution26::detail::meta::detail::filter<Predicate, Lis
 
 template <template <typename, typename> class Predicate, typename Tag, typename List>
 using filter_tag = ::beman::execution26::detail::meta::detail::filter_tag<Predicate, Tag, List>::type;
-}
+} // namespace beman::execution26::detail::meta
 
 // ----------------------------------------------------------------------------
 
