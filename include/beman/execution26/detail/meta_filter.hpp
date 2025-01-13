@@ -13,8 +13,16 @@ namespace beman::execution26::detail::meta::detail {
 template <template <typename> class, typename>
 struct filter;
 
+template <template <typename, typename> class, typename, typename>
+struct filter_tag;
+
 template <template <typename> class Predicate, template <typename...> class List>
 struct filter<Predicate, List<>> {
+    using type = List<>;
+};
+
+template <template <typename, typename> class Predicate, typename Tag, template <typename...> class List>
+struct filter_tag<Predicate, Tag, List<>> {
     using type = List<>;
 };
 
@@ -23,12 +31,26 @@ struct filter<Predicate, List<H, T...>> {
     using tail = typename beman::execution26::detail::meta::detail::filter<Predicate, List<T...>>::type;
     using type = ::std::conditional_t<Predicate<H>::value, ::beman::execution26::detail::meta::prepend<H, tail>, tail>;
 };
+
+template <template <typename, typename> class Predicate,
+          typename Tag,
+          template <typename...> class List,
+          typename H,
+          typename... T>
+struct filter_tag<Predicate, Tag, List<H, T...>> {
+    using tail = typename beman::execution26::detail::meta::detail::filter_tag<Predicate, Tag, List<T...>>::type;
+    using type =
+        ::std::conditional_t<Predicate<Tag, H>::value, ::beman::execution26::detail::meta::prepend<H, tail>, tail>;
+};
 } // namespace beman::execution26::detail::meta::detail
 
 namespace beman::execution26::detail::meta {
 template <template <typename> class Predicate, typename List>
 using filter = ::beman::execution26::detail::meta::detail::filter<Predicate, List>::type;
-}
+
+template <template <typename, typename> class Predicate, typename Tag, typename List>
+using filter_tag = ::beman::execution26::detail::meta::detail::filter_tag<Predicate, Tag, List>::type;
+} // namespace beman::execution26::detail::meta
 
 // ----------------------------------------------------------------------------
 
