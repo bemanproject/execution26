@@ -23,6 +23,7 @@ struct same_tag<Tag, R(A...)> {
 };
 template <typename Tag>
 struct bound_tag {
+    using type = Tag;
     template <typename T>
     using predicate = ::beman::execution26::detail::same_tag<Tag, T>;
 };
@@ -70,12 +71,12 @@ template <typename Tag,
     requires requires {
         typename ::beman::execution26::detail::gather_signatures_helper<
             ::beman::execution26::detail::meta::
-                filter<::beman::execution26::detail::bound_tag<Tag>::template predicate, signatures>,
+                filter_tag<::beman::execution26::detail::same_tag, Tag, signatures>,
             Tuple,
             Variant>::type;
     }
 using gather_signatures = ::beman::execution26::detail::gather_signatures_helper<
-    ::beman::execution26::detail::meta::filter<::beman::execution26::detail::bound_tag<Tag>::template predicate,
+    ::beman::execution26::detail::meta::filter_tag<::beman::execution26::detail::same_tag, Tag,
                                                signatures>,
     Tuple,
     Variant>::type;
