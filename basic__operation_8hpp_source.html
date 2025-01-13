@@ -112,14 +112,14 @@ $(function() {
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keyword">using </span>inner_ops_t = ::beman::execution26::detail::connect_all_result&lt;Sender, Receiver&gt;;</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    inner_ops_t inner_ops;</div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    basic_operation(Sender&amp;&amp; sender, Receiver&amp;&amp; receiver) <span class="keyword">noexcept</span>(</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    basic_operation(Sender&amp;&amp; sender, Receiver&amp;&amp; rcvr) <span class="keyword">noexcept</span>(</div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <span class="keyword">noexcept</span>(::beman::execution26::detail::basic_state&lt;Sender, Receiver&gt;(::std::forward&lt;Sender&gt;(sender),</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>                                                                             ::std::move(receiver))) &amp;&amp;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>                                                                             ::std::move(rcvr))) &amp;&amp;</div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="keyword">noexcept</span>(::beman::execution26::detail::connect_all(<span class="keyword">this</span>,</div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>                                                           ::std::forward&lt;Sender&gt;(sender),</div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>                                                           ::beman::execution26::detail::indices_for&lt;Sender&gt;())))</div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        : ::beman::execution26::detail::basic_state&lt;Sender, Receiver&gt;(::std::forward&lt;Sender&gt;(sender),</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>                                                                      ::std::move(receiver)),</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>                                                                      ::std::move(rcvr)),</div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>          <span class="comment">// NOLINTBEGIN(bugprone-use-after-move,hicpp-invalid-access-moved)</span></div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>          <span class="comment">//-dk:TODO deal with moving the sender twice</span></div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>          inner_ops(::beman::execution26::detail::connect_all(</div>
