@@ -49,7 +49,8 @@ struct get_completion_behaviour_t {
                                  new_sender(::std::forward<Sender>(sender), ::std::forward<Env>(env))
                                      .get_completion_behaviour(std::forward<Env>(env));
                              }) {
-            return new_sender(::std::forward<Sender>(sender), ::std::forward<Env>(env))
+            std::remove_cvref_t<Env> copiedEnv(env);
+            return new_sender(::std::forward<Sender>(sender), ::std::forward<Env>(copiedEnv))
                 .get_completion_behaviour(std::forward<Env>(env));
         } else if constexpr (::beman::execution26::detail::is_awaitable<
                                  new_sender_type,

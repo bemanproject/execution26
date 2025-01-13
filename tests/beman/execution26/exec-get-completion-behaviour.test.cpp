@@ -51,6 +51,11 @@ void test_just() {
     ASSERT(test_std::completion_behaviour::inline_completion == completion_behaviour);
 }
 
+void test_constexpr_just() {
+    constexpr auto completion_behaviour = test_std::get_completion_behaviour(test_std::just(), test_std::empty_env{});
+    ASSERT(test_std::completion_behaviour::inline_completion == completion_behaviour);
+}
+
 } // namespace
 
 TEST(exec_get_completion_behaviour) {
@@ -58,4 +63,5 @@ TEST(exec_get_completion_behaviour) {
     test_typedef_sender();
     test_constexpr_sender();
     test_just();
+    test_constexpr_just();
 }
