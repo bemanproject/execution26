@@ -33,10 +33,9 @@ struct basic_sender : ::beman::execution26::detail::product_type<Tag, Data, Chil
     using indices_for    = ::std::index_sequence_for<Child...>;
 
     auto get_env() const noexcept -> decltype(auto) {
-        auto data{::beman::execution26::detail::get_sender_data(*this)};
-        return ::std::apply(
-            [&data](auto&&... c) { return ::beman::execution26::detail::impls_for<Tag>::get_attrs(data.data, c...); },
-            data.children);
+        auto&& d{this->template get<1>()};
+        return sub_apply<2>(
+            [&d](auto&&... c) { return ::beman::execution26::detail::impls_for<Tag>::get_attrs(d, c...); }, *this);
     }
 
     template <typename Receiver>

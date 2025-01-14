@@ -44,6 +44,33 @@ struct connect_all_t {
                                        ::std::forward<Tuple>(tuple));
     }
 
+    template <::std::size_t Start, typename Fun, typename Tuple, ::std::size_t... I>
+    static auto sub_apply_with_index_helper(::std::index_sequence<I...> seq, Fun&& fun, Tuple&& tuple) noexcept(
+        noexcept(::std::forward<Fun>(fun)(
+            seq, ::beman::execution26::detail::forward_like<Tuple>(tuple.template get<I + Start>())...)))
+        -> decltype(auto) {
+        return ::std::forward<Fun>(fun)(
+            seq, ::beman::execution26::detail::forward_like<Tuple>(tuple.template get<I + Start>())...);
+    }
+    template <::std::size_t Start, typename Fun, typename Tuple>
+        requires requires { ::std::declval<Tuple>().size(); }
+    static auto sub_apply_with_index(Fun&& fun, Tuple&& tuple) noexcept(noexcept(sub_apply_with_index_helper<Start>(
+        ::std::make_index_sequence<::std::tuple_size_v<::std::decay_t<Tuple>> - Start>{},
+        ::std::forward<Fun>(fun),
+        ::std::forward<Tuple>(tuple)))) -> decltype(auto) {
+        return sub_apply_with_index_helper<Start>(
+            ::std::make_index_sequence<::std::tuple_size_v<::std::decay_t<Tuple>> - Start>{},
+            ::std::forward<Fun>(fun),
+            ::std::forward<Tuple>(tuple));
+    }
+    template <::std::size_t Start, typename Fun, typename Tuple>
+        requires(not requires { ::std::declval<Tuple>().size(); })
+    static auto
+    sub_apply_with_index(Fun&& fun,
+                         Tuple&&) noexcept(noexcept(::std::forward<Fun>(fun)(::std::make_index_sequence<0u>{}))) {
+        return ::std::forward<Fun>(fun)(::std::make_index_sequence<0u>{});
+    }
+
     template <typename Sender, typename Receiver>
     struct connect_helper {
         ::beman::execution26::detail::basic_state<Sender, Receiver>* op;
@@ -66,6 +93,18 @@ struct connect_all_t {
 
   public:
     //-dk:TODO is the S parameter deviating from the spec?
+    template <typename Sender, typename S, typename Receiver, ::std::size_t... I>
+        requires requires(Sender&& s) {
+            s.size();
+            s.template get<0>();
+        }
+    auto operator()(::beman::execution26::detail::basic_state<Sender, Receiver>* op,
+                    S&&                                                          sender,
+                    ::std::index_sequence<I...>) const
+        noexcept(noexcept(sub_apply_with_index<2>(connect_helper<Sender, Receiver>{op}, ::std::forward<S>(sender))))
+            -> decltype(auto) {
+        return sub_apply_with_index<2>(connect_helper<Sender, Receiver>{op}, ::std::forward<S>(sender));
+    }
     template <typename Sender, typename S, typename Receiver, ::std::size_t... I>
     auto operator()(::beman::execution26::detail::basic_state<Sender, Receiver>* op,
                     S&&                                                          sender,
