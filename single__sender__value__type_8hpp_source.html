@@ -130,7 +130,7 @@ $(function() {
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>};</div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sender, <span class="keyword">typename</span> Env&gt;</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="keyword">using </span>single_sender_value_type = single_sender_value_type_helper&lt;Sender, Env&gt;::type;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="keyword">using </span>single_sender_value_type = <span class="keyword">typename</span> single_sender_value_type_helper&lt;Sender, Env&gt;::type;</div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>} <span class="comment">// namespace beman::execution26::detail</span></div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="comment">// ----------------------------------------------------------------------------</span></div>

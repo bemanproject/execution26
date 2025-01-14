@@ -126,10 +126,10 @@ $(function() {
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="keyword">namespace </span>beman::execution26::detail::meta {</div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="keyword">template</span> &lt;<span class="keyword">template</span> &lt;<span class="keyword">typename</span>&gt; <span class="keyword">class </span>Predicate, <span class="keyword">typename</span> List&gt;</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="keyword">using </span>filter = ::beman::execution26::detail::meta::detail::filter&lt;Predicate, List&gt;::type;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="keyword">using </span>filter = typename ::beman::execution26::detail::meta::detail::filter&lt;Predicate, List&gt;::type;</div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="keyword">template</span> &lt;<span class="keyword">template</span> &lt;<span class="keyword">typename</span>, <span class="keyword">typename</span>&gt; <span class="keyword">class </span>Predicate, <span class="keyword">typename</span> Tag, <span class="keyword">typename</span> List&gt;</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="keyword">using </span>filter_tag = ::beman::execution26::detail::meta::detail::filter_tag&lt;Predicate, Tag, List&gt;::type;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="keyword">using </span>filter_tag = typename ::beman::execution26::detail::meta::detail::filter_tag&lt;Predicate, Tag, List&gt;::type;</div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>} <span class="comment">// namespace beman::execution26::detail::meta</span></div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="comment">// ----------------------------------------------------------------------------</span></div>

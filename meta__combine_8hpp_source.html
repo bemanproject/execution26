@@ -109,7 +109,7 @@ $(function() {
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keyword">namespace </span>beman::execution26::detail::meta {</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span>... L&gt;</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="keyword">using </span>combine = ::beman::execution26::detail::meta::detail::combine&lt;L...&gt;::type;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="keyword">using </span>combine = typename ::beman::execution26::detail::meta::detail::combine&lt;L...&gt;::type;</div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>}</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="comment">// ----------------------------------------------------------------------------</span></div>

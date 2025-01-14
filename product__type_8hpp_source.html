@@ -200,7 +200,7 @@ $(function() {
 <div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
 <div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span><span class="keyword">template</span> &lt;::std::<span class="keywordtype">size_t</span> Start, <span class="keyword">typename</span> Fun, <span class="keyword">typename</span> Tuple&gt;</div>
 <div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span><span class="keyword">constexpr</span> <span class="keyword">auto</span> sub_apply(Fun&amp;&amp; fun, Tuple&amp;&amp; tuple) -&gt; <span class="keyword">decltype</span>(<span class="keyword">auto</span>) {</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <span class="keyword">static</span> constexpr ::std::size_t TSize{::std::tuple_size_v&lt;::std::remove_cvref_t&lt;Tuple&gt;&gt;};</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    constexpr ::std::size_t TSize{::std::tuple_size_v&lt;::std::remove_cvref_t&lt;Tuple&gt;&gt;};</div>
 <div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    <span class="keyword">static_assert</span>(Start &lt;= TSize);</div>
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    <span class="keywordflow">return</span> sub_apply_helper&lt;Start&gt;(</div>
 <div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        ::std::forward&lt;Fun&gt;(fun), ::std::forward&lt;Tuple&gt;(tuple), ::std::make_index_sequence&lt;TSize - Start&gt;());</div>
