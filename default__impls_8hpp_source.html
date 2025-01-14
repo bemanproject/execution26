@@ -112,27 +112,35 @@ $(function() {
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    };</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keyword">auto</span> get_state =</div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        []&lt;<span class="keyword">typename</span> Sender, <span class="keyword">typename</span> Receiver&gt;(Sender&amp;&amp; sender, Receiver&amp; receiver) <span class="keyword">noexcept</span> -&gt; <span class="keyword">decltype</span>(<span class="keyword">auto</span>) {</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        <span class="keyword">auto</span>&amp;&amp; decompose = ::beman::execution26::detail::get_sender_data(::std::forward&lt;Sender&gt;(sender));</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        return ::beman::execution26::detail::allocator_aware_move(</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>            ::beman::execution26::detail::forward_like&lt;Sender&gt;(decompose.data), receiver);</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    };</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keyword">auto</span> start = [](<span class="keyword">auto</span>&amp;, <span class="keyword">auto</span>&amp;, <span class="keyword">auto</span>&amp;... ops) <span class="keyword">noexcept</span> -&gt; <span class="keywordtype">void</span> {</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        (::beman::execution26::start(ops), ...);</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    };</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keyword">auto</span> complete = []&lt;<span class="keyword">typename</span> Index, <span class="keyword">typename</span> Receiver, <span class="keyword">typename</span> Tag, <span class="keyword">typename</span>... Args&gt;(</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>                                         Index, <span class="keyword">auto</span>&amp;, Receiver&amp; receiver, Tag, Args&amp;&amp;... args) <span class="keyword">noexcept</span> -&gt; <span class="keywordtype">void</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        requires ::beman::execution26::detail::callable&lt;Tag, Receiver, Args...&gt;</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    {</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        <span class="keyword">static_assert</span>(Index::value == 0);</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        Tag()(::std::move(receiver), ::std::forward&lt;Args&gt;(args)...);</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    };</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>};</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>} <span class="comment">// namespace beman::execution26::detail</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="comment">// ----------------------------------------------------------------------------</span></div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        <span class="keyword">auto</span>&amp;&amp; data{[&amp;sender]() -&gt; <span class="keyword">decltype</span>(<span class="keyword">auto</span>) {</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>            <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (<span class="keyword">requires</span> {</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>                              sender.size();</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>                              sender.template get&lt;1&gt;();</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>                          })</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>                <span class="keywordflow">return</span> sender.template get&lt;1&gt;();</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>            <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>                return ::beman::execution26::detail::get_sender_data(::std::forward&lt;Sender&gt;(sender)).data;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        }()};</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        return ::beman::execution26::detail::allocator_aware_move(</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>            ::beman::execution26::detail::forward_like&lt;Sender&gt;(data), receiver);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    };</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keyword">auto</span> start = [](<span class="keyword">auto</span>&amp;, <span class="keyword">auto</span>&amp;, <span class="keyword">auto</span>&amp;... ops) <span class="keyword">noexcept</span> -&gt; <span class="keywordtype">void</span> {</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        (::beman::execution26::start(ops), ...);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    };</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keyword">auto</span> complete = []&lt;<span class="keyword">typename</span> Index, <span class="keyword">typename</span> Receiver, <span class="keyword">typename</span> Tag, <span class="keyword">typename</span>... Args&gt;(</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>                                         Index, <span class="keyword">auto</span>&amp;, Receiver&amp; receiver, Tag, Args&amp;&amp;... args) <span class="keyword">noexcept</span> -&gt; <span class="keywordtype">void</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        requires ::beman::execution26::detail::callable&lt;Tag, Receiver, Args...&gt;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    {</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <span class="keyword">static_assert</span>(Index::value == 0);</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        Tag()(::std::move(receiver), ::std::forward&lt;Args&gt;(args)...);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    };</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>};</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>} <span class="comment">// namespace beman::execution26::detail</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="comment">// ----------------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
