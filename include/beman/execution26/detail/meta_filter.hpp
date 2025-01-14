@@ -46,10 +46,10 @@ struct filter_tag<Predicate, Tag, List<H, T...>> {
 
 namespace beman::execution26::detail::meta {
 template <template <typename> class Predicate, typename List>
-using filter = ::beman::execution26::detail::meta::detail::filter<Predicate, List>::type;
+using filter = typename ::beman::execution26::detail::meta::detail::filter<Predicate, List>::type;
 
 template <template <typename, typename> class Predicate, typename Tag, typename List>
-using filter_tag = ::beman::execution26::detail::meta::detail::filter_tag<Predicate, Tag, List>::type;
+using filter_tag = typename ::beman::execution26::detail::meta::detail::filter_tag<Predicate, Tag, List>::type;
 } // namespace beman::execution26::detail::meta
 
 // ----------------------------------------------------------------------------

@@ -29,7 +29,7 @@ struct combine<L0<T0...>, L1<T1...>, L...> {
 
 namespace beman::execution26::detail::meta {
 template <typename... L>
-using combine = ::beman::execution26::detail::meta::detail::combine<L...>::type;
+using combine = typename ::beman::execution26::detail::meta::detail::combine<L...>::type;
 }
 
 // ----------------------------------------------------------------------------

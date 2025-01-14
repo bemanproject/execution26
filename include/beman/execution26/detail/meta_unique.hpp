@@ -37,7 +37,7 @@ struct unique<List<T...>> {
 
 namespace beman::execution26::detail::meta {
 template <typename T>
-using unique = ::beman::execution26::detail::meta::detail::unique<T>::type;
+using unique = typename ::beman::execution26::detail::meta::detail::unique<T>::type;
 }
 
 // ----------------------------------------------------------------------------
