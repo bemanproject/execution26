@@ -68,7 +68,7 @@ auto get_sender_data(Sender&& sender) {
         return ::beman::execution26::detail::sender_data{tag, data, ::std::tie(c0)};
     } else if constexpr (requires { sender_type{at, at}; }) {
         auto&& [tag, data] = sender;
-        return ::beman::execution26::detail::sender_data{ tag, data, ::std::tuple<>()};
+        return ::beman::execution26::detail::sender_data{tag, data, ::std::tuple<>()};
     } else {
         return ::beman::execution26::detail::sender_meta<void, void, void>{};
     }

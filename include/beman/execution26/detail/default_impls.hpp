@@ -37,8 +37,11 @@ struct default_impls {
     };
     static constexpr auto get_state =
         []<typename Sender, typename Receiver>(Sender&& sender, Receiver& receiver) noexcept -> decltype(auto) {
-        auto&& data{[&sender]()->decltype(auto) {
-            if constexpr (requires{ sender.size(); sender.template get<1>(); })
+        auto&& data{[&sender]() -> decltype(auto) {
+            if constexpr (requires {
+                              sender.size();
+                              sender.template get<1>();
+                          })
                 return sender.template get<1>();
             else
                 return ::beman::execution26::detail::get_sender_data(::std::forward<Sender>(sender)).data;

@@ -35,8 +35,7 @@ struct basic_sender : ::beman::execution26::detail::product_type<Tag, Data, Chil
     auto get_env() const noexcept -> decltype(auto) {
         auto&& d{this->template get<1>()};
         return sub_apply<2>(
-            [&d](auto&&... c) { return ::beman::execution26::detail::impls_for<Tag>::get_attrs(d, c...); },
-            *this);
+            [&d](auto&&... c) { return ::beman::execution26::detail::impls_for<Tag>::get_attrs(d, c...); }, *this);
     }
 
     template <typename Receiver>
