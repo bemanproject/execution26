@@ -50,7 +50,7 @@ struct single_sender_value_type_helper<Sender, Env> {
 };
 
 template <typename Sender, typename Env>
-using single_sender_value_type = single_sender_value_type_helper<Sender, Env>::type;
+using single_sender_value_type = typename single_sender_value_type_helper<Sender, Env>::type;
 } // namespace beman::execution26::detail
 
 // ----------------------------------------------------------------------------

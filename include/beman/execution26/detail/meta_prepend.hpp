@@ -18,7 +18,7 @@ struct prepend<H, List<T...>> {
 
 namespace beman::execution26::detail::meta {
 template <typename H, typename Tail>
-using prepend = ::beman::execution26::detail::meta::detail::prepend<H, Tail>::type;
+using prepend = typename ::beman::execution26::detail::meta::detail::prepend<H, Tail>::type;
 }
 
 // ----------------------------------------------------------------------------

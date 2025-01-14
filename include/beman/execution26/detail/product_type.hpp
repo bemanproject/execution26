@@ -120,7 +120,7 @@ constexpr auto sub_apply_helper(Fun&& fun, Tuple&& tuple, ::std::index_sequence<
 
 template <::std::size_t Start, typename Fun, typename Tuple>
 constexpr auto sub_apply(Fun&& fun, Tuple&& tuple) -> decltype(auto) {
-    static constexpr ::std::size_t TSize{::std::tuple_size_v<::std::remove_cvref_t<Tuple>>};
+    constexpr ::std::size_t TSize{::std::tuple_size_v<::std::remove_cvref_t<Tuple>>};
     static_assert(Start <= TSize);
     return sub_apply_helper<Start>(
         ::std::forward<Fun>(fun), ::std::forward<Tuple>(tuple), ::std::make_index_sequence<TSize - Start>());
