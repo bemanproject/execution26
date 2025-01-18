@@ -6,7 +6,7 @@
 add_library(${TARGET_NAME} STATIC)
 add_library(${TARGET_ALIAS} ALIAS ${TARGET_NAME})
 
-if(CMAKE_BUILD_TYPE STREQUAL Debug)
+if(CMAKE_BUILD_TYPE STREQUAL xDebug)
   target_link_libraries(${TARGET_NAME} PUBLIC $<BUILD_INTERFACE:${TARGET_NAME}_project_options>)
   target_link_libraries(${TARGET_NAME} PUBLIC $<BUILD_INTERFACE:${TARGET_NAME}_project_warnings>)
 endif()
