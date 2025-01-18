@@ -22,7 +22,7 @@ set(TARGETS_EXPORT_NAME ${PROJECT_NAME}-targets)
 include(GNUInstallDirs)
 set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
 
-if(CMAKE_BUILD_TYPE STREQUAL Debug)
+if(CMAKE_BUILD_TYPE STREQUAL xDebug)
   include(FetchContent)
 
   # Add project_options from https://github.com/aminya/project_options
