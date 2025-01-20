@@ -6,7 +6,7 @@
     "patch": 0
   },
   "include": [
-    "cmake/CMakeDarwinPresets.json"
+    "cmake/CMake${hostSystemName}Presets.json"
   ],
   "buildPresets": [
     {
