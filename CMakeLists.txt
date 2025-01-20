@@ -22,7 +22,7 @@ set(TARGETS_EXPORT_NAME ${PROJECT_NAME}-targets)
 include(GNUInstallDirs)
 set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
 
-if(CMAKE_BUILD_TYPE STREQUAL xDebug)
+if(CMAKE_SKIP_INSTALL_RULES)
   include(FetchContent)
 
   # Add project_options from https://github.com/aminya/project_options
@@ -78,6 +78,10 @@ if(PROJECT_IS_TOP_LEVEL)
 
   add_subdirectory(tests/beman/execution26)
   add_subdirectory(examples)
+endif()
+
+if(CMAKE_SKIP_INSTALL_RULES)
+  return()
 endif()
 
 include(CMakePackageConfigHelpers)
