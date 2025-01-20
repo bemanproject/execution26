@@ -14,13 +14,13 @@ using namespace std::string_literals;
 
 int main() {
     // clang-format off
-    auto [result] = ex::sync_wait(
-        ex::when_all(
-            ex::just("hello, "s),
-            ex::just("world"s)
-        ) | ex::then([](auto s1, auto s2) { return s1 + s2; })
-        ).value_or(std::tuple(""s)
-    );
+     auto [result] = ex::sync_wait(
+         ex::when_all(
+             ex::just("hello, "s),
+             ex::just("world"s)
+         ) | ex::then([](auto s1, auto s2) { return s1 + s2; })
+         ).value_or(std::tuple(""s)
+     );
     // clang-format on
 
     std::cout << result << '\n';
