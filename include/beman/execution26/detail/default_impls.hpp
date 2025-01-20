@@ -37,10 +37,18 @@ struct default_impls {
     };
     static constexpr auto get_state =
         []<typename Sender, typename Receiver>(Sender&& sender, Receiver& receiver) noexcept -> decltype(auto) {
-        auto&& decompose = ::beman::execution26::detail::get_sender_data(::std::forward<Sender>(sender));
+        auto&& data{[&sender]() -> decltype(auto) {
+            if constexpr (requires {
+                              sender.size();
+                              sender.template get<1>();
+                          })
+                return sender.template get<1>();
+            else
+                return ::beman::execution26::detail::get_sender_data(::std::forward<Sender>(sender)).data;
+        }()};
 
         return ::beman::execution26::detail::allocator_aware_move(
-            ::beman::execution26::detail::forward_like<Sender>(decompose.data), receiver);
+            ::beman::execution26::detail::forward_like<Sender>(data), receiver);
     };
     static constexpr auto start = [](auto&, auto&, auto&... ops) noexcept -> void {
         (::beman::execution26::start(ops), ...);

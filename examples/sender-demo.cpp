@@ -14,8 +14,8 @@ struct just_op_state {
     std::pmr::string              value;
 
     template <typename R>
-    just_op_state(R&& r, std::pmr::string&& value)
-        : rec(std::forward<R>(r)), value(std::move(value), ex::get_allocator(ex::get_env(rec))) {}
+    just_op_state(R&& r, std::pmr::string&& val)
+        : rec(std::forward<R>(r)), value(std::move(val), ex::get_allocator(ex::get_env(rec))) {}
 
     void start() & noexcept { ex::set_value(std::move(rec), std::move(value)); }
 };
@@ -46,18 +46,22 @@ static_assert(ex::sender<just_sender<std::pmr::string>>);
 static_assert(ex::sender_in<just_sender<std::pmr::string>>);
 
 int main() {
-    auto j = just_sender{std::pmr::string("value")};
-    auto t = std::move(j) | ex::then([](std::pmr::string v) { return v + " then"; });
-    auto w = ex::when_all(std::move(t));
-    auto e = ex::detail::write_env(std::move(w),
-                                   ex::detail::make_env(ex::get_allocator, std::pmr::polymorphic_allocator<>()));
+    try {
+        auto j = just_sender{std::pmr::string("value")};
+        auto t = std::move(j) | ex::then([](const std::pmr::string& v) { return v + " then"; });
+        auto w = ex::when_all(std::move(t));
+        auto e = ex::detail::write_env(std::move(w),
+                                       ex::detail::make_env(ex::get_allocator, std::pmr::polymorphic_allocator<>()));
 
-    std::cout << "before start\n";
-    auto r = ex::sync_wait(std::move(e));
-    if (r) {
-        auto [v] = *r;
-        std::cout << "produced='" << v << "'\n";
-    } else
-        std::cout << "operation was cancelled\n";
-    std::cout << "after start\n";
+        std::cout << "before start\n";
+        auto r = ex::sync_wait(std::move(e));
+        if (r) {
+            auto [v] = *r;
+            std::cout << "produced='" << v << "'\n";
+        } else
+            std::cout << "operation was cancelled\n";
+        std::cout << "after start\n";
+    } catch (const std::exception& ex) {
+        std::cout << "ERROR: " << ex.what() << "\n";
+    }
 }

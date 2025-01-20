@@ -74,6 +74,7 @@ class beman::execution26::simple_counting_scope : ::beman::execution26::detail::
             return nullptr;
         case state_t::unused:
             this->state = state_t::open; // fall-through!
+            [[fallthrough]];
         case state_t::open:
         case state_t::open_and_joining:
             ++this->count;
@@ -117,8 +118,7 @@ class beman::execution26::simple_counting_scope::assoc {
 
   private:
     friend class beman::execution26::simple_counting_scope::token;
-    explicit assoc(beman::execution26::simple_counting_scope* scope)
-        : scope(scope ? scope->try_associate() : nullptr) {}
+    explicit assoc(beman::execution26::simple_counting_scope* scp) : scope(scp ? scp->try_associate() : nullptr) {}
     beman::execution26::simple_counting_scope* scope{};
 };
 // NOLINTEND(misc-unconventional-assign-operator,hicpp-special-member-functions)
@@ -138,7 +138,7 @@ class beman::execution26::simple_counting_scope::token {
 
   private:
     friend class beman::execution26::simple_counting_scope;
-    explicit token(beman::execution26::simple_counting_scope* scope) noexcept : scope(scope) {}
+    explicit token(beman::execution26::simple_counting_scope* scp) noexcept : scope(scp) {}
     beman::execution26::simple_counting_scope* scope;
 };
 

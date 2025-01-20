@@ -17,7 +17,7 @@ class make_env {
 
   public:
     template <typename V>
-    make_env(const Query&, V&& value) : value(::std::forward<V>(value)) {}
+    make_env(const Query&, V&& v) : value(::std::forward<V>(v)) {}
     constexpr auto query(const Query&) const noexcept -> const Value& { return this->value; }
     constexpr auto query(const Query&) noexcept -> Value& { return this->value; }
 };

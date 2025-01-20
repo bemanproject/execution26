@@ -28,7 +28,7 @@ using error_types_of_t =
                                                      ::beman::execution26::completion_signatures_of_t<Sender, Env>,
                                                      ::std::type_identity_t,
                                                      Variant>;
-}
+} // namespace beman::execution26
 
 // ----------------------------------------------------------------------------
 

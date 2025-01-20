@@ -20,7 +20,7 @@ When an asynchronous operation completes it _signals_ its completion by calling 
 <details>
 <summary>environment</summary>
 The term _enviroment_ refers to the bag of properties associated with an <code>_object_</code> by the call <code><a href=‘#get-env’>std::execution::get_env</a>(_object_)</code>. By default the environment for objects is empty (<code><a href=‘#empty-env’>std::execution::empty_env</a></code>). In particular, environments associated with <code><a href=‘#receiver’>receiver</a></code>s are used to provide access  to properties like the <a href=‘#get-stop-token’>stop token</a>, <a href=‘#get-scheduler’>scheduler</a>, or <a href=‘#get-allocator’>allocator</a> associated with the <code><a href=‘#receiver’>receiver</a></code>. The various properties associated with an object are accessed via <a href=‘#queries’>queries</a>.
-</details> 
+</details>
 
 ## Concepts
 This section lists the concepts from `std::execution`.
@@ -46,7 +46,7 @@ struct example_state
 {
     using operation_state_concept = std::execution::operation_state_t;
     std::remove_cvref_t<Receiver> receiver;
-    
+
     auto start() & noexcept {
         std::execution::set_value(std::move(this->receiver));
     }
@@ -54,7 +54,7 @@ struct example_state
 
 static_assert(std::execution::operation_state<example_state<SomeReceiver>>);
 ```
-</details> 
+</details>
 </details>
 <details>
 <summary><code>receiver&lt;<i>Receiver</i>&gt;</code></summary>
@@ -90,7 +90,7 @@ struct example_receiver
 {
     using receiver_concept = std::execution::receiver_t;
     std::remove_cvref_t<NestedReceiver> nested;
-    
+
     auto get_env() const noexcept {
         return std::execution::get_env(this->nested);
     }
@@ -112,7 +112,7 @@ struct example_receiver
 
 static_assert(std::execution::receiver<example_receiver<SomeReceiver>>);
 ```
-</details> 
+</details>
 </details>
 <details>
 <summary><code>receiver_of&lt;<i>Receiver, Completions</i>&gt;</code></summary>
@@ -129,7 +129,7 @@ The example defines a simple <code><a href=‘#receiver’>receiver</a></code> a
 struct example_receiver
 {
     using receiver_concept = std::execution::receiver_t;
-    
+
     auto set_value(int) && noexcept ->void {}
     auto set_stopped() && noexcept ->void {}
 };
@@ -141,7 +141,7 @@ static_assert(std::execution::receiver_of<example_receiver,
         std::execution::set_value_t(int),
         std::execution::set_stopped_t()
     >);
-// providing a superset of signal models models receiver_of: 
+// providing a superset of signal models models receiver_of:
 static_assert(std::execution::receiver_of<example_receiver,
     std::execution::completion_signals<
         std::execution::set_value_t(int)
@@ -211,7 +211,7 @@ struct example_sender
     using completion_signatures = std::execution::completion_signatures<
         std::execution::set_value_t(int)
     >;
-    
+
     int value{};
     template <std::execution::receiver Receiver>
     auto connect(Receiver&& receiver) const -> state<Receiver> {
@@ -238,7 +238,7 @@ To determine if <code>_Receiver_</code> can receive all <a href=‘#completion-s
 <details>
 <summary><code>sends_stopped&lt;<i>Sender, Env</i> = std::execution::empty_env&gt;</code></summary>
 
-The concept <code>sends_stopped&lt;<i>Sender, Env</i>&gt;</code> determines if <code>_Sender_</code> may send a <code><a href=‘#set_stopped’>stopped</a></code> <a href=‘#completion-signals’>completion signal</a>. To do so, the concepts determines if <code><a href=‘#get_completion_signals’>std::execution::get_completion_signals</a>(_sender_, _env_)</code> contains the signatures <code><a href=‘#set_stopped’>std::execution::set_stopped_t</a>()</code>. 
+The concept <code>sends_stopped&lt;<i>Sender, Env</i>&gt;</code> determines if <code>_Sender_</code> may send a <code><a href=‘#set_stopped’>stopped</a></code> <a href=‘#completion-signals’>completion signal</a>. To do so, the concepts determines if <code><a href=‘#get_completion_signals’>std::execution::get_completion_signals</a>(_sender_, _env_)</code> contains the signatures <code><a href=‘#set_stopped’>std::execution::set_stopped_t</a>()</code>.
 </details>
 <details>
 <summary><code>stoppable_token&lt;_Token_&gt;</code></summary>
@@ -284,7 +284,7 @@ void compute(std::stoppable_token auto token)
 <summary>Example: inactive</summary>
 <blockquote>
 This example shows how an <code><a href=‘#operation-state’>operation_state</a></code> can use the <code>callback_type</code> together with a <code>_token_</code> to get notified when cancellation is requested.
-    
+
 ```c++
 template <std::execution::receiver Receiver>
 struct example_state
@@ -328,7 +328,7 @@ struct example_state
             std::execution::set_value(std::move(this->receiver));
         }
     }
-};    
+};
 ```
 </blockquote>
 </details>

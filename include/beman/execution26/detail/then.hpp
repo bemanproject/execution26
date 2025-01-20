@@ -51,6 +51,7 @@ struct then_t : ::beman::execution26::sender_adaptor_closure<then_t<Completion>>
 
 template <typename Completion>
 struct impls_for<then_t<Completion>> : ::beman::execution26::detail::default_impls {
+    // NOLINTBEGIN(bugprone-exception-escape)
     static constexpr auto complete =
         []<typename Tag, typename... Args>(auto, auto& fun, auto& receiver, Tag, Args&&... args) noexcept -> void {
         if constexpr (::std::same_as<Completion, Tag>) {
@@ -66,13 +67,17 @@ struct impls_for<then_t<Completion>> : ::beman::execution26::detail::default_imp
                 if constexpr (not noexcept(::std::invoke(::std::move(fun), ::std::forward<Args>(args)...)
 
                                                )) {
+                    static_assert(
+                        noexcept(::beman::execution26::set_error(::std::move(receiver), ::std::current_exception())));
                     ::beman::execution26::set_error(::std::move(receiver), ::std::current_exception());
                 }
             }
         } else {
+            static_assert(noexcept(Tag()(::std::move(receiver), ::std::forward<Args>(args)...)));
             Tag()(::std::move(receiver), ::std::forward<Args>(args)...);
         }
     };
+    // NOLINTEND(bugprone-exception-escape)
 };
 
 template <typename T>

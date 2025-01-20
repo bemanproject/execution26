@@ -24,7 +24,7 @@ using env_type = ::beman::execution26::detail::call_result_t<
     Index,
     ::beman::execution26::detail::state_type<Sender, Receiver>&,
     const Receiver&>;
-}
+} // namespace beman::execution26::detail
 
 // ----------------------------------------------------------------------------
 

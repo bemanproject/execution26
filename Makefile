@@ -1,48 +1,67 @@
 # Makefile
 # SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
-SANITIZERS = release debug msan asan usan tsan
+MAKEFLAGS+= --no-builtin-rules          # Disable the built-in implicit rules.
+MAKEFLAGS+= --warn-undefined-variables  # Warn when an undefined variable is referenced.
 
-.PHONY: default doc run update check ce todo distclean clean codespell clang-tidy build test all format $(SANITIZERS)
+SANITIZERS := run
+# SANITIZERS = usan # TODO: lsan
+# OS := $(shell /usr/bin/uname)
+# ifeq ($(OS),Darwin)
+#     SANITIZERS += tsan # TODO: asan
+# endif
+# ifeq ($(OS),Linux)
+#     SANITIZERS += asan # TODO: tsan msan
+# endif
 
-COMPILER=system
+.PHONY: default release debug doc run update check ce todo distclean clean codespell clang-tidy build test install all format unstage $(SANITIZERS)
+
+SYSROOT   ?=
+TOOLCHAIN ?=
+
+COMPILER=c++
 CXX_BASE=$(CXX:$(dir $(CXX))%=%)
 ifeq ($(CXX_BASE),g++)
-    COMPILER=gcc
+    COMPILER=g++
 endif
 ifeq ($(CXX_BASE),clang++)
-    COMPILER=clang
+    COMPILER=clang++
 endif
 
-CXX_FLAGS = -g
-SANITIZER = release
+LDFLAGS   ?=
+SAN_FLAGS ?=
+CXX_FLAGS ?= -g
+SANITIZER ?= default
 SOURCEDIR = $(CURDIR)
 BUILDROOT = build
 BUILD     = $(BUILDROOT)/$(SANITIZER)
 EXAMPLE   = beman.execution26.examples.stop_token
-CMAKE_C_COMPILER=$(COMPILER)
 CMAKE_CXX_COMPILER=$(COMPILER)
 
 ifeq ($(SANITIZER),release)
-    CXX_FLAGS = -O3 -pedantic -Wall -Wextra -Werror
+    CXX_FLAGS = -O3 -Wpedantic -Wall -Wextra -Wno-shadow -Werror
 endif
 ifeq ($(SANITIZER),debug)
     CXX_FLAGS = -g
 endif
 ifeq ($(SANITIZER),msan)
     SAN_FLAGS = -fsanitize=memory
+    LDFLAGS = $(SAN_FLAGS)
 endif
 ifeq ($(SANITIZER),asan)
     SAN_FLAGS = -fsanitize=address -fsanitize=pointer-compare -fsanitize=pointer-subtract -fsanitize-address-use-after-scope
 endif
 ifeq ($(SANITIZER),usan)
     SAN_FLAGS = -fsanitize=undefined
+    LDFLAGS = $(SAN_FLAGS)
 endif
 ifeq ($(SANITIZER),tsan)
     SAN_FLAGS = -fsanitize=thread
+    LDFLAGS = $(SAN_FLAGS)
 endif
 ifeq ($(SANITIZER),lsan)
     SAN_FLAGS = -fsanitize=leak
+    LDFLAGS = $(SAN_FLAGS)
 endif
 
 default: test
@@ -55,18 +74,28 @@ run: test
 doc:
 	doxygen docs/Doxyfile
 
-release: test
-
-$(SANITIZERS):
-	$(MAKE) SANITIZER=$@
+# $(SANITIZERS):
+# 	$(MAKE) SANITIZER=$@
 
 build:
-	@mkdir -p $(BUILD)
-	cd $(BUILD); CC=$(CXX) cmake $(SOURCEDIR) $(TOOLCHAIN) $(SYSROOT) -DCMAKE_CXX_COMPILER=$(CXX) -DCMAKE_CXX_FLAGS="$(CXX_FLAGS) $(SAN_FLAGS)"
+	CC=$(CXX) cmake --fresh -G Ninja -S $(SOURCEDIR) -B  $(BUILD) $(TOOLCHAIN) $(SYSROOT) \
+	  -D CMAKE_EXPORT_COMPILE_COMMANDS=1 \
+	  -D CMAKE_SKIP_INSTALL_RULES=1 \
+	  -D CMAKE_CXX_COMPILER=$(CXX) # XXX -D CMAKE_CXX_FLAGS="$(CXX_FLAGS) $(SAN_FLAGS)"
 	cmake --build $(BUILD)
 
-test:
-	cmake --workflow --preset $(SANITIZER)
+# NOTE: without install! CK
+test: build
+	ctest --test-dir $(BUILD) --rerun-failed --output-on-failure
+
+install: test
+	cmake --install $(BUILD) --prefix /opt/local
+
+release:
+	cmake --workflow --preset $@ --fresh
+
+debug:
+	cmake --workflow --preset $@ --fresh
 
 ce:
 	@mkdir -p $(BUILD)
@@ -83,8 +112,9 @@ check:
 		< $$h sed -n "/^ *# *include <Beman\//s@.*[</]Beman/\(.*\).hpp>.*@$$from \1@p"; \
 	done | tsort > /dev/null
 
-clang-tidy: build/$(SANITIZER)/compile_commands.json
-	run-clang-tidy -p build/$(SANITIZER) tests
+build/$(SANITIZER)/compile_commands.json: $(SANITIZER)
+clang-tidy: $(BUILD)/compile_commands.json
+	run-clang-tidy -p $(BUILD) tests examples
 
 codespell:
 	codespell -L statics,snd,copyable,cancelled
@@ -100,12 +130,15 @@ clang-format:
 todo:
 	bin/mk-todo.py
 
+unstage:
+	git restore --staged tests/beman/execution26/CMakeLists.txt
+
 .PHONY: clean-doc
 clean-doc:
 	$(RM) -r docs/html docs/latex
 
 clean: clean-doc
-	$(RM) -r $(BUILD) 
+	$(RM) -r $(BUILD)
 	$(RM) mkerr olderr *~
 
 distclean: clean

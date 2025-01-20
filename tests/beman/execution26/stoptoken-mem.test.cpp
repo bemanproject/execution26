@@ -16,7 +16,7 @@ auto test_stop_token_swap() -> void {
     // - Then the tokens compare equal to the respective other member.
     // Reference: [stoptoken.mem] p1
 
-    ::test_std::stop_source s0, s1;
+    ::test_std::stop_source                 s0, s1;
     ::std::array<::test_std::stop_token, 2> pair0 = {s0.get_token(), s0.get_token()};
     ::std::array<::test_std::stop_token, 2> pair1 = {s1.get_token(), s1.get_token()};
 

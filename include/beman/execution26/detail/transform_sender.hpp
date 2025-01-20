@@ -16,9 +16,9 @@ template <typename Domain, ::beman::execution26::sender Sender, typename... Env>
             requires(Domain dom, Sender&& sender, const Env&... env) {
                 dom.transform_sender(::std::forward<Sender>(sender), env...);
             } &&
-            (::std::same_as<
-                ::std::remove_cvref_t<Sender>,
-                std::remove_cvref_t<decltype(::std::declval<Domain>().transform_sender(::std::declval<Sender>()))>>)
+            (::std::same_as<::std::remove_cvref_t<Sender>,
+                            std::remove_cvref_t<decltype(::std::declval<Domain>().transform_sender(
+                                ::std::declval<Sender>(), ::std::declval<const Env&>()...))>>)
 constexpr auto transform_sender(Domain, Sender&& sender, const Env&...) noexcept -> ::beman::execution26::sender auto {
     return ::std::forward<Sender>(sender);
 }
@@ -28,9 +28,9 @@ template <typename Domain, ::beman::execution26::sender Sender, typename... Env>
             requires(Domain dom, Sender&& sender, const Env&... env) {
                 dom.transform_sender(::std::forward<Sender>(sender), env...);
             } &&
-            (not::std::same_as<
-                ::std::remove_cvref_t<Sender>,
-                std::remove_cvref_t<decltype(::std::declval<Domain>().transform_sender(::std::declval<Sender>()))>>)
+            (not::std::same_as<::std::remove_cvref_t<Sender>,
+                               std::remove_cvref_t<decltype(::std::declval<Domain>().transform_sender(
+                                   ::std::declval<Sender>(), ::std::declval<const Env&>()...))>>)
 constexpr auto transform_sender(Domain dom, Sender&& sender, const Env&... env) noexcept
     -> ::beman::execution26::sender decltype(auto) {
     return ::beman::execution26::detail::transform_sender(
@@ -60,7 +60,6 @@ template <typename Domain, ::beman::execution26::sender Sender, typename... Env>
 constexpr auto transform_sender(Domain dom, Sender&& sender, const Env&... env) noexcept(noexcept(
     ::beman::execution26::default_domain{}.transform_sender(::std::declval<Sender>(), ::std::declval<Env>()...)))
     -> ::beman::execution26::sender decltype(auto) {
-    (void)dom;
     return ::beman::execution26::detail::transform_sender(
         dom, ::beman::execution26::default_domain{}.transform_sender(::std::forward<Sender>(sender), env...), env...);
 }
@@ -72,9 +71,9 @@ template <typename Domain, ::beman::execution26::sender Sender, typename... Env>
             requires(Domain dom, Sender&& sender, const Env&... env) {
                 dom.transform_sender(::std::forward<Sender>(sender), env...);
             } &&
-            (::std::same_as<
-                ::std::remove_cvref_t<Sender>,
-                std::remove_cvref_t<decltype(::std::declval<Domain>().transform_sender(::std::declval<Sender>()))>>)
+            (::std::same_as<::std::remove_cvref_t<Sender>,
+                            std::remove_cvref_t<decltype(::std::declval<Domain>().transform_sender(
+                                ::std::declval<Sender>(), ::std::declval<const Env&>()...))>>)
 constexpr auto transform_sender(Domain, Sender&& sender, const Env&...) noexcept -> ::beman::execution26::sender
     decltype(auto) {
     return ::std::forward<Sender>(sender);
@@ -85,9 +84,9 @@ template <typename Domain, ::beman::execution26::sender Sender, typename... Env>
             requires(Domain dom, Sender&& sender, const Env&... env) {
                 dom.transform_sender(::std::forward<Sender>(sender), env...);
             } &&
-            (not::std::same_as<
-                ::std::remove_cvref_t<Sender>,
-                std::remove_cvref_t<decltype(::std::declval<Domain>().transform_sender(::std::declval<Sender>()))>>)
+            (not::std::same_as<::std::remove_cvref_t<Sender>,
+                               std::remove_cvref_t<decltype(::std::declval<Domain>().transform_sender(
+                                   ::std::declval<Sender>(), ::std::declval<const Env&>()...))>>)
 constexpr auto transform_sender(Domain dom, Sender&& sender, const Env&... env) noexcept
     -> ::beman::execution26::sender auto {
     return ::beman::execution26::detail::transform_sender(

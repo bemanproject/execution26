@@ -21,7 +21,7 @@ namespace beman::execution26::detail {
 struct no_completion_signatures_defined_in_sender {};
 
 /*!
- * \brief Primary template declaration for the customisation of sender completion signatures.
+ * \brief Primary template declaration for the customization of sender completion signatures.
  * \headerfile beman/execution26/execution.hpp <beman/execution26/execution.hpp>
  * \internal
  */

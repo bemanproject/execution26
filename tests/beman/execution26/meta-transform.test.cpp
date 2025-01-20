@@ -21,7 +21,7 @@ struct baz {
 };
 template <typename T>
 using baz_t = typename baz<T>::type;
-;
+
 } // namespace
 
 TEST(meta_transform) {

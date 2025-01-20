@@ -20,8 +20,8 @@ namespace beman::execution26::detail {
  */
 template <typename Sender, typename Receiver>
 struct basic_state {
-    basic_state(Sender&& sender, Receiver&& receiver) noexcept(true)
-        : receiver(::std::move(receiver)),
+    basic_state(Sender&& sender, Receiver&& rcvr) noexcept(true)
+        : receiver(::std::move(rcvr)),
           state(::beman::execution26::detail::impls_for< ::beman::execution26::tag_of_t<Sender> >::get_state(
               ::std::forward<Sender>(sender), this->receiver)) {}
 

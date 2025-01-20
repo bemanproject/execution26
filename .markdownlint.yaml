@@ -1,0 +1,9 @@
+# MD033/no-inline-html : Inline HTML : https://github.com/DavidAnson/markdownlint/blob/v0.35.0/doc/md033.md
+# Disable inline html linter is needed for <details> <summary>
+MD033: false
+
+# MD013/line-length : Line length : https://github.com/DavidAnson/markdownlint/blob/v0.35.0/doc/md013.md
+# Conforms to .clang-format ColumnLimit
+# Update the comment in .clang-format if we no-longer tie these two column limits.
+MD013:
+  line_length: 119

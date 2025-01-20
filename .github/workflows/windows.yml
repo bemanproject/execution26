@@ -9,7 +9,10 @@ on:
     paths:
       - "include/**"
       - "src/**"
-      - "test/**"
+      - "tests/**"
+      - "examples/**"
+      - "cmake/**"
+      - "CMakePresets.json"
       - "CMakeLists.txt"
       - ".github/workflows/windows.yml"
   pull_request:
@@ -17,7 +20,10 @@ on:
     paths:
       - "include/**"
       - "src/**"
-      - "test/**"
+      - "tests/**"
+      - "examples/**"
+      - "cmake/**"
+      - "CMakePresets.json"
       - "CMakeLists.txt"
       - ".github/workflows/windows.yml"
 
@@ -28,8 +34,7 @@ jobs:
       fail-fast: false
 
       matrix:
-        # TODO: sanitizer: [debug, release]
-        sanitizer: [release]
+        preset: [debug, release]
         # TODO: compiler: [cl, clang-cl]
         compiler: [cl]
 
@@ -44,18 +49,18 @@ jobs:
       # - name: build environment
       #   run: pip install -r requirements.txt
 
-      - name: cmake workflow ${{ matrix.sanitizer }}
+      - name: cmake workflow ${{ matrix.preset }}
         shell: bash
         run: |
           cmake --version
           ninja --version
-          CXX=${{ matrix.compiler }} cmake --workflow --preset ${{ matrix.sanitizer }}
+          CXX=${{ matrix.compiler }} cmake --workflow --preset ${{ matrix.preset }}
 
       # - name: configure
-      #   run: CXX=${{ matrix.compiler }} cmake --preset ${{ matrix.sanitizer }}
+      #   run: CXX=${{ matrix.compiler }} cmake --preset ${{ matrix.preset }}
 
       # - name: build
-      #   run: cmake --build --preset ${{ matrix.sanitizer }}
+      #   run: cmake --build --preset ${{ matrix.preset }}
 
       # - name: ctest
-      #   run: ctest --preset ${{ matrix.sanitizer }}
+      #   run: ctest --preset ${{ matrix.preset }}

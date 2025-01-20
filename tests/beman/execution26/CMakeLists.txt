@@ -11,6 +11,7 @@ endif()
 list(
   APPEND
   execution_tests
+  exec-on.test
   notify.test
   exec-scounting.test
   exec-awaitable.test
@@ -49,10 +50,12 @@ list(
   exec-snd-expos.test
   exec-snd-transform.test
   exec-starts-on.test
+  exec-split.test
   exec-sync-wait.test
   exec-then.test
   exec-utils-cmplsigs.test
   exec-when-all.test
+  exec-with-awaitable-senders.test
   execution-queryable-concept.test
   execution-syn.test
   forward-like.test
@@ -122,11 +125,11 @@ remove_definitions(-DNDEBUG) # NOTE: we want ASSERT statements in Release too! C
 foreach(test ${execution_tests})
   set(TEST_EXE ${TARGET_PREFIX}.${test})
   add_executable(${TEST_EXE} ${test}.cpp)
-  target_link_libraries(${TEST_EXE} PRIVATE beman_execution26::beman_execution26)
+  target_link_libraries(${TEST_EXE} PRIVATE beman::execution26)
   add_test(NAME ${TEST_EXE} COMMAND $<TARGET_FILE:${TEST_EXE}>)
 endforeach()
 
-if(NOT PROJECT_IS_TOP_LEVEL)
+if(NOT PROJECT_IS_TOP_LEVEL AND BEMAN_EXECUTION26_ENABLE_TESTING)
   # test if the targets are findable from the build directory
   # cmake-format: off
   add_test(NAME find-package-test

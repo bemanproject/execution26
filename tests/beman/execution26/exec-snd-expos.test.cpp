@@ -99,7 +99,7 @@ template <typename Receiver>
 struct operation_state : test_detail::immovable {
     using operation_state_concept = test_std::operation_state_t;
     int* counter;
-    explicit operation_state(int* counter) : counter(counter) {}
+    explicit operation_state(int* cntr) : counter(cntr) {}
     auto start() & noexcept -> void { ++*counter; }
 };
 
@@ -437,7 +437,7 @@ struct get_domain_late_scheduler {
     };
     struct sender {
         using sender_concept = test_std::sender_t;
-        auto get_env() const noexcept -> env { return {}; };
+        auto get_env() const noexcept -> env { return {}; }
     };
     using scheduler_concept = test_std::scheduler_t;
     auto schedule() noexcept -> sender { return {}; }
@@ -499,39 +499,39 @@ auto test_get_domain_late() -> void {
 }
 
 auto test_default_impls_get_attrs() -> void {
-    struct env {
+    struct local_env {
         int value;
     };
     struct child1 {
-        auto get_env() const noexcept { return env{1}; }
+        auto get_env() const noexcept { return local_env{1}; }
     };
     struct child2 {
-        auto get_env() const noexcept { return env{2}; }
+        auto get_env() const noexcept { return local_env{2}; }
     };
 
     static_assert(noexcept(test_detail::default_impls::get_attrs(0, child1{})));
     static_assert(
-        std::same_as<test_detail::fwd_env<env>, decltype(test_detail::default_impls::get_attrs(0, child1{}))>);
+        std::same_as<test_detail::fwd_env<local_env>, decltype(test_detail::default_impls::get_attrs(0, child1{}))>);
     // static_assert(std::same_as<test_std::empty_env,
     //     decltype(test_detail::default_impls::get_attrs(0, child1{}, child2{}))>);
 }
 
 auto test_default_impls_get_env() -> void {
-    struct env {
+    struct local_env {
         int value;
     };
-    struct receiver {
-        auto get_env() const noexcept { return env{1}; }
+    struct local_receiver {
+        auto get_env() const noexcept { return local_env{1}; }
     };
 
     int arg{};
-    static_assert(noexcept(test_detail::default_impls::get_env(0, arg, receiver{})));
-    static_assert(
-        std::same_as<test_detail::fwd_env<env>, decltype(test_detail::default_impls::get_env(0, arg, receiver{}))>);
+    static_assert(noexcept(test_detail::default_impls::get_env(0, arg, local_receiver{})));
+    static_assert(std::same_as<test_detail::fwd_env<local_env>,
+                               decltype(test_detail::default_impls::get_env(0, arg, local_receiver{}))>);
 }
 
 auto test_default_impls_get_state() -> void {
-    struct tag {
+    struct local_tag {
         static auto name() { return "test_default_impls_get_state"; }
     };
     struct data {
@@ -539,52 +539,52 @@ auto test_default_impls_get_state() -> void {
         int  v2{};
         auto operator==(const data&) const -> bool = default;
     };
-    struct sender0 {
-        tag  t{};
-        data d{1, 2};
+    struct local_sender0 {
+        local_tag t{};
+        data      d{1, 2};
     };
-    struct sender1 {
-        tag  t{};
-        data d{1, 2};
-        int  i1{};
+    struct local_sender1 {
+        local_tag t{};
+        data      d{1, 2};
+        int       i1{};
     };
-    struct sender2 {
-        tag  t{};
-        data d{1, 2};
-        int  i1{};
-        int  i2{};
+    struct local_sender2 {
+        local_tag t{};
+        data      d{1, 2};
+        int       i1{};
+        int       i2{};
     };
-    struct sender3 {
-        tag  t{};
-        data d{1, 2};
-        int  i1{};
-        int  i2{};
-        int  i3{};
+    struct local_sender3 {
+        local_tag t{};
+        data      d{1, 2};
+        int       i1{};
+        int       i2{};
+        int       i3{};
     };
-    struct sender4 {
-        tag  t{};
-        data d{1, 2};
-        int  i1{};
-        int  i2{};
-        int  i3{};
-        int  i4{};
+    struct local_sender4 {
+        local_tag t{};
+        data      d{1, 2};
+        int       i1{};
+        int       i2{};
+        int       i3{};
+        int       i4{};
     };
-    struct receiver {};
+    struct local_receiver {};
 
-    sender0       s{};
-    const sender0 cs{};
-    receiver      r{};
-    static_assert(noexcept(test_detail::default_impls::get_state(sender0{}, r)));
-    static_assert(std::same_as<data&&, decltype(test_detail::default_impls::get_state(sender0{}, r))>);
-    ASSERT((data{1, 2}) == test_detail::default_impls::get_state(sender0{}, r));
-    static_assert(std::same_as<data&&, decltype(test_detail::default_impls::get_state(sender1{}, r))>);
-    ASSERT((data{1, 2}) == test_detail::default_impls::get_state(sender1{}, r));
-    static_assert(std::same_as<data&&, decltype(test_detail::default_impls::get_state(sender2{}, r))>);
-    ASSERT((data{1, 2}) == test_detail::default_impls::get_state(sender2{}, r));
-    static_assert(std::same_as<data&&, decltype(test_detail::default_impls::get_state(sender3{}, r))>);
-    ASSERT((data{1, 2}) == test_detail::default_impls::get_state(sender3{}, r));
-    static_assert(std::same_as<data&&, decltype(test_detail::default_impls::get_state(sender4{}, r))>);
-    ASSERT((data{1, 2}) == test_detail::default_impls::get_state(sender4{}, r));
+    local_sender0       s{};
+    const local_sender0 cs{};
+    local_receiver      r{};
+    static_assert(noexcept(test_detail::default_impls::get_state(local_sender0{}, r)));
+    static_assert(std::same_as<data&&, decltype(test_detail::default_impls::get_state(local_sender0{}, r))>);
+    ASSERT((data{1, 2}) == test_detail::default_impls::get_state(local_sender0{}, r));
+    static_assert(std::same_as<data&&, decltype(test_detail::default_impls::get_state(local_sender1{}, r))>);
+    ASSERT((data{1, 2}) == test_detail::default_impls::get_state(local_sender1{}, r));
+    static_assert(std::same_as<data&&, decltype(test_detail::default_impls::get_state(local_sender2{}, r))>);
+    ASSERT((data{1, 2}) == test_detail::default_impls::get_state(local_sender2{}, r));
+    static_assert(std::same_as<data&&, decltype(test_detail::default_impls::get_state(local_sender3{}, r))>);
+    ASSERT((data{1, 2}) == test_detail::default_impls::get_state(local_sender3{}, r));
+    static_assert(std::same_as<data&&, decltype(test_detail::default_impls::get_state(local_sender4{}, r))>);
+    ASSERT((data{1, 2}) == test_detail::default_impls::get_state(local_sender4{}, r));
     static_assert(std::same_as<data&, decltype(test_detail::default_impls::get_state(s, r))>);
     static_assert(std::same_as<const data&, decltype(test_detail::default_impls::get_state(cs, r))>);
 }
@@ -616,16 +616,16 @@ auto test_default_impls_start() -> void {
 template <typename Impls>
 auto test_default_impls_complete(Impls) -> void {
     struct arg {};
-    struct receiver {
+    struct local_receiver {
         bool& called;
     };
     struct state {};
 
-    bool     called{false};
-    auto     non_tag = [](receiver&&, int) {};
-    auto     tag     = [](receiver&& r, int, arg) { r.called = true; };
-    receiver r{called};
-    state    s{};
+    bool           called{false};
+    auto           non_tag = [](local_receiver&&, int) {};
+    auto           tag     = [](local_receiver&& r, int, arg) { r.called = true; };
+    local_receiver r{called};
+    state          s{};
 
     static_assert(not requires { Impls::complete(::std::integral_constant<int, 0>{}, s, r, non_tag, 0, arg{}); });
     static_assert(requires { Impls::complete(::std::integral_constant<int, 0>{}, s, r, tag, 0, arg{}); });
@@ -645,39 +645,39 @@ auto test_default_impls() -> void {
 }
 
 auto test_impls_for() -> void {
-    struct tag {
+    struct local_tag {
         static auto name() { return "test_impls_for"; }
     };
 
-    static_assert(std::derived_from<test_detail::impls_for<tag>, test_detail::default_impls>);
+    static_assert(std::derived_from<test_detail::impls_for<local_tag>, test_detail::default_impls>);
 }
 
 auto test_state_type() -> void {
-    struct tag {
+    struct local_tag {
         static auto name() { return "test_state_type"; }
     };
     struct state {};
     struct sender {
-        tag   t;
-        state s;
+        local_tag t;
+        state     s;
     };
-    struct receiver {};
+    struct local_receiver {};
 
-    static_assert(std::same_as<state, test_detail::state_type<sender, receiver>>);
+    static_assert(std::same_as<state, test_detail::state_type<sender, local_receiver>>);
 }
 
 auto test_basic_state() -> void {
-    struct tag {
+    struct local_tag {
         static auto name() { return "test_basic_state"; }
     };
     struct data {};
-    struct sender {
-        tag  t;
-        data d;
+    struct local_sender {
+        local_tag t;
+        data      d;
     };
-    struct receiver {};
+    struct local_receiver {};
 
-    test_detail::basic_state<sender, receiver> state(sender{}, receiver{});
+    test_detail::basic_state<local_sender, local_receiver> state(local_sender{}, local_receiver{});
 }
 
 auto test_indices_for() -> void {
@@ -704,36 +704,37 @@ auto test_valid_specialization() -> void {
 
 auto test_env_type() -> void {
     using index = std::integral_constant<int, 0>;
-    struct tag {
+    struct local_tag {
         static auto name() { return "test_env_type"; }
     };
     struct data {};
-    struct env {};
-    struct sender {
-        tag  t;
-        data d;
+    struct local_env {};
+    struct local_sender {
+        local_tag t;
+        data      d;
     };
     struct sender_with_env {
-        tag  t;
-        data d;
-        auto get_env() const noexcept -> env { return {}; }
+        local_tag t;
+        data      d;
+        auto      get_env() const noexcept -> local_env { return {}; }
     };
-    struct receiver {};
+    struct local_receiver {};
     struct receiver_with_env {
-        auto get_env() const noexcept -> env { return {}; }
+        auto get_env() const noexcept -> local_env { return {}; }
     };
 
-    static_assert(
-        std::same_as<test_detail::fwd_env<test_std::empty_env>, test_detail::env_type<index, sender, receiver>>);
     static_assert(std::same_as<test_detail::fwd_env<test_std::empty_env>,
-                               test_detail::env_type<index, sender_with_env, receiver>>);
-    static_assert(std::same_as<test_detail::fwd_env<env>, test_detail::env_type<index, sender, receiver_with_env>>);
+                               test_detail::env_type<index, local_sender, local_receiver>>);
+    static_assert(std::same_as<test_detail::fwd_env<test_std::empty_env>,
+                               test_detail::env_type<index, sender_with_env, local_receiver>>);
+    static_assert(
+        std::same_as<test_detail::fwd_env<local_env>, test_detail::env_type<index, local_sender, receiver_with_env>>);
 }
 
 template <typename T>
 auto test_basic_receiver() -> void {
     using index = std::integral_constant<int, 0>;
-    struct tag {
+    struct local_tag {
         static auto name() { return "test_basic_receiver"; }
     };
     struct data {};
@@ -741,31 +742,32 @@ auto test_basic_receiver() -> void {
         int  value{};
         auto operator==(const err&) const -> bool = default;
     };
-    struct sender {
-        tag  t{};
-        data d{};
+    struct local_sender {
+        local_tag t{};
+        data      d{};
     };
-    struct receiver {
+    struct local_receiver {
         T    value{};
         err  error{};
         bool stopped{};
 
         auto set_value(T val) noexcept { this->value = val; }
-        auto set_error(err error) noexcept { this->error = error; }
+        auto set_error(err e) noexcept { this->error = e; }
         auto set_stopped() noexcept { this->stopped = true; }
     };
     struct unstoppable_receiver {
         T value;
     };
-    using basic_receiver = test_detail::basic_receiver<sender, receiver, index>;
+    using basic_receiver = test_detail::basic_receiver<local_sender, local_receiver, index>;
     static_assert(test_std::receiver<basic_receiver>);
-    static_assert(std::same_as<tag, typename basic_receiver::tag_t>);
-    static_assert(std::same_as<test_detail::state_type<sender, receiver>, typename basic_receiver::state_t>);
+    static_assert(std::same_as<local_tag, typename basic_receiver::tag_t>);
+    static_assert(
+        std::same_as<test_detail::state_type<local_sender, local_receiver>, typename basic_receiver::state_t>);
     ASSERT(&basic_receiver::complete == &test_detail::default_impls::complete);
 
     {
-        test_detail::basic_state<sender, receiver> op(sender{}, receiver{});
-        basic_receiver                             br{&op};
+        test_detail::basic_state<local_sender, local_receiver> op(local_sender{}, local_receiver{});
+        basic_receiver                                         br{&op};
         static_assert(not requires { test_std::set_value(std::move(br)); });
         static_assert(not requires { test_std::set_value(std::move(br), 42, 1); });
         static_assert(requires { test_std::set_value(std::move(br), 42); });
@@ -775,8 +777,8 @@ auto test_basic_receiver() -> void {
         ASSERT(op.receiver.value == 42);
     }
     {
-        test_detail::basic_state<sender, receiver> op(sender{}, receiver{});
-        basic_receiver                             br{&op};
+        test_detail::basic_state<local_sender, local_receiver> op(local_sender{}, local_receiver{});
+        basic_receiver                                         br{&op};
         static_assert(not requires { test_std::set_error(std::move(br)); });
         static_assert(not requires { test_std::set_error(std::move(br), 0); });
         static_assert(requires { test_std::set_error(std::move(br), err{42}); });
@@ -786,8 +788,8 @@ auto test_basic_receiver() -> void {
         ASSERT(op.receiver.error == err{42});
     }
     {
-        test_detail::basic_state<sender, receiver> op(sender{}, receiver{});
-        basic_receiver                             br{&op};
+        test_detail::basic_state<local_sender, local_receiver> op(local_sender{}, local_receiver{});
+        basic_receiver                                         br{&op};
         static_assert(requires { test_std::set_stopped(std::move(br)); });
         static_assert(noexcept(test_std::set_stopped(std::move(br))));
         ASSERT(op.receiver.stopped == false);
@@ -795,8 +797,8 @@ auto test_basic_receiver() -> void {
         ASSERT(op.receiver.stopped == true);
     }
     {
-        test_detail::basic_state<sender, unstoppable_receiver>           op(sender{}, unstoppable_receiver{});
-        test_detail::basic_receiver<sender, unstoppable_receiver, index> br{&op};
+        test_detail::basic_state<local_sender, unstoppable_receiver> op(local_sender{}, unstoppable_receiver{});
+        test_detail::basic_receiver<local_sender, unstoppable_receiver, index> br{&op};
         static_assert(not requires { std::move(br).set_stopped(); });
     }
     //-dk:TODO test basic_receiver::get_env
@@ -815,7 +817,7 @@ auto test_completion_tag() -> void {
 auto test_product_type() -> void {
     struct nm {
         int value{};
-        explicit nm(int value) : value(value) {}
+        explicit nm(int val) : value(val) {}
         nm(nm&&)                                 = delete;
         nm(const nm&)                            = delete;
         ~nm()                                    = default;
@@ -856,6 +858,27 @@ auto test_product_type() -> void {
     ASSERT(p5.get<2>() == nm(3));
     ASSERT(p5.get<3>() == nm(4));
     ASSERT(p5.get<4>() == nm(5));
+
+    test_detail::product_type prod{1, true, 'c'};
+    static_assert(test_detail::is_product_type_c<decltype(prod)>);
+    static_assert(3u == std::tuple_size<decltype(prod)>::value);
+    static_assert(std::same_as<int, std::tuple_element<0u, decltype(prod)>::type>);
+    static_assert(std::same_as<bool, std::tuple_element<1u, decltype(prod)>::type>);
+    static_assert(std::same_as<char, std::tuple_element<2u, decltype(prod)>::type>);
+    auto&& [i, b, c] = prod;
+    test::use(i, b, c);
+
+    struct derived : decltype(prod) {};
+    static_assert(3u == std::tuple_size<derived>::value);
+    static_assert(std::same_as<int, std::tuple_element<0u, derived>::type>);
+    static_assert(std::same_as<bool, std::tuple_element<1u, derived>::type>);
+    static_assert(std::same_as<char, std::tuple_element<2u, derived>::type>);
+    derived d{1, true, 'c'};
+    auto&& [di, db, dc] = d;
+    assert(di == d.get<0>());
+    assert(db == d.get<1>());
+    assert(dc == d.get<2>());
+    test::use(di, db, dc);
 }
 auto test_connect_all() -> void {
     static_assert(test_std::operation_state<operation_state<receiver>>);
@@ -995,7 +1018,7 @@ auto test_basic_operation() -> void {
 
 auto test_completion_signatures_for() -> void {
     struct arg {};
-    struct env {};
+    struct local_env {};
     struct bad_env {};
     struct sender {
         using sender_concept = test_std::sender_t;
@@ -1003,11 +1026,11 @@ auto test_completion_signatures_for() -> void {
         using env_sigs       = test_std::completion_signatures<test_std::set_value_t(arg, arg)>;
 
         auto get_completion_signatures(const test_std::empty_env&) -> empty_env_sigs { return {}; }
-        auto get_completion_signatures(const env&) -> env_sigs { return {}; }
+        auto get_completion_signatures(const local_env&) -> env_sigs { return {}; }
     };
 
     static_assert(test_std::sender_in<sender, test_std::empty_env>);
-    static_assert(test_std::sender_in<sender, env>);
+    static_assert(test_std::sender_in<sender, local_env>);
     static_assert(not test_std::sender_in<sender, bad_env>);
 
 #if 0
@@ -1017,7 +1040,7 @@ auto test_completion_signatures_for() -> void {
             sender::empty_env_sigs
         >);
         static_assert(std::same_as<
-            test_detail::completion_signatures_for<sender, env>,
+            test_detail::completion_signatures_for<sender, local_env>,
             sender::env_sigs
         >);
 #endif
@@ -1059,7 +1082,7 @@ struct tuple_element<I, tagged_sender> {
 } // namespace std
 namespace {
 auto test_basic_sender() -> void {
-    struct env {};
+    struct local_env {};
 
     {
         auto&& [a, b, c] = tagged_sender{basic_sender_tag{}, data{}, sender0{}};
@@ -1071,13 +1094,13 @@ auto test_basic_sender() -> void {
 
     static_assert(test_std::sender<basic_sender_tag::sender>);
     static_assert(test_std::sender_in<basic_sender_tag::sender>);
-    static_assert(test_std::sender_in<basic_sender_tag::sender, env>);
+    static_assert(test_std::sender_in<basic_sender_tag::sender, local_env>);
     static_assert(test_std::operation_state<basic_sender_tag::state<receiver>>);
     static_assert(test_std::sender<tagged_sender>);
     static_assert(std::same_as<basic_sender_tag, test_std::tag_of_t<tagged_sender>>);
     static_assert(
         std::same_as<basic_sender_tag::sender,
-                     decltype(test_std::transform_sender(test_std::default_domain{}, tagged_sender{}, env{}))>);
+                     decltype(test_std::transform_sender(test_std::default_domain{}, tagged_sender{}, local_env{}))>);
 
     using basic_sender = test_detail::basic_sender<basic_sender_tag, data, sender0>;
     static_assert(test_std::sender<basic_sender>);
@@ -1093,7 +1116,7 @@ auto test_basic_sender() -> void {
     static_assert(std::same_as<basic_sender_tag, test_std::tag_of_t<basic_sender>>);
     static_assert(
         std::same_as<basic_sender_tag::sender,
-                     decltype(test_std::transform_sender(test_std::default_domain{}, basic_sender{}, env{}))>);
+                     decltype(test_std::transform_sender(test_std::default_domain{}, basic_sender{}, local_env{}))>);
     static_assert(test_std::sender_in<basic_sender>);
 #if 0
         //-dk:TODO restore completion_sigatures_for test
@@ -1251,11 +1274,11 @@ auto test_write_env() -> void {
 template <typename... T>
 struct child_sender : test_detail::product_type<T...> {};
 auto test_child_type() -> void {
-    static_assert(std::same_as<int, test_detail::child_type<child_sender<bool, char, int, double>>>);
-    static_assert(std::same_as<int&, test_detail::child_type<child_sender<bool, char, int, double>>&>);
-    static_assert(std::same_as<const int&, const test_detail::child_type<child_sender<bool, char, int, double>>&>);
-    static_assert(std::same_as<int, test_detail::child_type<child_sender<bool, char, int, double>, 0>>);
-    static_assert(std::same_as<double, test_detail::child_type<child_sender<bool, char, int, double>, 1>>);
+    static_assert(std::same_as<int&&, test_detail::child_type<child_sender<bool, char, int, double>>>);
+    static_assert(std::same_as<int&, test_detail::child_type<child_sender<bool, char, int, double>&>>);
+    static_assert(std::same_as<const int&, test_detail::child_type<const child_sender<bool, char, int, double>&>>);
+    static_assert(std::same_as<int&&, test_detail::child_type<child_sender<bool, char, int, double>, 0>>);
+    static_assert(std::same_as<double&&, test_detail::child_type<child_sender<bool, char, int, double>, 1>>);
 }
 } // namespace
 

@@ -27,6 +27,8 @@ struct single_sender_value_type_helper<Sender, Env> {
 
 template <typename Sender, typename Env>
     requires ::std::same_as<::std::variant<::std::tuple<>>,
+                            ::beman::execution26::value_types_of_t<Sender, Env, ::std::tuple, ::std::variant>> ||
+             ::std::same_as<::std::variant<>,
                             ::beman::execution26::value_types_of_t<Sender, Env, ::std::tuple, ::std::variant>>
 struct single_sender_value_type_helper<Sender, Env> {
     using type = void;
@@ -48,7 +50,7 @@ struct single_sender_value_type_helper<Sender, Env> {
 };
 
 template <typename Sender, typename Env>
-using single_sender_value_type = single_sender_value_type_helper<Sender, Env>::type;
+using single_sender_value_type = typename single_sender_value_type_helper<Sender, Env>::type;
 } // namespace beman::execution26::detail
 
 // ----------------------------------------------------------------------------

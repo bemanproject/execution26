@@ -9,7 +9,11 @@ on:
     paths:
       - "include/**"
       - "src/**"
-      - "test/**"
+      - "tests/**"
+      - "examples/**"
+      - "cmake/**"
+      - "Makefile"
+      - "CMakePresets.json"
       - "CMakeLists.txt"
       - ".github/workflows/linux.yml"
   pull_request:
@@ -17,7 +21,11 @@ on:
     paths:
       - "include/**"
       - "src/**"
-      - "test/**"
+      - "tests/**"
+      - "examples/**"
+      - "cmake/**"
+      - "Makefile"
+      - "CMakePresets.json"
       - "CMakeLists.txt"
       - ".github/workflows/linux.yml"
 
@@ -28,8 +36,8 @@ jobs:
       fail-fast: false
 
       matrix:
-        # TODO: sanitizer: [debug, release, asan, usan, tsan]
-        sanitizer: [debug, release]
+        # TODO: sanitizer: [debug, release, asan, usan, tsan, lsan, msan]
+        preset: [debug, release]
         compiler: [g++-14, clang++-19]
 
     steps:
@@ -42,5 +50,9 @@ jobs:
           chmod +x llvm.sh
           sudo ./llvm.sh 19 all
 
-      - name: Linux ${{ matrix.compiler }} ${{ matrix.sanitizer }}
-        run: CXX=${{ matrix.compiler }} make ${{ matrix.sanitizer }}
+      - name: Linux ${{ matrix.compiler }} ${{ matrix.preset }}
+        run: CXX=${{ matrix.compiler }} cmake --workflow --preset ${{ matrix.preset }}
+
+      - name: Linux ${{ matrix.compiler }} sanitizer
+        if: startsWith(matrix.preset, 'debug')
+        run: CXX=${{ matrix.compiler }} make all

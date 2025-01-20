@@ -22,6 +22,7 @@ namespace intro {
 
 struct intro::timer {
     struct state_base {
+        virtual ~state_base() = default;
         virtual void complete() = 0;
     };
     template <typename Receiver>

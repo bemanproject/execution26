@@ -16,7 +16,7 @@ namespace beman::execution26::detail {
  */
 template <auto&& Tag>
 using decayed_typeof = ::std::decay_t<decltype(Tag)>;
-}
+} // namespace beman::execution26::detail
 
 // ----------------------------------------------------------------------------
 

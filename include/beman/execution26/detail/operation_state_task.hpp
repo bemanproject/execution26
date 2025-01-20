@@ -28,7 +28,7 @@ struct connect_awaitable_promise;
 template <typename Receiver>
 struct beman::execution26::detail::connect_awaitable_promise
     : ::beman::execution26::detail::with_await_transform<connect_awaitable_promise<Receiver>> {
-    connect_awaitable_promise(auto&&, Receiver& receiver) noexcept : receiver(receiver) {}
+    connect_awaitable_promise(auto&&, Receiver& rcvr) noexcept : receiver(rcvr) {}
     auto              initial_suspend() noexcept -> ::std::suspend_always { return {}; }
     [[noreturn]] auto final_suspend() noexcept -> ::std::suspend_always { ::std::terminate(); }
     [[noreturn]] auto unhandled_exception() noexcept -> void { ::std::terminate(); }
@@ -56,7 +56,7 @@ struct beman::execution26::detail::operation_state_task {
     using operation_state_concept = ::beman::execution26::operation_state_t;
     using promise_type            = ::beman::execution26::detail::connect_awaitable_promise<Receiver>;
 
-    explicit operation_state_task(::std::coroutine_handle<> handle) noexcept : handle(handle) {}
+    explicit operation_state_task(::std::coroutine_handle<> hndl) noexcept : handle(hndl) {}
     operation_state_task(const operation_state_task&) = delete;
     operation_state_task(operation_state_task&& other) noexcept : handle(::std::exchange(other.handle, {})) {}
     ~operation_state_task() {
