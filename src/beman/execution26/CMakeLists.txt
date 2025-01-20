@@ -6,7 +6,7 @@
 add_library(${TARGET_NAME} STATIC)
 add_library(${TARGET_ALIAS} ALIAS ${TARGET_NAME})
 
-if(CMAKE_BUILD_TYPE STREQUAL xDebug)
+if(NOT BEMAN_EXECUTION26_ENABLE_INSTALL OR CMAKE_SKIP_INSTALL_RULES)
   target_link_libraries(${TARGET_NAME} PUBLIC $<BUILD_INTERFACE:${TARGET_NAME}_project_options>)
   target_link_libraries(${TARGET_NAME} PUBLIC $<BUILD_INTERFACE:${TARGET_NAME}_project_warnings>)
 endif()
@@ -208,6 +208,10 @@ target_compile_features(${TARGET_NAME} PUBLIC
   "$<$<COMPILE_FEATURES:cxx_std_26>:cxx_std_26>"
   "$<$<NOT:$<COMPILE_FEATURES:cxx_std_26>>:cxx_std_23>"
 )
+
+if(NOT BEMAN_EXECUTION26_ENABLE_INSTALL OR CMAKE_SKIP_INSTALL_RULES)
+  return()
+endif()
 
 install(
   TARGETS ${TARGET_NAME}

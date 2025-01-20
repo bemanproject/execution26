@@ -20,8 +20,7 @@
       "name": "release-base-Linux",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
-        "CMAKE_CXX_FLAGS": "-Wall -Wextra -Wpedantic -Wno-shadow -Wconversion -Wsign-conversion -Wcast-align -Wcast-qual -Woverloaded-virtual -Wformat=2 -Wno-error"
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
       },
       "condition": {
         "type": "notEquals",

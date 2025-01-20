@@ -19,10 +19,28 @@ set(TARGET_ALIAS ${TARGET_NAMESPACE}::${TARGET_NAME})
 set(TARGET_PACKAGE_NAME ${PROJECT_NAME}-config)
 set(TARGETS_EXPORT_NAME ${PROJECT_NAME}-targets)
 
+option(
+  BEMAN_EXECUTION26_ENABLE_TESTING
+  "Enable building tests and test infrastructure. Values: { ON, OFF }."
+  ${PROJECT_IS_TOP_LEVEL}
+)
+
+option(
+  BEMAN_EXECUTION26_BUILD_EXAMPLES
+  "Enable building examples. Values: { ON, OFF }."
+  ${PROJECT_IS_TOP_LEVEL}
+)
+
+option(
+  BEMAN_EXECUTION26_ENABLE_INSTALL
+  "Install the project components. Values: { ON, OFF }."
+  ${PROJECT_IS_TOP_LEVEL}
+)
+
 include(GNUInstallDirs)
 set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME})
 
-if(CMAKE_BUILD_TYPE STREQUAL xDebug)
+if(NOT BEMAN_EXECUTION26_ENABLE_INSTALL OR CMAKE_SKIP_INSTALL_RULES)
   include(FetchContent)
 
   # Add project_options from https://github.com/aminya/project_options
@@ -73,11 +91,18 @@ endif()
 
 add_subdirectory(src/beman/execution26)
 
-if(PROJECT_IS_TOP_LEVEL)
+if(BEMAN_EXECUTION26_ENABLE_TESTING)
   enable_testing()
 
   add_subdirectory(tests/beman/execution26)
+endif()
+
+if(BEMAN_EXECUTION26_BUILD_EXAMPLES)
   add_subdirectory(examples)
+endif()
+
+if(NOT BEMAN_EXECUTION26_ENABLE_INSTALL OR CMAKE_SKIP_INSTALL_RULES)
+  return()
 endif()
 
 include(CMakePackageConfigHelpers)
