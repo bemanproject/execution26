@@ -14,15 +14,15 @@
 // ----------------------------------------------------------------------------
 
 namespace intro {
-    namespace ex = beman::execution26;
-    struct timer;
-}
+namespace ex = beman::execution26;
+struct timer;
+} // namespace intro
 
 // ----------------------------------------------------------------------------
 
 struct intro::timer {
     struct state_base {
-        virtual ~state_base() = default;
+        virtual ~state_base()   = default;
         virtual void complete() = 0;
     };
     template <typename Receiver>
@@ -69,8 +69,7 @@ struct intro::timer {
     }
 
     template <typename Receiver>
-    struct run_state
-    {
+    struct run_state {
         struct recv {
             using receiver_concept = ex::receiver_t;
             run_state* self;
@@ -80,7 +79,7 @@ struct intro::timer {
             auto set_stopped() noexcept -> void { this->self->run_one(); }
         };
         using operation_state_concept = ex::operation_state_t;
-        using scheduler_t = decltype(ex::get_delegation_scheduler(ex::get_env(std::declval<Receiver&>())));
+        using scheduler_t             = decltype(ex::get_delegation_scheduler(ex::get_env(std::declval<Receiver&>())));
         static_assert(ex::receiver<recv>);
         static_assert(ex::scheduler<scheduler_t>);
         static_assert(ex::sender<decltype(ex::schedule(std::declval<scheduler_t>()))>);
@@ -89,20 +88,15 @@ struct intro::timer {
             state_t state;
             template <typename S, typename R>
             state_ctor(S&& sender, R&& receiver)
-                : state(ex::connect(std::forward<S>(sender), std::forward<R>(receiver)))
-            {
-            }
+                : state(ex::connect(std::forward<S>(sender), std::forward<R>(receiver))) {}
         };
 
-        timer* self;
-        Receiver receiver;
+        timer*                    self;
+        Receiver                  receiver;
         std::optional<state_ctor> state{};
 
         auto schedule_one() {
-            this->state.emplace(
-                ex::schedule(ex::get_delegation_scheduler(ex::get_env(this->receiver))),
-                recv{this}
-            );
+            this->state.emplace(ex::schedule(ex::get_delegation_scheduler(ex::get_env(this->receiver))), recv{this});
             ex::start(this->state->state);
         }
         auto run_one() {
@@ -112,21 +106,17 @@ struct intro::timer {
             else
                 ex::set_value(std::move(this->receiver));
         }
-        auto start() & noexcept -> void {
-            this->schedule_one();
-        }
+        auto start() & noexcept -> void { this->schedule_one(); }
     };
-    struct run_sender
-    {
-        using sender_concept = ex::sender_t;
+    struct run_sender {
+        using sender_concept        = ex::sender_t;
         using completion_signatures = ex::completion_signatures<ex::set_value_t()>;
 
         timer* self;
 
         template <typename Receiver>
-        run_state<std::remove_cvref_t<Receiver>> connect(Receiver&& receiver)
-        {
-            return { self, std::forward<Receiver>(receiver) };
+        run_state<std::remove_cvref_t<Receiver>> connect(Receiver&& receiver) {
+            return {self, std::forward<Receiver>(receiver)};
         }
     };
 
