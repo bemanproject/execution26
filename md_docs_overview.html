@@ -74,11 +74,11 @@ $(function() {
   <div class="headertitle"><div class="title">overview </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="autotoc_md0"></a>
+<div class="textblock"><h1><a class="anchor" id="autotoc_md1"></a>
 std::execution Overview</h1>
 <p>This page provides an overview of the components in <code>std::execution</code>. The documentation on this page doesn’t represent all details of the specification. However, it should capture enough details to be a suitable resource to determine how the various components are used.</p>
 <p>For each of the components a summary view is provided. To get more details expand the respective section. </p>
-<h2><a class="anchor" id="autotoc_md1"></a>
+<h2><a class="anchor" id="autotoc_md2"></a>
 Terms</h2>
 <p>This section defines a few terms used throughout the description on this page. The terms aren’t taken from the specification and are, thus, somewhat informal.</p>
 <details >
@@ -97,7 +97,7 @@ completion signal</summary>
 environment</summary>
 <p>The term <em>enviroment</em> refers to the bag of properties associated with an <code><em>object</em></code> by the call <code><a href="‘#get-env’">std::execution::get_env</a>(<em>object</em>)</code>. By default the environment for objects is empty (<code><a href="‘#empty-env’">std::execution::empty_env</a></code>). In particular, environments associated with <code><a href="‘#receiver’">receiver</a></code>s are used to provide access to properties like the <a href="‘#get-stop-token’">stop token</a>, <a href="‘#get-scheduler’">scheduler</a>, or <a href="‘#get-allocator’">allocator</a> associated with the <code><a href="‘#receiver’">receiver</a></code>. The various properties associated with an object are accessed via <a href="‘#queries’">queries</a>. </p>
 </details>
-<h2><a class="anchor" id="autotoc_md2"></a>
+<h2><a class="anchor" id="autotoc_md3"></a>
 Concepts</h2>
 <p>This section lists the concepts from <code>std::execution</code>.</p>
 <details >
@@ -414,7 +414,7 @@ Example</summary>
 </details>
 <p></code></p>
 <p><code></code></p>
-<h2><a class="anchor" id="autotoc_md3"></a>
+<h2><a class="anchor" id="autotoc_md4"></a>
 Queries</h2>
 <p><code>The queries are used to obtain properties associated with and object. Except <code><a href="‘#forwarding-query’">forwarding_query</a></code> and <code><a href="‘#get-env’">get_env</a></code> the queries work on <a href="‘#environment’">environments</a>.</code></p>
 <p><code></p><details >
@@ -470,7 +470,7 @@ Queries</h2>
 </details>
 <p></code></p>
 <p><code></code></p>
-<h3><a class="anchor" id="autotoc_md4"></a>
+<h3><a class="anchor" id="autotoc_md5"></a>
 Customization Point Objects</h3>
 <p><code></p><ul>
 <li><code>connect(<em>sender, receiver</em>) -&gt; <em>operation_state</em></code></li>
@@ -481,10 +481,10 @@ Customization Point Objects</h3>
 </ul>
 <p></code></p>
 <p><code></code></p>
-<h2><a class="anchor" id="autotoc_md5"></a>
+<h2><a class="anchor" id="autotoc_md6"></a>
 Senders</h2>
 <p><code> </code></p>
-<h3><a class="anchor" id="autotoc_md6"></a>
+<h3><a class="anchor" id="autotoc_md7"></a>
 Sender Factories</h3>
 <p><code></p><ul>
 <li><code>just(<em>value...</em>) -&gt; <em>sender-of</em>&lt;set_value_t(<em>Value...</em>)&gt;</code></li>
@@ -495,7 +495,7 @@ Sender Factories</h3>
 </ul>
 <p></code></p>
 <p><code></code></p>
-<h3><a class="anchor" id="autotoc_md7"></a>
+<h3><a class="anchor" id="autotoc_md8"></a>
 Sender Adaptors</h3>
 <p><code></p><ul>
 <li><code>bulk</code></li>
@@ -518,14 +518,14 @@ Sender Adaptors</h3>
 </ul>
 <p></code></p>
 <p><code></code></p>
-<h3><a class="anchor" id="autotoc_md8"></a>
+<h3><a class="anchor" id="autotoc_md9"></a>
 Sender Consumers</h3>
 <p><code></p><ul>
 <li><code>sync_wait(<em>sender</em>) -&gt; std::optional&lt;std::tuple&lt;T...&gt;&gt;</code></li>
 </ul>
 <p></code></p>
 <p><code></code></p>
-<h2><a class="anchor" id="autotoc_md9"></a>
+<h2><a class="anchor" id="autotoc_md10"></a>
 Helpers</h2>
 <p><code></p><ul>
 <li><code>as_awaitable</code></li>
@@ -555,7 +555,7 @@ Helpers</h2>
 </ul>
 <p></code></p>
 <p><code></code></p>
-<h2><a class="anchor" id="autotoc_md10"></a>
+<h2><a class="anchor" id="autotoc_md11"></a>
 Stop Token</h2>
 <p><code></p><ul>
 <li><code>never_stop_token</code></li>
