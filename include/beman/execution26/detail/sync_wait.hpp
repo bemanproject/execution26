@@ -68,6 +68,7 @@ struct sync_wait_receiver {
         }
         this->state->loop.finish();
     }
+
     auto get_env() const noexcept -> ::beman::execution26::detail::sync_wait_env {
         return ::beman::execution26::detail::sync_wait_env{&this->state->loop};
     }
