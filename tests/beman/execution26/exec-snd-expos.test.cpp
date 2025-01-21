@@ -511,7 +511,7 @@ auto test_default_impls_get_attrs() -> void {
 
     static_assert(noexcept(test_detail::default_impls::get_attrs(0, child1{})));
     static_assert(
-        std::same_as<test_detail::fwd_env<aenv>, decltype(test_detail::default_impls::get_attrs(0, child1{}))>);
+        std::same_as<test_detail::fwd_env<local_env>, decltype(test_detail::default_impls::get_attrs(0, child1{}))>);
     // static_assert(std::same_as<test_std::empty_env,
     //     decltype(test_detail::default_impls::get_attrs(0, child1{}, child2{}))>);
 }
