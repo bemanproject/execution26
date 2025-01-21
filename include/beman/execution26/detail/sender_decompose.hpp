@@ -37,7 +37,7 @@ template <typename Tag, typename Data, typename Children>
 sender_data(Tag&&, Data&, Children&&) -> sender_data<Tag, Data, Children>;
 
 template <typename Sender>
-auto get_sender_data(Sender&& sender) {
+constexpr auto get_sender_data(Sender&& sender) {
 #if 0
         //-dk:TODO should use a dynamic/language approach:
         auto&& [tag, data, ... children] = sender;
@@ -75,7 +75,7 @@ auto get_sender_data(Sender&& sender) {
 }
 
 template <typename Sender>
-auto get_sender_meta(Sender&& sender) {
+constexpr auto get_sender_meta(Sender&& sender) {
     using type = decltype(get_sender_data(sender));
     return sender_meta<typename type::tag_type, typename type::data_type, typename type::children_type>{};
 }

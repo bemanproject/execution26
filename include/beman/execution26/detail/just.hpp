@@ -22,14 +22,14 @@
 
 namespace beman::execution26::detail {
 template <typename Completion, typename... T>
-concept just_size = (not::std::same_as<Completion, ::beman::execution26::set_error_t> or 1u == sizeof...(T)) &&
-                    (not::std::same_as<Completion, ::beman::execution26::set_stopped_t> or 0u == sizeof...(T));
+concept just_size = (not ::std::same_as<Completion, ::beman::execution26::set_error_t> or 1u == sizeof...(T)) &&
+                    (not ::std::same_as<Completion, ::beman::execution26::set_stopped_t> or 0u == sizeof...(T));
 template <typename Completion>
 struct just_t {
     template <typename... T>
         requires ::beman::execution26::detail::just_size<Completion, T...> &&
                  (::std::movable<::std::decay_t<T>> && ...)
-    auto operator()(T&&... arg) const {
+    constexpr auto operator()(T&&... arg) const {
         return ::beman::execution26::detail::make_sender(
             *this, ::beman::execution26::detail::product_type{::std::forward<T>(arg)...});
     }
@@ -48,6 +48,10 @@ struct impls_for<just_t<Completion>> : ::beman::execution26::detail::default_imp
         [&state, &receiver]<::std::size_t... I>(::std::index_sequence<I...>) {
             Completion()(::std::move(receiver), ::std::move(state.template get<I>())...);
         }(::std::make_index_sequence<State::size()>{});
+    };
+
+    static constexpr auto get_completion_behaviour = [](const auto&, const auto&, const auto&...) {
+        return ::beman::execution26::completion_behaviour::inline_completion;
     };
 };
 } // namespace beman::execution26::detail

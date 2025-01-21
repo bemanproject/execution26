@@ -14,6 +14,7 @@
 #include <beman/execution26/detail/product_type.hpp>
 #include <beman/execution26/detail/sender_decompose.hpp>
 #include <beman/execution26/detail/start.hpp>
+#include <beman/execution26/detail/get_completion_behaviour.hpp>
 
 #include <utility>
 
@@ -60,6 +61,10 @@ struct default_impls {
         static_assert(Index::value == 0);
         Tag()(::std::move(receiver), ::std::forward<Args>(args)...);
     };
+    static constexpr auto get_completion_behaviour =
+        [](const auto& /* env */, const auto& /* data */, const auto&... /* children */) noexcept {
+            return ::beman::execution26::completion_behaviour::unknown;
+        };
 };
 } // namespace beman::execution26::detail
 
