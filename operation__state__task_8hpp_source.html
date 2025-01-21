@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.6"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>beman::execution26: include/beman/execution26/detail/operation_state_task.hpp Source File</title>
+<title>beman::execution: include/beman/execution/detail/operation_state_task.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="beman-logo.png"/></td>
   <td id="projectalign">
-   <div id="projectname">beman::execution26
+   <div id="projectname">beman::execution
    </div>
    <div id="projectbrief">Building Block For Asynchronous Programs</div>
   </td>
@@ -71,43 +71,43 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_94cf5e36d6dc57d8747f5a546f07158a.html">beman</a></li><li class="navelem"><a class="el" href="dir_2d0a01ce8cee7e20cd190bd552ab91d5.html">execution26</a></li><li class="navelem"><a class="el" href="dir_c74326f18063de66df16e9972989c978.html">detail</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_94cf5e36d6dc57d8747f5a546f07158a.html">beman</a></li><li class="navelem"><a class="el" href="dir_7a147c31ff3b7dfdcb16ef2455fc533a.html">execution</a></li><li class="navelem"><a class="el" href="dir_79a9bf21e7d1060cf0c7b66341aa9f76.html">detail</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle"><div class="title">operation_state_task.hpp</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// include/beman/execution26/detail/operation_state_task.hpp     -*-C++-*-</span></div>
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// include/beman/execution/detail/operation_state_task.hpp     -*-C++-*-</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#ifndef INCLUDED_BEMAN_EXECUTION26_DETAIL_OPERATION_STATE_TASK</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#define INCLUDED_BEMAN_EXECUTION26_DETAIL_OPERATION_STATE_TASK</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#ifndef INCLUDED_BEMAN_EXECUTION_DETAIL_OPERATION_STATE_TASK</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#define INCLUDED_BEMAN_EXECUTION_DETAIL_OPERATION_STATE_TASK</span></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;beman/execution26/detail/with_await_transform.hpp&gt;</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;beman/execution26/detail/operation_state.hpp&gt;</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;beman/execution26/detail/set_stopped.hpp&gt;</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;beman/execution26/detail/env_of_t.hpp&gt;</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;beman/execution26/detail/get_env.hpp&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;beman/execution/detail/with_await_transform.hpp&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;beman/execution/detail/operation_state.hpp&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;beman/execution/detail/set_stopped.hpp&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;beman/execution/detail/env_of_t.hpp&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;beman/execution/detail/get_env.hpp&gt;</span></div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &lt;coroutine&gt;</span></div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;exception&gt;</span></div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &lt;utility&gt;</span></div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment">// ----------------------------------------------------------------------------</span></div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">namespace </span>beman::execution26::detail {</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">namespace </span>beman::execution::detail {</div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Receiver&gt;</div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">struct </span>operation_state_task;</div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Receiver&gt;</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keyword">struct </span>connect_awaitable_promise;</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>} <span class="comment">// namespace beman::execution26::detail</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>} <span class="comment">// namespace beman::execution::detail</span></div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="comment">// ----------------------------------------------------------------------------</span></div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Receiver&gt;</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="keyword">struct </span>beman::execution26::detail::connect_awaitable_promise</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    : ::beman::execution26::detail::with_await_transform&lt;connect_awaitable_promise&lt;Receiver&gt;&gt; {</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="keyword">struct </span>beman::execution::detail::connect_awaitable_promise</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    : ::beman::execution::detail::with_await_transform&lt;connect_awaitable_promise&lt;Receiver&gt;&gt; {</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    connect_awaitable_promise(<span class="keyword">auto</span>&amp;&amp;, Receiver&amp; rcvr) noexcept : receiver(rcvr) {}</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keyword">auto</span>              initial_suspend() noexcept -&gt; ::std::suspend_always { <span class="keywordflow">return</span> {}; }</div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    [[noreturn]] <span class="keyword">auto</span> final_suspend() noexcept -&gt; ::std::suspend_always { ::std::terminate(); }</div>
@@ -115,15 +115,15 @@ $(function() {
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    [[noreturn]] <span class="keyword">auto</span> return_void() noexcept -&gt; <span class="keywordtype">void</span> { ::std::terminate(); }</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keyword">auto</span> unhandled_stopped() noexcept -&gt; ::std::coroutine_handle&lt;&gt; {</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        <a class="code hl_variable" href="namespacebeman_1_1execution26.html#ab5950df93e9bed15bda2d87615fe6f39">::beman::execution26::set_stopped</a>(::std::move(this-&gt;receiver));</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        <a class="code hl_variable" href="namespacebeman_1_1execution.html#a303495814a79f042a0887317843d6187">::beman::execution::set_stopped</a>(::std::move(this-&gt;receiver));</div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        return ::std::noop_coroutine();</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    }</div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keyword">auto</span> get_env() const noexcept -&gt; ::<a class="code hl_namespace" href="namespacebeman.html">beman</a>::execution26::<a class="code hl_typedef" href="namespacebeman_1_1execution26.html#a07f2e946c713fb3ed266de3f19c633ce">env_of_t</a>&lt;Receiver&gt; {</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        return ::beman::execution26::get_env(this-&gt;receiver);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keyword">auto</span> get_env() const noexcept -&gt; ::<a class="code hl_namespace" href="namespacebeman.html">beman</a>::execution::<a class="code hl_typedef" href="namespacebeman_1_1execution.html#adbf95c8f3480ba2c1d78b8c612a9f2f7">env_of_t</a>&lt;Receiver&gt; {</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        return ::beman::execution::get_env(this-&gt;receiver);</div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    }</div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keyword">auto</span> get_return_object() noexcept -&gt; ::<a class="code hl_namespace" href="namespacebeman.html">beman</a>::execution26::detail::operation_state_task&lt;Receiver&gt;;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keyword">auto</span> get_return_object() noexcept -&gt; ::<a class="code hl_namespace" href="namespacebeman.html">beman</a>::execution::detail::operation_state_task&lt;Receiver&gt;;</div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>  private:</div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    Receiver&amp; receiver;</div>
@@ -132,9 +132,9 @@ $(function() {
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="comment">// ----------------------------------------------------------------------------</span></div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>template &lt;typename Receiver&gt;</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>struct <a class="code hl_namespace" href="namespacebeman.html">beman</a>::execution26::detail::operation_state_task {</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keyword">using </span>operation_state_concept = <a class="code hl_struct" href="structbeman_1_1execution26_1_1operation__state__t.html">::beman::execution26::operation_state_t</a>;</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keyword">using </span>promise_type            = ::beman::execution26::detail::connect_awaitable_promise&lt;Receiver&gt;;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>struct <a class="code hl_namespace" href="namespacebeman.html">beman</a>::execution::detail::operation_state_task {</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keyword">using </span>operation_state_concept = <a class="code hl_struct" href="structbeman_1_1execution_1_1operation__state__t.html">::beman::execution::operation_state_t</a>;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keyword">using </span>promise_type            = ::beman::execution::detail::connect_awaitable_promise&lt;Receiver&gt;;</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keyword">explicit</span> operation_state_task(::std::coroutine_handle&lt;&gt; hndl) noexcept : handle(hndl) {}</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    operation_state_task(<span class="keyword">const</span> operation_state_task&amp;) = <span class="keyword">delete</span>;</div>
@@ -154,19 +154,19 @@ $(function() {
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="comment">// ----------------------------------------------------------------------------</span></div>
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Receiver&gt;</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="keyword">auto</span> beman::execution26::detail::connect_awaitable_promise&lt;Receiver&gt;::get_return_object() noexcept</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    -&gt; ::<a class="code hl_namespace" href="namespacebeman.html">beman</a>::execution26::detail::operation_state_task&lt;Receiver&gt; {</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    return ::beman::execution26::detail::operation_state_task&lt;Receiver&gt;(</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="keyword">auto</span> beman::execution::detail::connect_awaitable_promise&lt;Receiver&gt;::get_return_object() noexcept</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    -&gt; ::<a class="code hl_namespace" href="namespacebeman.html">beman</a>::execution::detail::operation_state_task&lt;Receiver&gt; {</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    return ::beman::execution::detail::operation_state_task&lt;Receiver&gt;(</div>
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        std::coroutine_handle&lt;connect_awaitable_promise&gt;::from_promise(*<span class="keyword">this</span>));</div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>}</div>
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="comment">// ----------------------------------------------------------------------------</span></div>
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="anamespacebeman_1_1execution26_html_a07f2e946c713fb3ed266de3f19c633ce"><div class="ttname"><a href="namespacebeman_1_1execution26.html#a07f2e946c713fb3ed266de3f19c633ce">beman::execution26::env_of_t</a></div><div class="ttdeci">decltype(::beman::execution26::get_env(::std::declval&lt; T &gt;())) env_of_t</div><div class="ttdoc">Determine the type of the environment associated with a type.</div><div class="ttdef"><b>Definition:</b> env_of_t.hpp:18</div></div>
-<div class="ttc" id="anamespacebeman_1_1execution26_html_ab5950df93e9bed15bda2d87615fe6f39"><div class="ttname"><a href="namespacebeman_1_1execution26.html#ab5950df93e9bed15bda2d87615fe6f39">beman::execution26::set_stopped</a></div><div class="ttdeci">constexpr set_stopped_t set_stopped</div><div class="ttdoc">Customization point object for cancellation completions.</div><div class="ttdef"><b>Definition:</b> set_stopped.hpp:45</div></div>
+<div class="ttc" id="anamespacebeman_1_1execution_html_a303495814a79f042a0887317843d6187"><div class="ttname"><a href="namespacebeman_1_1execution.html#a303495814a79f042a0887317843d6187">beman::execution::set_stopped</a></div><div class="ttdeci">constexpr set_stopped_t set_stopped</div><div class="ttdoc">Customization point object for cancellation completions.</div><div class="ttdef"><b>Definition:</b> set_stopped.hpp:45</div></div>
+<div class="ttc" id="anamespacebeman_1_1execution_html_adbf95c8f3480ba2c1d78b8c612a9f2f7"><div class="ttname"><a href="namespacebeman_1_1execution.html#adbf95c8f3480ba2c1d78b8c612a9f2f7">beman::execution::env_of_t</a></div><div class="ttdeci">decltype(::beman::execution::get_env(::std::declval&lt; T &gt;())) env_of_t</div><div class="ttdoc">Determine the type of the environment associated with a type.</div><div class="ttdef"><b>Definition:</b> env_of_t.hpp:18</div></div>
 <div class="ttc" id="anamespacebeman_html"><div class="ttname"><a href="namespacebeman.html">beman</a></div><div class="ttdoc">Namespace for Beman projects http://github.com/bemanproject/beman.</div><div class="ttdef"><b>Definition:</b> allocator_aware_move.hpp:16</div></div>
-<div class="ttc" id="astructbeman_1_1execution26_1_1operation__state__t_html"><div class="ttname"><a href="structbeman_1_1execution26_1_1operation__state__t.html">beman::execution26::operation_state_t</a></div><div class="ttdef"><b>Definition:</b> operation_state.hpp:14</div></div>
+<div class="ttc" id="astructbeman_1_1execution_1_1operation__state__t_html"><div class="ttname"><a href="structbeman_1_1execution_1_1operation__state__t.html">beman::execution::operation_state_t</a></div><div class="ttdef"><b>Definition:</b> operation_state.hpp:14</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
