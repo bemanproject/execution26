@@ -38,16 +38,29 @@ struct basic_sender : ::beman::execution26::detail::product_type<Tag, Data, Chil
             [&d](auto&&... c) { return ::beman::execution26::detail::impls_for<Tag>::get_attrs(d, c...); }, *this);
     }
 
+    template <class Self, class Env>
+    constexpr auto get_completion_behaviour(this Self&& self, Env&& env) noexcept -> decltype(auto) {
+        auto data{::beman::execution26::detail::get_sender_data(self)};
+        return ::std::apply(
+            [&data, &env](auto&&... cs) {
+                return ::beman::execution26::detail::impls_for<Tag>::get_completion_behaviour(
+                    ::std::forward<Env>(env),
+                    ::beman::execution26::detail::forward_like<Self>(data.data),
+                    ::beman::execution26::detail::forward_like<Self>(cs)...);
+            },
+            ::beman::execution26::detail::forward_like<Self>(data.children));
+    }
+
     template <typename Receiver>
-        requires(not::beman::execution26::receiver<Receiver>)
+        requires(not ::beman::execution26::receiver<Receiver>)
     auto connect(Receiver receiver) = BEMAN_EXECUTION26_DELETE("the passed receiver doesn't model receiver");
 
   private:
 #if __cpp_explicit_this_parameter < 302110L //-dk:TODO need to figure out how to use explicit this with forwarding
     template <::beman::execution26::receiver Receiver>
     auto connect(Receiver receiver) & noexcept(
-        noexcept(::beman::execution26::detail::basic_operation<basic_sender&, Receiver>{*this, ::std::move(receiver)}))
-        -> ::beman::execution26::detail::basic_operation<basic_sender&, Receiver> {
+        noexcept(::beman::execution26::detail::basic_operation<basic_sender&, Receiver>{
+            *this, ::std::move(receiver)})) -> ::beman::execution26::detail::basic_operation<basic_sender&, Receiver> {
         return {*this, ::std::move(receiver)};
     }
     template <::beman::execution26::receiver Receiver>
@@ -58,9 +71,9 @@ struct basic_sender : ::beman::execution26::detail::product_type<Tag, Data, Chil
     }
     template <::beman::execution26::receiver Receiver>
     auto connect(Receiver receiver) && noexcept(
-        noexcept(::beman::execution26::detail::basic_operation<basic_sender, Receiver>{::std::move(*this),
-                                                                                       ::std::move(receiver)}))
-        -> ::beman::execution26::detail::basic_operation<basic_sender, Receiver> {
+        noexcept(::beman::execution26::detail::basic_operation<basic_sender, Receiver>{
+            ::std::move(*this),
+            ::std::move(receiver)})) -> ::beman::execution26::detail::basic_operation<basic_sender, Receiver> {
         return {::std::move(*this), ::std::move(receiver)};
     }
 #else
@@ -68,8 +81,8 @@ struct basic_sender : ::beman::execution26::detail::product_type<Tag, Data, Chil
     auto
     connect(this Self&& self,
             Receiver receiver) noexcept(noexcept(::beman::execution26::detail::basic_operation<basic_sender, Receiver>{
-        ::std::forward<Self>(self), ::std::move(receiver)}))
-        -> ::beman::execution26::detail::basic_operation<Self, Receiver> {
+        ::std::forward<Self>(self),
+        ::std::move(receiver)})) -> ::beman::execution26::detail::basic_operation<Self, Receiver> {
         return {::std::forward<Self>(self), ::std::move(receiver)};
     }
 #endif
@@ -97,6 +110,12 @@ struct basic_sender : ::beman::execution26::detail::product_type<Tag, Data, Chil
 #else
     template <::beman::execution26::detail::decays_to<basic_sender> Self, typename Env>
     auto get_completion_signatures(this Self&&, Env&&) noexcept
+        -> ::beman::execution26::detail::completion_signatures_for<Self, Env> {
+        return {};
+    }
+
+    template <::beman::execution26::detail::decays_to<basic_sender> Self, typename Env>
+    auto get_completion_behaviour(this Self&&, Env&&) noexcept
         -> ::beman::execution26::detail::completion_signatures_for<Self, Env> {
         return {};
     }

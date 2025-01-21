@@ -60,6 +60,10 @@ struct default_impls {
         static_assert(Index::value == 0);
         Tag()(::std::move(receiver), ::std::forward<Args>(args)...);
     };
+    static constexpr auto get_completion_behaviour =
+        [](const auto& /* env */, const auto& /* data */, const auto&... /* children */) noexcept {
+            return ::beman::execution26::completion_behaviour::unknown;
+        };
 };
 } // namespace beman::execution26::detail
 
