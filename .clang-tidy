@@ -27,7 +27,7 @@ Checks:
     -*-braces-around-statements
 '
 HeaderFilterRegex: '.*/execution26/(include|src|example|tests)/.*\.(hpp)$'
-WarningsAsErrors: 'clang-analyzer*'
+WarningsAsErrors: 'clang*'
 FormatStyle: file
 
 CheckOptions:
