@@ -11,7 +11,7 @@
 namespace {
 struct receiver {
     int& value;
-    auto set_value(int value) && noexcept -> void { this->value = value; }
+    auto set_value(int val) && noexcept -> void { this->value = val; }
 };
 
 struct non_opstate {

@@ -144,7 +144,7 @@ class beman::execution26::stop_callback final : private CallbackFun, beman::exec
         this->setup();
     }
     stop_callback(const stop_callback&) = delete;
-    stop_callback(stop_callback&&) = delete;
+    stop_callback(stop_callback&&)      = delete;
     ~stop_callback() { this->deregister(); }
     auto operator=(stop_callback&&) -> stop_callback&      = delete;
     auto operator=(const stop_callback&) -> stop_callback& = delete;
@@ -181,9 +181,9 @@ inline auto beman::execution26::detail::stop_callback_base::deregister() -> void
             while (this->state->executing)
                 ;
         }
-        for (auto next = &this->state->callbacks; *next; next = &this->next) {
-            if (*next == this) {
-                *next = this->next;
+        for (auto n = &this->state->callbacks; *n; n = &this->next) {
+            if (*n == this) {
+                *n = this->next;
                 break;
             }
         }
@@ -192,8 +192,8 @@ inline auto beman::execution26::detail::stop_callback_base::deregister() -> void
 
 inline auto beman::execution26::detail::stop_callback_base::call() -> void { this->do_call(); }
 
-inline beman::execution26::stop_token::stop_token(::std::shared_ptr<::beman::execution26::detail::stop_state> state)
-    : state(::std::move(state)) {}
+inline beman::execution26::stop_token::stop_token(::std::shared_ptr<::beman::execution26::detail::stop_state> st)
+    : state(::std::move(st)) {}
 
 inline auto beman::execution26::stop_token::swap(stop_token& other) noexcept -> void { this->state.swap(other.state); }
 

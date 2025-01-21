@@ -4,6 +4,7 @@
 #ifndef INCLUDED_BEMAN_EXECUTION26_DETAIL_INPLACE_STOP_SOURCE
 #define INCLUDED_BEMAN_EXECUTION26_DETAIL_INPLACE_STOP_SOURCE
 
+#include <beman/execution26/detail/immovable.hpp>
 #include <atomic>
 #include <memory>
 #include <mutex>
@@ -40,7 +41,7 @@ class beman::execution26::inplace_stop_token {
     friend class ::beman::execution26::inplace_stop_source;
     template <typename CallbackFun>
     friend class ::beman::execution26::inplace_stop_callback;
-    explicit inplace_stop_token(::beman::execution26::inplace_stop_source* source) : source(source) {}
+    explicit inplace_stop_token(::beman::execution26::inplace_stop_source* src) : source(src) {}
 
     ::beman::execution26::inplace_stop_source* source{};
 };
@@ -48,7 +49,7 @@ class beman::execution26::inplace_stop_token {
 // ----------------------------------------------------------------------------
 
 class beman::execution26::inplace_stop_source {
-    struct callback_base {
+    struct callback_base : public ::beman::execution26::detail::virtual_immovable {
         callback_base* next{};
         virtual auto   call() -> void = 0;
     };
@@ -84,8 +85,8 @@ class beman::execution26::inplace_stop_callback final
     template <typename Init>
     inplace_stop_callback(::beman::execution26::inplace_stop_token, Init&&);
     inplace_stop_callback(const inplace_stop_callback&) = delete;
-    inplace_stop_callback(inplace_stop_callback&&) = delete;
-    ~inplace_stop_callback() {
+    inplace_stop_callback(inplace_stop_callback&&)      = delete;
+    ~inplace_stop_callback() override {
         if (this->source) {
             this->source->deregister(this);
         }

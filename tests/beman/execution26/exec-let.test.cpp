@@ -72,7 +72,7 @@ auto test_let_value() {
 template <std::size_t Size>
 struct inline_resource : std::pmr::memory_resource {
     std::array<std::byte, Size> buffer;
-    std::byte* next{+this->buffer};
+    std::byte*                  next{+this->buffer};
 
     void* do_allocate(std::size_t size, std::size_t) override {
         if (size <= std::size_t(std::distance(next, std::end(buffer)))) {
@@ -91,7 +91,7 @@ namespace ex = test_std;
 struct fun {
     std::pmr::polymorphic_allocator<> allocator{};
     fun() {}
-    explicit fun(std::pmr::polymorphic_allocator<> allocator) : allocator(allocator) {}
+    explicit fun(std::pmr::polymorphic_allocator<> alloc) : allocator(alloc) {}
     auto operator()(std::span<int> s) noexcept {
         return ex::just(std::pmr::vector<int>(s.begin(), s.end(), this->allocator));
     }

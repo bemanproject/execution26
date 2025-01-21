@@ -13,6 +13,7 @@
 #include <cassert>
 
 #define ASSERT(condition) assert(condition)
+#define ASSERT_UNREACHABLE() assert(::test::unreachable_helper())
 #define TEST(name) auto main() -> int
 
 namespace beman::execution26 {}
@@ -21,6 +22,8 @@ namespace test_std    = ::beman::execution26;
 namespace test_detail = ::beman::execution26::detail;
 
 namespace test {
+inline bool unreachable_helper() { return false; }
+
 template <typename>
 auto type_exists() {}
 template <typename T0, typename T1>

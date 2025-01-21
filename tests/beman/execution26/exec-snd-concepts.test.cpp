@@ -121,7 +121,7 @@ auto test_sender_in() -> void {
         non_queryable()                                        = default;
         non_queryable(non_queryable&&)                         = default;
         non_queryable(const non_queryable&)                    = default;
-        ~non_queryable() = delete;
+        ~non_queryable()                                       = delete;
         auto operator=(non_queryable&&) -> non_queryable&      = default;
         auto operator=(const non_queryable&) -> non_queryable& = default;
     };
@@ -163,7 +163,7 @@ auto test_sender_for() -> void {
 
     static_assert(test_std::sender<std_sender>);
     static_assert(not test_detail::sender_for<std_sender, tag_t>);
-};
+}
 } // namespace
 
 TEST(exec_snd_concepts) {

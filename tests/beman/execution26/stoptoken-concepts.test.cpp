@@ -123,11 +123,11 @@ struct non_swappable {
     template <typename>
     struct callback_type {};
 
-    non_swappable(const non_swappable&) noexcept               = default;
+    non_swappable(const non_swappable&) noexcept                    = default;
     non_swappable(non_swappable&&) noexcept                         = delete;
     ~non_swappable() noexcept                                       = default;
     auto operator=(const non_swappable&) noexcept -> non_swappable& = delete;
-    auto operator=(non_swappable&&) noexcept -> non_swappable& = delete;
+    auto operator=(non_swappable&&) noexcept -> non_swappable&      = delete;
     auto stop_requested() const noexcept -> bool;
     auto stop_possible() const noexcept -> bool;
     auto operator==(const non_swappable&) const -> bool = default;

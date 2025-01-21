@@ -18,16 +18,14 @@ class join_env {
 
   public:
     template <typename E1, typename E2>
-    join_env(E1&& env1, E2&& env2) : env1(::std::forward<E1>(env1)), env2(::std::forward<E2>(env2)) {}
+    join_env(E1&& e1, E2&& e2) : env1(::std::forward<E1>(e1)), env2(::std::forward<E2>(e2)) {}
 
     template <typename Query, typename... Args>
         requires(
             requires(Env1&, const Query& query, Args&&... args) {
                 env1.query(query, ::std::forward<Args>(args)...);
             } ||
-            requires(Env2& env2, const Query& query, Args&&... args) {
-                env2.query(query, ::std::forward<Args>(args)...);
-            })
+            requires(Env2& e2, const Query& query, Args&&... args) { e2.query(query, ::std::forward<Args>(args)...); })
     auto query(const Query& query, Args&&... args) noexcept -> decltype(auto) {
         if constexpr (requires { env1.query(query, ::std::forward<Args>(args)...); }) {
             return env1.query(query, ::std::forward<Args>(args)...);
@@ -40,8 +38,8 @@ class join_env {
             requires(const Env1&, const Query& query, Args&&... args) {
                 env1.query(query, ::std::forward<Args>(args)...);
             } ||
-            requires(const Env2& env2, const Query& query, Args&&... args) {
-                env2.query(query, ::std::forward<Args>(args)...);
+            requires(const Env2& e2, const Query& query, Args&&... args) {
+                e2.query(query, ::std::forward<Args>(args)...);
             })
     auto query(const Query& query, Args&&... args) const noexcept -> decltype(auto) {
         if constexpr (requires { env1.query(query, ::std::forward<Args>(args)...); }) {

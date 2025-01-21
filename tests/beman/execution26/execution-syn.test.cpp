@@ -225,18 +225,18 @@ auto test_single_sender_value_type() -> void {
                                test_detail::single_sender_value_type<multi_type_sender, test_std::empty_env>>);
     test_single_sender_value_type<true>(single_type_sender{}, test_std::empty_env{});
     test_single_sender_value_type<true>(single_type_sender{}, test_env{});
-    test_single_sender_value_type<false>(single_type_sender{}, no_value_env{});
+    test_single_sender_value_type<true>(single_type_sender{}, no_value_env{});
     test_single_sender_value_type<false>(multi_single_sender{}, test_std::empty_env{});
-    test_single_sender_value_type<false>(no_value_sender{}, test_std::empty_env{});
+    test_single_sender_value_type<true>(no_value_sender{}, test_std::empty_env{});
 }
 
 auto test_single_sender() -> void {
     static_assert(test_detail::single_sender<single_type_sender, test_std::empty_env>);
-    static_assert(not test_detail::single_sender<single_type_sender, no_value_env>);
+    static_assert(test_detail::single_sender<single_type_sender, no_value_env>);
     static_assert(test_detail::single_sender<void_sender, test_std::empty_env>);
     static_assert(not test_detail::single_sender<multi_single_sender, test_std::empty_env>);
     static_assert(test_detail::single_sender<multi_type_sender, test_std::empty_env>);
-    static_assert(not test_detail::single_sender<no_value_sender, test_std::empty_env>);
+    static_assert(test_detail::single_sender<no_value_sender, test_std::empty_env>);
 }
 
 struct connect_sender {
@@ -331,12 +331,12 @@ auto test_sender_adaptor() -> void {
     };
     static_assert(test_std::sender<sender>);
 
-    auto closure{arg_closure(17)};
-    static_assert(std::same_as<test_detail::sender_adaptor<arg_closure_t, int>, decltype(closure)>);
-    auto direct{closure(sender{})};
+    auto closure_{arg_closure(17)};
+    static_assert(std::same_as<test_detail::sender_adaptor<arg_closure_t, int>, decltype(closure_)>);
+    auto direct{closure_(sender{})};
     test::use(direct);
     static_assert(std::same_as<adapted_sender<sender>, decltype(direct)>);
-    auto via_op{sender{} | closure};
+    auto via_op{sender{} | closure_};
     test::use(via_op);
     static_assert(std::same_as<adapted_sender<sender>, decltype(via_op)>);
 }

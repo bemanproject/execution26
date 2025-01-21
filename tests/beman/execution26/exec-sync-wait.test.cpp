@@ -13,6 +13,9 @@
 #include <beman/execution26/detail/sender.hpp>
 #include <beman/execution26/detail/sender_in.hpp>
 #include <beman/execution26/detail/just.hpp>
+#include <beman/execution26/detail/read_env.hpp>
+#include <beman/execution26/detail/get_delegation_scheduler.hpp>
+#include <beman/execution26/detail/then.hpp>
 #include <test/execution.hpp>
 
 #include <exception>
@@ -29,8 +32,9 @@ struct arg {
     int  value{};
     auto operator==(const arg&) const -> bool = default;
 };
-struct error {
+struct error : std::exception {
     int value{};
+    explicit error(int v) : value(v) {}
 };
 struct sender {
     using sender_concept = test_std::sender_t;
@@ -125,7 +129,7 @@ auto test_sync_wait_result_type() -> void {
     const arg<1> arg1{};
     static_assert(std::same_as<std::optional<std::tuple<arg<0>, arg<1>, arg<2>>>,
                                test_detail::sync_wait_result_type<decltype(test_std::just(arg0, arg1, arg<2>{}))>>);
-};
+}
 
 auto test_sync_wait_state() -> void {
     using type = test_detail::sync_wait_state<decltype(test_std::just(arg<0>{}))>;
@@ -136,21 +140,21 @@ auto test_sync_wait_state() -> void {
 
 auto test_sync_wait_receiver() -> void {
     {
-        using sender = decltype(test_std::just(arg<0>{}, arg<1>{}, arg<2>{}));
-        test_detail::sync_wait_state<sender> state{};
+        using local_sender = decltype(test_std::just(arg<0>{}, arg<1>{}, arg<2>{}));
+        test_detail::sync_wait_state<local_sender> state{};
         ASSERT(not state.result);
         ASSERT(not state.error);
-        test_std::set_value(test_detail::sync_wait_receiver<sender>{&state}, arg<0>{2}, arg<1>{3}, arg<2>{5});
+        test_std::set_value(test_detail::sync_wait_receiver<local_sender>{&state}, arg<0>{2}, arg<1>{3}, arg<2>{5});
         ASSERT(state.result);
         ASSERT(not state.error);
         ASSERT(*state.result == (std::tuple{arg<0>{2}, arg<1>{3}, arg<2>{5}}));
     }
     {
-        using sender = decltype(test_std::just(arg<0>{}, arg<1>{}, arg<2>{}));
-        test_detail::sync_wait_state<sender> state{};
+        using local_sender = decltype(test_std::just(arg<0>{}, arg<1>{}, arg<2>{}));
+        test_detail::sync_wait_state<local_sender> state{};
         ASSERT(not state.result);
         ASSERT(not state.error);
-        test_std::set_error(test_detail::sync_wait_receiver<sender>{&state}, error{17});
+        test_std::set_error(test_detail::sync_wait_receiver<local_sender>{&state}, error{17});
         ASSERT(not state.result);
         ASSERT(state.error);
         try {
@@ -163,11 +167,11 @@ auto test_sync_wait_receiver() -> void {
         }
     }
     {
-        using sender = decltype(test_std::just(arg<0>{}, arg<1>{}, arg<2>{}));
-        test_detail::sync_wait_state<sender> state{};
+        using local_sender = decltype(test_std::just(arg<0>{}, arg<1>{}, arg<2>{}));
+        test_detail::sync_wait_state<local_sender> state{};
         ASSERT(not state.result);
         ASSERT(not state.error);
-        test_std::set_error(test_detail::sync_wait_receiver<sender>{&state}, std::make_exception_ptr(error{17}));
+        test_std::set_error(test_detail::sync_wait_receiver<local_sender>{&state}, std::make_exception_ptr(error{17}));
         ASSERT(not state.result);
         ASSERT(state.error);
         try {
@@ -180,11 +184,11 @@ auto test_sync_wait_receiver() -> void {
         }
     }
     {
-        using sender = decltype(test_std::just(arg<0>{}, arg<1>{}, arg<2>{}));
-        test_detail::sync_wait_state<sender> state{};
+        using local_sender = decltype(test_std::just(arg<0>{}, arg<1>{}, arg<2>{}));
+        test_detail::sync_wait_state<local_sender> state{};
         ASSERT(not state.result);
         ASSERT(not state.error);
-        test_std::set_stopped(test_detail::sync_wait_receiver<sender>{&state});
+        test_std::set_stopped(test_detail::sync_wait_receiver<local_sender>{&state});
         ASSERT(not state.result);
         ASSERT(not state.error);
     }
@@ -222,6 +226,15 @@ auto test_sync_wait() -> void {
         // NOLINTEND(cert-dcl03-c,hicpp-static-assert,misc-static-assert)
     }
 }
+
+auto test_provides_scheduler() -> void {
+    ASSERT(test_std::sync_wait(test_std::then(test_std::read_env(test_std::get_scheduler), [](auto&&) noexcept {})));
+}
+
+auto test_provides_delegation_scheduler() -> void {
+    ASSERT(test_std::sync_wait(
+        test_std::then(test_std::read_env(test_std::get_delegation_scheduler), [](auto&&) noexcept {})));
+}
 } // namespace
 
 TEST(exec_sync_wait) {
@@ -235,4 +248,6 @@ TEST(exec_sync_wait) {
     test_sync_wait_state();
     test_sync_wait_receiver();
     test_sync_wait();
+    test_provides_scheduler();
+    test_provides_delegation_scheduler();
 }

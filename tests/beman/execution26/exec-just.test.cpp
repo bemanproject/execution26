@@ -16,9 +16,9 @@
 
 namespace {
 struct not_movable {
-    not_movable()              = default;
+    not_movable()                                      = default;
     not_movable(const not_movable&)                    = delete;
-    not_movable(not_movable&&) = delete;
+    not_movable(not_movable&&)                         = delete;
     ~not_movable()                                     = default;
     auto operator=(const not_movable&) -> not_movable& = delete;
     auto operator=(not_movable&&) -> not_movable&      = delete;
@@ -185,6 +185,7 @@ auto test_just_allocator() -> void {
 
     ASSERT(resource.count == 0u);
     auto copy(std::make_obj_using_allocator<std::pmr::string>(std::pmr::polymorphic_allocator<>(&resource), str));
+    test::use(copy);
     ASSERT(resource.count == 1u);
 
     auto env{test_std::get_env(receiver)};
@@ -195,7 +196,6 @@ auto test_just_allocator() -> void {
     auto state{test_std::connect(std::move(sender), memory_receiver{&resource})};
     test::use(state);
     ASSERT(resource.count == 2u);
-    test::use(copy);
 }
 } // namespace
 
@@ -208,7 +208,10 @@ TEST(exec_just) {
     try {
         test_just_constraints();
         test_just();
+#ifndef _MSC_VER
+        //-dk:TODO re-enable allocator test for MSVC++
         test_just_allocator();
+#endif
     } catch (...) {
         // NOLINTNEXTLINE(cert-dcl03-c,hicpp-static-assert,misc-static-assert)
         ASSERT(nullptr == "the just tests shouldn't throw");

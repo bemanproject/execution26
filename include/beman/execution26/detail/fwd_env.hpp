@@ -25,7 +25,7 @@ class fwd_env {
     Env env;
 
   public:
-    explicit fwd_env(Env&& env) : env(::std::forward<Env>(env)) {}
+    explicit fwd_env(Env&& e) : env(::std::forward<Env>(e)) {}
 
     template <typename Query, typename... Args>
         requires(not::beman::execution26::forwarding_query(::std::remove_cvref_t<Query>()))
@@ -34,7 +34,7 @@ class fwd_env {
 
     template <typename Query, typename... Args>
         requires(::beman::execution26::forwarding_query(::std::remove_cvref_t<Query>())) &&
-                requires(const Env& env, Query&& q, Args&&... args) { env.query(q, ::std::forward<Args>(args)...); }
+                requires(const Env& e, Query&& q, Args&&... args) { e.query(q, ::std::forward<Args>(args)...); }
     constexpr auto query(Query&& q, Args&&... args) const
         noexcept(noexcept(env.query(q, ::std::forward<Args>(args)...))) {
         return env.query(q, ::std::forward<Args>(args)...);

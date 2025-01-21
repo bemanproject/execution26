@@ -50,7 +50,9 @@ struct continues_on_t {
     auto operator()(Sender&& sender, Scheduler&& scheduler) const {
         auto domain(::beman::execution26::detail::get_domain_early(sender));
         return ::beman::execution26::transform_sender(
-            domain, ::beman::execution26::detail::make_sender(*this, scheduler, ::std::forward<Sender>(sender)));
+            domain,
+            ::beman::execution26::detail::make_sender(
+                *this, std::forward<Scheduler>(scheduler), ::std::forward<Sender>(sender)));
     }
 };
 

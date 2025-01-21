@@ -32,7 +32,7 @@ struct sync_wait_env {
     auto query(::beman::execution26::get_delegation_scheduler_t) const noexcept { return this->loop->get_scheduler(); }
 };
 
-template <::beman::execution26::sender_in Sender>
+template <::beman::execution26::sender_in<::beman::execution26::detail::sync_wait_env> Sender>
 using sync_wait_result_type =
     ::std::optional<::beman::execution26::value_types_of_t<Sender,
                                                            ::beman::execution26::detail::sync_wait_env,
@@ -68,11 +68,15 @@ struct sync_wait_receiver {
         }
         this->state->loop.finish();
     }
+
+    auto get_env() const noexcept -> ::beman::execution26::detail::sync_wait_env {
+        return ::beman::execution26::detail::sync_wait_env{&this->state->loop};
+    }
 };
 
 struct sync_wait_t {
     template <typename Sender>
-    auto apply_sender(Sender&& sender) {
+    auto apply_sender(Sender&& sender) const {
         ::beman::execution26::detail::sync_wait_state<Sender> state;
         auto op{::beman::execution26::connect(::std::forward<Sender>(sender),
                                               ::beman::execution26::detail::sync_wait_receiver<Sender>{&state})};
@@ -90,7 +94,9 @@ struct sync_wait_t {
             typename ::beman::execution26::detail::sync_wait_result_type<Sender>;
             {
                 ::beman::execution26::apply_sender(
-                    ::beman::execution26::detail::get_domain_early(sender), self, ::std::forward<Sender>(sender))
+                    ::beman::execution26::detail::get_domain_early(std::forward<Sender>(sender)),
+                    self,
+                    ::std::forward<Sender>(sender))
             } -> ::std::same_as<::beman::execution26::detail::sync_wait_result_type<Sender>>;
         }
     auto operator()(Sender&& sender) const {

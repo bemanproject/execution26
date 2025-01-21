@@ -10,7 +10,7 @@ TEST(stopcallback_inplace_general) {
     // Reference: [stopcallback.inplace.general]
 
     struct Callback {
-        auto operator()() {};
+        auto operator()() {}
     };
 
     using CB = ::test_std::inplace_stop_callback<Callback>;

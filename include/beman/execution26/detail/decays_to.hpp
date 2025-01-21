@@ -17,7 +17,7 @@ namespace beman::execution26::detail {
  */
 template <typename From, typename To>
 concept decays_to = ::std::same_as<::std::decay_t<From>, To>;
-}
+} // namespace beman::execution26::detail
 
 // ----------------------------------------------------------------------------
 

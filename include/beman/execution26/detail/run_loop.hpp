@@ -37,10 +37,12 @@ class run_loop {
             return {this->loop};
         }
     };
-    struct opstate_base : ::beman::execution26::detail::immovable {
+
+    struct opstate_base : ::beman::execution26::detail::virtual_immovable {
         opstate_base* next{};
         virtual auto  execute() noexcept -> void = 0;
     };
+
     template <typename Receiver>
     struct opstate : opstate_base {
         using operation_state_concept = ::beman::execution26::operation_state_t;
@@ -49,7 +51,7 @@ class run_loop {
         Receiver  receiver;
 
         template <typename R>
-        opstate(run_loop* loop, R&& receiver) : loop(loop), receiver(::std::forward<Receiver>(receiver)) {}
+        opstate(run_loop* l, R&& rcvr) : loop(l), receiver(::std::forward<Receiver>(rcvr)) {}
         auto start() & noexcept -> void {
             try {
                 this->loop->push_back(this);
@@ -114,9 +116,9 @@ class run_loop {
     }
 
   public:
-    run_loop() noexcept  = default;
+    run_loop() noexcept       = default;
     run_loop(const run_loop&) = delete;
-    run_loop(run_loop&&) = delete;
+    run_loop(run_loop&&)      = delete;
     ~run_loop() {
         ::std::lock_guard guard(this->mutex);
         if (this->front != nullptr || this->current_state == state::running)

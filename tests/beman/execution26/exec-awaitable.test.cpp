@@ -24,7 +24,7 @@ struct awaiter {
     int  value{};
     auto await_ready() -> Ready { return {}; }
     auto await_suspend(auto) -> Suspend { return {}; }
-    auto await_resume(Resume...) -> void {};
+    auto await_resume(Resume...) -> void {}
 };
 
 template <typename T>
@@ -38,7 +38,7 @@ template <typename Promise>
 struct awaiter_with_handle {
     auto await_ready() -> bool { return {}; }
     auto await_suspend(std::coroutine_handle<Promise>) -> bool { return {}; }
-    auto await_resume() -> void {};
+    auto await_resume() -> void {}
 };
 
 struct co_awaiter {
