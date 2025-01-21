@@ -25,7 +25,7 @@ struct basic_state {
           state(::beman::execution::detail::impls_for< ::beman::execution::tag_of_t<Sender> >::get_state(
               ::std::forward<Sender>(sender), this->receiver)) {}
 
-    Receiver                                                   receiver;
+    Receiver                                                 receiver;
     ::beman::execution::detail::state_type<Sender, Receiver> state;
 };
 template <typename Sender, typename Receiver>

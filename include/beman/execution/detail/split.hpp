@@ -206,10 +206,10 @@ struct impls_for<split_impl_t> : ::beman::execution::detail::default_impls {
         }
 
         ::beman::execution::inplace_stop_source stop_src{};
-        variant_type                              result{};
-        state_list_type                           waiting_states{};
-        ::std::atomic<::std::size_t>              ref_count{0};
-        ::std::optional<child_operation_state>    op_state{};
+        variant_type                            result{};
+        state_list_type                         waiting_states{};
+        ::std::atomic<::std::size_t>            ref_count{0};
+        ::std::optional<child_operation_state>  op_state{};
     };
 
     template <class Sndr, class Receiver>
@@ -349,7 +349,7 @@ struct split_t {
 template <class Sndr, class Env>
 struct completion_signatures_for_impl<
     ::beman::execution::detail::basic_sender<::beman::execution::detail::split_impl_t,
-                                               ::beman::execution::detail::shared_wrapper<Sndr>>,
+                                             ::beman::execution::detail::shared_wrapper<Sndr>>,
     Env> {
     template <class... Args>
     using make_value_completions =
@@ -366,7 +366,7 @@ struct completion_signatures_for_impl<
 
     using fixed_completions =
         ::beman::execution::completion_signatures<::beman::execution::set_stopped_t(),
-                                                    ::beman::execution::set_error_t(std::exception_ptr)>;
+                                                  ::beman::execution::set_error_t(std::exception_ptr)>;
 
     using type = ::beman::execution::detail::meta::unique<
         ::beman::execution::detail::meta::combine<fixed_completions, value_completions, error_completions>>;

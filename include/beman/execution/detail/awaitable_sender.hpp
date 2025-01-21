@@ -13,8 +13,7 @@
 namespace beman::execution::detail {
 template <class Sndr, class Promise>
 concept awaitable_sender =
-    ::beman::execution::detail::single_sender<Sndr, ::beman::execution::env_of_t<Promise>> &&
-    requires(Promise& prom) {
+    ::beman::execution::detail::single_sender<Sndr, ::beman::execution::env_of_t<Promise>> && requires(Promise& prom) {
         { prom.unhandled_stopped() } -> ::std::convertible_to<::std::coroutine_handle<>>;
     };
 } // namespace beman::execution::detail

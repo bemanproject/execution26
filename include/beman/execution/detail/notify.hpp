@@ -57,7 +57,7 @@ struct impls_for<::beman::execution::detail::notify_t> : ::beman::execution::det
     template <typename Receiver>
     struct state : ::beman::execution::detail::notifier::base {
         ::beman::execution::detail::notifier* n;
-        ::std::remove_cvref_t<Receiver>&        receiver{};
+        ::std::remove_cvref_t<Receiver>&      receiver{};
         state(::beman::execution::detail::notifier* nn, ::std::remove_cvref_t<Receiver>& rcvr)
             : n(nn), receiver(rcvr) {}
         auto complete() -> void override { ::beman::execution::set_value(::std::move(this->receiver)); }

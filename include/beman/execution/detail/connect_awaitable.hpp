@@ -74,7 +74,7 @@ auto connect_awaitable(Awaiter awaiter, Receiver receiver)
         if constexpr (std::same_as<void, result_type>) {
             co_await ::std::move(awaiter);
             co_await ::beman::execution::detail::suspend_complete(::beman::execution::set_value,
-                                                                    ::std::move(receiver));
+                                                                  ::std::move(receiver));
         } else {
             co_await ::beman::execution::detail::suspend_complete(
                 ::beman::execution::set_value, ::std::move(receiver), co_await ::std::move(awaiter));
@@ -82,8 +82,7 @@ auto connect_awaitable(Awaiter awaiter, Receiver receiver)
     } catch (...) {
         ep = ::std::current_exception();
     }
-    co_await ::beman::execution::detail::suspend_complete(
-        ::beman::execution::set_error, ::std::move(receiver), ep);
+    co_await ::beman::execution::detail::suspend_complete(::beman::execution::set_error, ::std::move(receiver), ep);
 }
 } // namespace beman::execution::detail
 

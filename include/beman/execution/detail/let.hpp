@@ -75,8 +75,7 @@ struct let_t {
                                    ::beman::execution::get_domain(::beman::execution::get_env(sender)));
                            })
             return ::beman::execution::detail::make_env(
-                ::beman::execution::get_domain,
-                ::beman::execution::get_domain(::beman::execution::get_env(sender)));
+                ::beman::execution::get_domain, ::beman::execution::get_domain(::beman::execution::get_env(sender)));
         else
             return ::beman::execution::empty_env{};
     }
@@ -128,7 +127,7 @@ struct impls_for<::beman::execution::detail::let_t<Completion>> : ::beman::execu
         template <typename Tuple>
         using trans =
             decltype(::beman::execution::connect(::std::apply(::std::declval<Fun>(), ::std::declval<Tuple>()),
-                                                   ::std::declval<let_receiver<Receiver, Env>>()));
+                                                 ::std::declval<let_receiver<Receiver, Env>>()));
     };
 
     static constexpr auto get_state{[]<typename Sender, typename Receiver>(Sender&& sender, Receiver&& receiver) {
@@ -138,8 +137,7 @@ struct impls_for<::beman::execution::detail::let_t<Completion>> : ::beman::execu
         using fun_t   = ::std::remove_cvref_t<decltype(fun)>;
         using child_t = ::std::remove_cvref_t<decltype(child)>;
         using env_t   = decltype(::beman::execution::detail::let_t<Completion>::env(child));
-        using sigs_t =
-            ::beman::execution::completion_signatures_of_t<child_t, ::beman::execution::env_of_t<Receiver>>;
+        using sigs_t = ::beman::execution::completion_signatures_of_t<child_t, ::beman::execution::env_of_t<Receiver>>;
         using comp_sigs_t = ::beman::execution::detail::meta::filter<filter_pred, sigs_t>;
         using type_list_t = ::beman::execution::detail::meta::to<::std::variant, comp_sigs_t>;
         using tuples_t    = ::beman::execution::detail::meta::transform<to_tuple_t, type_list_t>;
@@ -218,13 +216,13 @@ struct completion_signatures_for_impl<
     };
 
     using upstream_env = decltype(::beman::execution::detail::let_t<Completion>::join_env(::std::declval<Sender>(),
-                                                                                            ::std::declval<Env>()));
+                                                                                          ::std::declval<Env>()));
     using upstream_completions = decltype(::beman::execution::get_completion_signatures(
         ::std::declval<Sender>(), ::std::declval<upstream_env>()));
     using other_completions    = ::beman::execution::detail::meta::filter<other_completion, upstream_completions>;
     using matching_completions = ::beman::execution::detail::meta::filter<matching_completion, upstream_completions>;
     using type = ::beman::execution::detail::meta::combine<typename get_completions<matching_completions>::type,
-                                                             other_completions>;
+                                                           other_completions>;
 };
 } // namespace beman::execution::detail
 

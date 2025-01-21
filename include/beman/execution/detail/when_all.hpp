@@ -52,9 +52,9 @@ struct when_all_t {
         requires(0u != sizeof...(Sender)) &&
                 ((::beman::execution::detail::meta::size_v<
                       ::beman::execution::value_types_of_t<Sender,
-                                                             ::beman::execution::empty_env,
-                                                             ::std::tuple,
-                                                             ::beman::execution::detail::type_list>> == 1u) &&
+                                                           ::beman::execution::empty_env,
+                                                           ::std::tuple,
+                                                           ::beman::execution::detail::type_list>> == 1u) &&
                  ...) &&
                 requires(Sender&&... s) {
                     typename ::std::common_type_t<decltype(::beman::execution::detail::get_domain_early(s))...>;
@@ -84,12 +84,12 @@ struct impls_for<::beman::execution::detail::when_all_t> : ::beman::execution::d
         else
             return ::beman::execution::detail::make_env(::beman::execution::get_domain, common_t{});
     }};
-    static constexpr auto get_env{[]<typename State, typename Receiver>(
-                                      auto&&, State& state, const Receiver& receiver) noexcept {
-        return ::beman::execution::detail::join_env(
-            ::beman::execution::detail::make_env(::beman::execution::get_stop_token, state.stop_src.get_token()),
-            ::beman::execution::get_env(receiver));
-    }};
+    static constexpr auto get_env{
+        []<typename State, typename Receiver>(auto&&, State& state, const Receiver& receiver) noexcept {
+            return ::beman::execution::detail::join_env(
+                ::beman::execution::detail::make_env(::beman::execution::get_stop_token, state.stop_src.get_token()),
+                ::beman::execution::get_env(receiver));
+        }};
 
     enum class disposition : unsigned char { started, error, stopped };
 
@@ -165,13 +165,13 @@ struct impls_for<::beman::execution::detail::when_all_t> : ::beman::execution::d
             }
         }
 
-        Receiver*                                 receiver{};
-        ::std::atomic<size_t>                     count{sizeof...(Sender)};
+        Receiver*                               receiver{};
+        ::std::atomic<size_t>                   count{sizeof...(Sender)};
         ::beman::execution::inplace_stop_source stop_src{};
-        ::std::atomic<disposition>                disp{disposition::started};
-        errors_variant                            errors{};
-        values_tuple                              values{};
-        ::std::optional<stop_callback>            on_stop{::std::nullopt};
+        ::std::atomic<disposition>              disp{disposition::started};
+        errors_variant                          errors{};
+        values_tuple                            values{};
+        ::std::optional<stop_callback>          on_stop{::std::nullopt};
     };
 
     template <typename Receiver>
@@ -248,9 +248,9 @@ struct completion_signatures_for_impl<
             ::beman::execution::
                 value_types_of_t<Sender, Env, ::beman::execution::detail::type_list, ::std::type_identity_t>...>>::
             type;
-    using error_types = ::beman::execution::detail::meta::unique<::beman::execution::detail::meta::combine<
-        ::beman::execution::error_types_of_t<Sender, Env, error_comps>...>>;
-    using type        = ::beman::execution::detail::meta::combine<value_types, error_types>;
+    using error_types = ::beman::execution::detail::meta::unique<
+        ::beman::execution::detail::meta::combine<::beman::execution::error_types_of_t<Sender, Env, error_comps>...>>;
+    using type = ::beman::execution::detail::meta::combine<value_types, error_types>;
 };
 } // namespace beman::execution::detail
 

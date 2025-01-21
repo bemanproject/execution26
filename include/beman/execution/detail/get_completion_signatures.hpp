@@ -25,8 +25,7 @@ struct get_completion_signatures_t {
     static auto get(Sender&& sender, Env&& env) noexcept {
         auto new_sender{[](auto&& sndr, auto&& e) -> decltype(auto) {
             auto domain{::beman::execution::detail::get_domain_late(sndr, e)};
-            return ::beman::execution::transform_sender(
-                domain, ::std::forward<Sender>(sndr), ::std::forward<Env>(e));
+            return ::beman::execution::transform_sender(domain, ::std::forward<Sender>(sndr), ::std::forward<Env>(e));
         }};
 
         using sender_type = ::std::remove_cvref_t<decltype(new_sender(sender, env))>;
@@ -37,18 +36,17 @@ struct get_completion_signatures_t {
             return typename sender_type::completion_signatures{};
         else if constexpr (::beman::execution::detail::
                                is_awaitable<sender_type, ::beman::execution::detail::env_promise<decayed_env>>) {
-            using result_type = ::beman::execution::detail::
-                await_result_type<sender_type, ::beman::execution::detail::env_promise<decayed_env>>;
+            using result_type =
+                ::beman::execution::detail::await_result_type<sender_type,
+                                                              ::beman::execution::detail::env_promise<decayed_env>>;
             if constexpr (::std::same_as<void, result_type>) {
                 return ::beman::execution::completion_signatures<::beman::execution::set_value_t(),
-                                                                   ::beman::execution::set_error_t(
-                                                                       ::std::exception_ptr),
-                                                                   ::beman::execution::set_stopped_t()>{};
+                                                                 ::beman::execution::set_error_t(::std::exception_ptr),
+                                                                 ::beman::execution::set_stopped_t()>{};
             } else {
                 return ::beman::execution::completion_signatures<::beman::execution::set_value_t(result_type),
-                                                                   ::beman::execution::set_error_t(
-                                                                       ::std::exception_ptr),
-                                                                   ::beman::execution::set_stopped_t()>{};
+                                                                 ::beman::execution::set_error_t(::std::exception_ptr),
+                                                                 ::beman::execution::set_stopped_t()>{};
             }
         }
     }

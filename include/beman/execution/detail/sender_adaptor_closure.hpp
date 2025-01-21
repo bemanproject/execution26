@@ -26,8 +26,7 @@ struct sender_adaptor_closure : ::beman::execution::detail::pipeable::sender_ada
 namespace beman::execution::detail {
 template <typename Closure>
 concept is_sender_adaptor_closure =
-    ::std::derived_from<::std::decay_t<Closure>,
-                        ::beman::execution::sender_adaptor_closure<::std::decay_t<Closure>>>;
+    ::std::derived_from<::std::decay_t<Closure>, ::beman::execution::sender_adaptor_closure<::std::decay_t<Closure>>>;
 }
 
 namespace beman::execution::detail::pipeable {

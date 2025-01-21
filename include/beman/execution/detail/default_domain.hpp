@@ -28,20 +28,20 @@ struct default_domain {
     template <::beman::execution::sender Sender, ::beman::execution::detail::queryable... Env>
         requires(sizeof...(Env) <= 1) && requires(Sender&& sender, Env&&... env) {
             ::beman::execution::tag_of_t<Sender>().transform_sender(::std::forward<Sender>(sender),
-                                                                      ::std::forward<Env>(env)...);
+                                                                    ::std::forward<Env>(env)...);
         }
     static constexpr auto transform_sender(Sender&& sender, Env&&... env) noexcept(
         noexcept(::beman::execution::tag_of_t<Sender>().transform_sender(::std::forward<Sender>(sender),
-                                                                           ::std::forward<Env>(env)...)))
+                                                                         ::std::forward<Env>(env)...)))
         -> ::beman::execution::sender decltype(auto) {
         return ::beman::execution::tag_of_t<Sender>().transform_sender(::std::forward<Sender>(sender),
-                                                                         ::std::forward<Env>(env)...);
+                                                                       ::std::forward<Env>(env)...);
     }
 
     template <::beman::execution::sender Sender, ::beman::execution::detail::queryable... Env>
         requires(sizeof...(Env) <= 1) && (not requires(Sender&& sender, Env&&... env) {
                     ::beman::execution::tag_of_t<Sender>().transform_sender(::std::forward<Sender>(sender),
-                                                                              ::std::forward<Env>(env)...);
+                                                                            ::std::forward<Env>(env)...);
                 })
     static constexpr auto transform_sender(Sender&& sender,
                                            Env&&...) noexcept(noexcept(::std::forward<Sender>(sender)))
@@ -52,18 +52,18 @@ struct default_domain {
     template <::beman::execution::sender Sender, ::beman::execution::detail::queryable Env>
         requires requires(Sender&& sender, Env&& env) {
             ::beman::execution::tag_of_t<Sender>().transform_env(::std::forward<Sender>(sender),
-                                                                   ::std::forward<Env>(env));
+                                                                 ::std::forward<Env>(env));
         }
     static constexpr auto transform_env(Sender&& sender, Env&& env) noexcept -> ::beman::execution::detail::queryable
         decltype(auto) {
         return ::beman::execution::tag_of_t<Sender>().transform_env(::std::forward<Sender>(sender),
-                                                                      ::std::forward<Env>(env));
+                                                                    ::std::forward<Env>(env));
     }
 
     template <::beman::execution::sender Sender, ::beman::execution::detail::queryable Env>
         requires(not requires(Sender&& sender, Env&& env) {
             ::beman::execution::tag_of_t<Sender>().transform_env(::std::forward<Sender>(sender),
-                                                                   ::std::forward<Env>(env));
+                                                                 ::std::forward<Env>(env));
         })
     static constexpr auto transform_env(Sender&&, Env&& env) noexcept -> ::beman::execution::detail::queryable
         decltype(auto) {

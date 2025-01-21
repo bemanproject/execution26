@@ -24,8 +24,8 @@ concept is_sender = ::std::derived_from<typename Sender::sender_concept, ::beman
 template <typename Sender>
 concept enable_sender =
     ::beman::execution::detail::is_sender<Sender> ||
-    ::beman::execution::detail::
-        is_awaitable<Sender, ::beman::execution::detail::env_promise<::beman::execution::empty_env>>;
+    ::beman::execution::detail::is_awaitable<Sender,
+                                             ::beman::execution::detail::env_promise<::beman::execution::empty_env>>;
 } // namespace beman::execution::detail
 namespace beman::execution {
 template <typename Sender>

@@ -59,7 +59,7 @@ struct basic_sender : ::beman::execution::detail::product_type<Tag, Data, Child.
     template <::beman::execution::receiver Receiver>
     auto connect(Receiver receiver) && noexcept(
         noexcept(::beman::execution::detail::basic_operation<basic_sender, Receiver>{::std::move(*this),
-                                                                                       ::std::move(receiver)}))
+                                                                                     ::std::move(receiver)}))
         -> ::beman::execution::detail::basic_operation<basic_sender, Receiver> {
         return {::std::move(*this), ::std::move(receiver)};
     }

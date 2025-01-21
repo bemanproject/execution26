@@ -45,8 +45,8 @@ constexpr auto completion_domain(const Sender& sender) noexcept {
     static_assert(::beman::execution::sender<Sender>);
     auto get = [&sender]<typename Tag>(Tag) {
         if constexpr (requires {
-                          ::beman::execution::get_domain(::beman::execution::get_completion_scheduler<Tag>(
-                              ::beman::execution::get_env(sender)));
+                          ::beman::execution::get_domain(
+                              ::beman::execution::get_completion_scheduler<Tag>(::beman::execution::get_env(sender)));
                       }) {
             return ::beman::execution::get_domain(
                 ::beman::execution::get_completion_scheduler<Tag>(::beman::execution::get_env(sender)));

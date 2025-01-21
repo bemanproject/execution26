@@ -67,7 +67,7 @@ struct some_thread_pool_scheduler {
 
         using completion_signatures =
             beman::execution::completion_signatures<beman::execution::set_value_t(),
-                                                      beman::execution::set_error_t(std::exception_ptr)>;
+                                                    beman::execution::set_error_t(std::exception_ptr)>;
 
         some_thread_pool*                     pool_;
         std::chrono::steady_clock::time_point deadline_;
@@ -99,7 +99,7 @@ struct some_thread_pool_scheduler {
 
     auto schedule_after(std::chrono::nanoseconds duration) const noexcept {
         return beman::execution::let_value(beman::execution::just(),
-                                             [this, duration] { return schedule_at(now() + duration); });
+                                           [this, duration] { return schedule_at(now() + duration); });
     }
 
     auto schedule() const noexcept -> timed_sender { return schedule_at(now()); }

@@ -20,8 +20,7 @@ concept stoppable_callback_for =
     requires { typename ::beman::execution::stop_callback_for_t<Token, CallbackFun>; } &&
     ::std::constructible_from<::beman::execution::stop_callback_for_t<Token, CallbackFun>, Token, Initializer> &&
     ::std::constructible_from<::beman::execution::stop_callback_for_t<Token, CallbackFun>, Token&, Initializer> &&
-    ::std::
-        constructible_from<::beman::execution::stop_callback_for_t<Token, CallbackFun>, const Token&, Initializer>;
+    ::std::constructible_from<::beman::execution::stop_callback_for_t<Token, CallbackFun>, const Token&, Initializer>;
 } // namespace beman::execution::detail
 
 // ----------------------------------------------------------------------------

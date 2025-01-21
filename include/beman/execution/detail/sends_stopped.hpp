@@ -20,9 +20,9 @@ template <typename Sender, typename Env = ::beman::execution::empty_env>
 inline constexpr bool sends_stopped{not::std::same_as<
     ::beman::execution::detail::type_list<>,
     ::beman::execution::detail::gather_signatures< ::beman::execution::set_stopped_t,
-                                                     ::beman::execution::completion_signatures_of_t<Sender, Env>,
-                                                     ::beman::execution::detail::type_list,
-                                                     ::beman::execution::detail::type_list> >};
+                                                   ::beman::execution::completion_signatures_of_t<Sender, Env>,
+                                                   ::beman::execution::detail::type_list,
+                                                   ::beman::execution::detail::type_list> >};
 }
 
 // ----------------------------------------------------------------------------

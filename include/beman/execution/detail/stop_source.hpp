@@ -30,11 +30,11 @@ struct stop_callback_base;
 // ----------------------------------------------------------------------------
 
 struct beman::execution::detail::stop_state {
-    ::std::atomic<bool>                             stop_requested{};
-    ::std::atomic<::std::size_t>                    sources{};
-    ::std::mutex                                    lock{};
+    ::std::atomic<bool>                           stop_requested{};
+    ::std::atomic<::std::size_t>                  sources{};
+    ::std::mutex                                  lock{};
     beman::execution::detail::stop_callback_base* callbacks{};
-    ::std::atomic<bool>                             executing{};
+    ::std::atomic<bool>                           executing{};
 
     auto stop_possible() const -> bool { return this->sources != 0 || this->stop_requested; }
 };
@@ -152,8 +152,7 @@ class beman::execution::stop_callback final : private CallbackFun, beman::execut
 
 // ----------------------------------------------------------------------------
 
-inline beman::execution::detail::stop_callback_base::stop_callback_base(
-    const ::beman::execution::stop_token& token)
+inline beman::execution::detail::stop_callback_base::stop_callback_base(const ::beman::execution::stop_token& token)
     : state(token.state) {}
 
 inline beman::execution::detail::stop_callback_base::~stop_callback_base() {}

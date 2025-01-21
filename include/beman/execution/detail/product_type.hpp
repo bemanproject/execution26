@@ -37,8 +37,7 @@ struct product_type_base<::std::index_sequence<I...>, T...>
         return ::std::move(self.value);
     }
     template <::std::size_t J, typename S>
-    static auto element_get(const ::beman::execution::detail::product_type_element<J, S>& self) noexcept
-        -> const S& {
+    static auto element_get(const ::beman::execution::detail::product_type_element<J, S>& self) noexcept -> const S& {
         return self.value;
     }
 

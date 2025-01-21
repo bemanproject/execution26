@@ -122,7 +122,7 @@ struct impls_for<::beman::execution::detail::schedule_from_t> : ::beman::executi
 
         static constexpr bool nothrow() {
             return noexcept(::beman::execution::connect(::beman::execution::schedule(::std::declval<Scheduler>()),
-                                                          receiver_t{nullptr}));
+                                                        receiver_t{nullptr}));
         }
         explicit state_type(Scheduler& sch, Receiver& rcvr) noexcept(nothrow())
             : state_base<Receiver, Variant>{rcvr},
@@ -137,7 +137,7 @@ struct impls_for<::beman::execution::detail::schedule_from_t> : ::beman::executi
     static constexpr auto get_state{
         []<typename Sender, typename Receiver>(Sender&& sender, Receiver& receiver) //-dk:TODO noexcept(see below)
             requires ::beman::execution::sender_in<::beman::execution::detail::child_type<Sender>,
-                                                     ::beman::execution::env_of_t<Receiver>>
+                                                   ::beman::execution::env_of_t<Receiver>>
         {
             auto sch{sender.template get<1>()};
 

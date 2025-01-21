@@ -44,8 +44,7 @@ struct then_t : ::beman::execution::sender_adaptor_closure<then_t<Completion>> {
         auto domain{::beman::execution::detail::get_domain_early(sender)};
         return ::beman::execution::transform_sender(
             domain,
-            ::beman::execution::detail::make_sender(
-                *this, ::std::forward<Fun>(fun), ::std::forward<Sender>(sender)));
+            ::beman::execution::detail::make_sender(*this, ::std::forward<Fun>(fun), ::std::forward<Sender>(sender)));
     }
 };
 

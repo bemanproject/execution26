@@ -47,8 +47,7 @@ class sender_awaitable {
 
         template <class Error>
         void set_error(Error&& error) && noexcept {
-            result_ptr_->template emplace<2>(
-                ::beman::execution::detail::as_except_ptr(::std::forward<Error>(error)));
+            result_ptr_->template emplace<2>(::beman::execution::detail::as_except_ptr(::std::forward<Error>(error)));
             continuation_.resume();
         }
 

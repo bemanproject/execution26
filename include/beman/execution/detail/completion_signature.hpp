@@ -42,8 +42,8 @@ struct is_set_value<::beman::execution::set_value_t(Args...)> : ::std::true_type
  */
 template <typename Fun>
 concept completion_signature =
-    ::beman::execution::detail::is_set_error<Fun>::value ||
-    ::beman::execution::detail::is_set_stopped<Fun>::value || ::beman::execution::detail::is_set_value<Fun>::value;
+    ::beman::execution::detail::is_set_error<Fun>::value || ::beman::execution::detail::is_set_stopped<Fun>::value ||
+    ::beman::execution::detail::is_set_value<Fun>::value;
 } // namespace beman::execution::detail
 
 // ----------------------------------------------------------------------------

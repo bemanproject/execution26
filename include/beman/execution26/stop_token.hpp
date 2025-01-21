@@ -21,8 +21,7 @@ using ::beman::execution::stop_token;
 using ::beman::execution::stoppable_token;
 using ::beman::execution::unstoppable_token;
 
-}
-
+} // namespace beman::execution26
 
 // ----------------------------------------------------------------------------
 

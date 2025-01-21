@@ -27,8 +27,7 @@ concept just_size = (not::std::same_as<Completion, ::beman::execution::set_error
 template <typename Completion>
 struct just_t {
     template <typename... T>
-        requires ::beman::execution::detail::just_size<Completion, T...> &&
-                 (::std::movable<::std::decay_t<T>> && ...)
+        requires ::beman::execution::detail::just_size<Completion, T...> && (::std::movable<::std::decay_t<T>> && ...)
     auto operator()(T&&... arg) const {
         return ::beman::execution::detail::make_sender(
             *this, ::beman::execution::detail::product_type{::std::forward<T>(arg)...});

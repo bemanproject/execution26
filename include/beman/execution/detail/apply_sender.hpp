@@ -37,8 +37,8 @@ template <typename Domain, typename Tag, ::beman::execution::sender Sender, type
     }
 constexpr auto apply_sender(Domain, Tag, Sender&& sender, Args&&... args) noexcept(
     noexcept(beman::execution::default_domain().apply_sender(Tag(),
-                                                               ::std::forward<Sender>(sender),
-                                                               ::std::forward<Args>(args)...))) -> decltype(auto) {
+                                                             ::std::forward<Sender>(sender),
+                                                             ::std::forward<Args>(args)...))) -> decltype(auto) {
     return beman::execution::default_domain().apply_sender(
         Tag(), ::std::forward<Sender>(sender), ::std::forward<Args>(args)...);
 }

@@ -19,8 +19,8 @@ namespace beman::execution::detail {
  */
 template <typename Tag>
 concept completion_tag =
-    ::std::same_as<Tag, ::beman::execution::set_error_t> ||
-    ::std::same_as<Tag, ::beman::execution::set_stopped_t> || ::std::same_as<Tag, ::beman::execution::set_value_t>;
+    ::std::same_as<Tag, ::beman::execution::set_error_t> || ::std::same_as<Tag, ::beman::execution::set_stopped_t> ||
+    ::std::same_as<Tag, ::beman::execution::set_value_t>;
 } // namespace beman::execution::detail
 
 // ----------------------------------------------------------------------------

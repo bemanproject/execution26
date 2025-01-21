@@ -11,8 +11,7 @@
 
 namespace beman::execution {
 template <typename Sender>
-using tag_of_t =
-    typename decltype(::beman::execution::detail::get_sender_meta(::std::declval<Sender&&>()))::tag_type;
+using tag_of_t = typename decltype(::beman::execution::detail::get_sender_meta(::std::declval<Sender&&>()))::tag_type;
 }
 
 // ----------------------------------------------------------------------------

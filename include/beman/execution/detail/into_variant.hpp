@@ -45,9 +45,10 @@ struct into_variant_t {
 template <>
 struct impls_for<::beman::execution::detail::into_variant_t> : ::beman::execution::detail::default_impls {
     static constexpr auto get_state = []<typename Sender, typename Receiver>(Sender&&, Receiver&&) noexcept
-        -> ::std::type_identity<
-            ::beman::execution::value_types_of_t<::beman::execution::detail::child_type<Sender>,
-                                                   ::beman::execution::env_of_t<Receiver>>> { return {}; };
+        -> ::std::type_identity<::beman::execution::value_types_of_t<::beman::execution::detail::child_type<Sender>,
+                                                                     ::beman::execution::env_of_t<Receiver>>> {
+        return {};
+    };
     static constexpr auto complete = []<typename State, typename Tag, typename... Args>(
                                          auto, State, auto& receiver, Tag, Args&&... args) noexcept -> void {
         if constexpr (::std::same_as<Tag, ::beman::execution::set_value_t>) {
@@ -58,7 +59,7 @@ struct impls_for<::beman::execution::detail::into_variant_t> : ::beman::executio
                     ::beman::execution::set_value(::std::move(receiver));
                 else
                     ::beman::execution::set_value(::std::move(receiver),
-                                                    variant_type(tuple_type{::std::forward<Args>(args)...}));
+                                                  variant_type(tuple_type{::std::forward<Args>(args)...}));
             } catch (...) {
                 ::beman::execution::set_error(::std::move(receiver), ::std::current_exception());
             }
@@ -74,10 +75,10 @@ struct completion_signatures_for_impl<
     ::beman::execution::detail::basic_sender<::beman::execution::detail::into_variant_t, State, Sender>,
     Env> {
     using variant_type = ::beman::execution::value_types_of_t<Sender, Env>;
-    using value_types  = ::std::conditional_t<
-         ::std::same_as<variant_type, ::beman::execution::detail::empty_variant>,
-         ::beman::execution::completion_signatures<>,
-         ::beman::execution::completion_signatures<::beman::execution::set_value_t(variant_type)>>;
+    using value_types =
+        ::std::conditional_t<::std::same_as<variant_type, ::beman::execution::detail::empty_variant>,
+                             ::beman::execution::completion_signatures<>,
+                             ::beman::execution::completion_signatures<::beman::execution::set_value_t(variant_type)>>;
     template <typename... E>
     using make_error_types = ::beman::execution::completion_signatures<::beman::execution::set_error_t(E)...>;
 

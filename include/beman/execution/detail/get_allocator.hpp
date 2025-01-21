@@ -18,14 +18,13 @@ namespace beman::execution {
 struct get_allocator_t {
     template <typename Object>
         requires(not requires(Object&& object, const get_allocator_t& tag) { ::std::as_const(object).query(tag); })
-    auto operator()(Object&&) const =
-        BEMAN_EXECUTION_DELETE("the object requires a const query(get_allocator_t) overload");
+    auto
+    operator()(Object&&) const = BEMAN_EXECUTION_DELETE("the object requires a const query(get_allocator_t) overload");
     template <typename Object>
         requires(
                     not requires(const Object& object, const get_allocator_t& tag) { object.query(tag); } &&
                     not requires(Object&& object, const get_allocator_t& tag) { ::std::as_const(object).query(tag); })
-    auto
-    operator()(Object&&) const = BEMAN_EXECUTION_DELETE("the object requires a query(get_allocator_t) overload");
+    auto operator()(Object&&) const = BEMAN_EXECUTION_DELETE("the object requires a query(get_allocator_t) overload");
     template <typename Object>
         requires(not requires(const Object& object, const get_allocator_t& tag) {
                     { object.query(tag) } noexcept;

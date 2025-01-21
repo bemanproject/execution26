@@ -47,8 +47,7 @@ struct gather_signatures_helper;
 
 template <typename... Signatures, template <typename...> class Tuple, template <typename...> class Variant>
     requires requires {
-        requires always_true<
-            typename ::beman::execution::detail::gather_signatures_apply<Signatures, Tuple>::type...>;
+        requires always_true<typename ::beman::execution::detail::gather_signatures_apply<Signatures, Tuple>::type...>;
     } && requires {
         typename ::beman::execution::detail::indirect_meta_apply<
             always_true<typename ::beman::execution::detail::gather_signatures_apply<Signatures, Tuple>::type...>>::
@@ -59,9 +58,8 @@ template <typename... Signatures, template <typename...> class Tuple, template <
 struct gather_signatures_helper<::beman::execution::completion_signatures<Signatures...>, Tuple, Variant> {
     using type = typename ::beman::execution::detail::indirect_meta_apply<
         always_true<typename ::beman::execution::detail::gather_signatures_apply<Signatures, Tuple>::type...>>::
-        template meta_apply<
-            Variant,
-            typename ::beman::execution::detail::gather_signatures_apply<Signatures, Tuple>::type...>;
+        template meta_apply<Variant,
+                            typename ::beman::execution::detail::gather_signatures_apply<Signatures, Tuple>::type...>;
 };
 
 template <typename Tag,

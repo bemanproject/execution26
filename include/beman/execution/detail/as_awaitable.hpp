@@ -26,7 +26,7 @@ struct as_awaitable_t {
         if constexpr (requires { ::std::forward<Expr>(expr).as_awaitable(promise); }) {
             static_assert(
                 ::beman::execution::detail::is_awaitable<decltype(::std::forward<Expr>(expr).as_awaitable(promise)),
-                                                           Promise>,
+                                                         Promise>,
                 "as_awaitable must return an awaitable");
             return ::std::forward<Expr>(expr).as_awaitable(promise);
         } else if constexpr (::beman::execution::detail::

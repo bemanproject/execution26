@@ -47,8 +47,8 @@ struct default_impls {
                 return ::beman::execution::detail::get_sender_data(::std::forward<Sender>(sender)).data;
         }()};
 
-        return ::beman::execution::detail::allocator_aware_move(
-            ::beman::execution::detail::forward_like<Sender>(data), receiver);
+        return ::beman::execution::detail::allocator_aware_move(::beman::execution::detail::forward_like<Sender>(data),
+                                                                receiver);
     };
     static constexpr auto start = [](auto&, auto&, auto&... ops) noexcept -> void {
         (::beman::execution::start(ops), ...);

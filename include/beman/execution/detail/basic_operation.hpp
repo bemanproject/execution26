@@ -39,12 +39,11 @@ struct basic_operation : ::beman::execution::detail::basic_state<Sender, Receive
 
     basic_operation(Sender&& sender, Receiver&& rcvr) noexcept(
         noexcept(::beman::execution::detail::basic_state<Sender, Receiver>(::std::forward<Sender>(sender),
-                                                                             ::std::move(rcvr))) &&
+                                                                           ::std::move(rcvr))) &&
         noexcept(::beman::execution::detail::connect_all(this,
-                                                           ::std::forward<Sender>(sender),
-                                                           ::beman::execution::detail::indices_for<Sender>())))
-        : ::beman::execution::detail::basic_state<Sender, Receiver>(::std::forward<Sender>(sender),
-                                                                      ::std::move(rcvr)),
+                                                         ::std::forward<Sender>(sender),
+                                                         ::beman::execution::detail::indices_for<Sender>())))
+        : ::beman::execution::detail::basic_state<Sender, Receiver>(::std::forward<Sender>(sender), ::std::move(rcvr)),
           // NOLINTBEGIN(bugprone-use-after-move,hicpp-invalid-access-moved)
           //-dk:TODO deal with moving the sender twice
           inner_ops(::beman::execution::detail::connect_all(

@@ -28,7 +28,7 @@ struct connect_t {
         noexcept(true) -> decltype(auto) {
         return ::beman::execution::transform_sender(
             decltype(::beman::execution::detail::get_domain_late(::std::forward<Sender>(sender),
-                                                                   ::beman::execution::get_env(receiver))){},
+                                                                 ::beman::execution::get_env(receiver))){},
             ::std::forward<Sender>(sender),
             ::beman::execution::get_env(receiver));
     }
@@ -64,7 +64,7 @@ struct connect_t {
             return new_sender().connect(::std::forward<Receiver>(receiver));
         } else if constexpr (requires {
                                  ::beman::execution::detail::connect_awaitable(new_sender(),
-                                                                                 ::std::forward<Receiver>(receiver));
+                                                                               ::std::forward<Receiver>(receiver));
                              }) {
             return ::beman::execution::detail::connect_awaitable(new_sender(), ::std::forward<Receiver>(receiver));
         } else {

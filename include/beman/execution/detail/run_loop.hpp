@@ -70,8 +70,8 @@ class run_loop {
         using sender_concept = ::beman::execution::sender_t;
         using completion_signatures =
             ::beman::execution::completion_signatures<::beman::execution::set_value_t(),
-                                                        ::beman::execution::set_error_t(::std::exception_ptr),
-                                                        ::beman::execution::set_stopped_t()>;
+                                                      ::beman::execution::set_error_t(::std::exception_ptr),
+                                                      ::beman::execution::set_stopped_t()>;
 
         run_loop* loop;
 

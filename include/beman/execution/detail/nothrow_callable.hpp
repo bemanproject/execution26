@@ -10,10 +10,9 @@
 
 namespace beman::execution::detail {
 template <typename Fun, typename... Args>
-concept nothrow_callable =
-    ::beman::execution::detail::callable<Fun, Args...> && requires(Fun&& fun, Args&&... args) {
-        { ::std::forward<Fun>(fun)(::std::forward<Args>(args)...) } noexcept;
-    };
+concept nothrow_callable = ::beman::execution::detail::callable<Fun, Args...> && requires(Fun&& fun, Args&&... args) {
+    { ::std::forward<Fun>(fun)(::std::forward<Args>(args)...) } noexcept;
+};
 } // namespace beman::execution::detail
 
 // ----------------------------------------------------------------------------

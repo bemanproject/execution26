@@ -77,8 +77,7 @@ class beman::execution::inplace_stop_source {
 // ----------------------------------------------------------------------------
 
 template <typename CallbackFun>
-class beman::execution::inplace_stop_callback final
-    : public ::beman::execution::inplace_stop_source::callback_base {
+class beman::execution::inplace_stop_callback final : public ::beman::execution::inplace_stop_source::callback_base {
   public:
     using callback_type = CallbackFun;
 
@@ -97,7 +96,7 @@ class beman::execution::inplace_stop_callback final
   private:
     auto call() -> void override;
 
-    CallbackFun                                fun;
+    CallbackFun                              fun;
     ::beman::execution::inplace_stop_source* source;
 };
 

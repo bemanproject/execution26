@@ -28,10 +28,9 @@ struct starts_on_t {
     auto transform_env(Sender&& sender, Env&& env) const noexcept {
         auto&& scheduler{sender.template get<1>()};
         return ::beman::execution::detail::join_env(::beman::execution::detail::sched_env(scheduler),
-                                                      ::beman::execution::detail::fwd_env(env));
+                                                    ::beman::execution::detail::fwd_env(env));
     }
-    template <::beman::execution::detail::sender_for<::beman::execution::detail::starts_on_t> Sender,
-              typename... Env>
+    template <::beman::execution::detail::sender_for<::beman::execution::detail::starts_on_t> Sender, typename... Env>
     auto transform_sender(Sender&& sender, Env&&...) const noexcept {
         auto&& scheduler{sender.template get<1>()};
         auto&& new_sender{sender.template get<2>()};

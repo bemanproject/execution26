@@ -35,14 +35,14 @@ struct sync_wait_env {
 template <::beman::execution::sender_in<::beman::execution::detail::sync_wait_env> Sender>
 using sync_wait_result_type =
     ::std::optional<::beman::execution::value_types_of_t<Sender,
-                                                           ::beman::execution::detail::sync_wait_env,
-                                                           ::beman::execution::detail::decayed_tuple,
-                                                           ::std::type_identity_t>>;
+                                                         ::beman::execution::detail::sync_wait_env,
+                                                         ::beman::execution::detail::decayed_tuple,
+                                                         ::std::type_identity_t>>;
 
 template <typename Sender>
 struct sync_wait_state {
     ::beman::execution::run_loop loop{};
-    ::std::exception_ptr           error{};
+    ::std::exception_ptr         error{};
 
     ::beman::execution::detail::sync_wait_result_type<Sender> result{};
 };
@@ -79,7 +79,7 @@ struct sync_wait_t {
     auto apply_sender(Sender&& sender) const {
         ::beman::execution::detail::sync_wait_state<Sender> state;
         auto op{::beman::execution::connect(::std::forward<Sender>(sender),
-                                              ::beman::execution::detail::sync_wait_receiver<Sender>{&state})};
+                                            ::beman::execution::detail::sync_wait_receiver<Sender>{&state})};
         ::beman::execution::start(op);
 
         state.loop.run();

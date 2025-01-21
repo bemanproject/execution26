@@ -52,9 +52,9 @@ struct get_completion_scheduler_t : ::beman::execution::forwarding_query_t {
                     requires(const get_completion_scheduler_t& self, const ::std::remove_cvref_t<Env>& env) {
                         { env.query(self) } noexcept;
                     } &&
-                    (not requires(const get_completion_scheduler_t&                                    self,
+                    (not requires(const get_completion_scheduler_t&                                  self,
                                   const get_completion_scheduler_t<::beman::execution::set_value_t>& value_self,
-                                  const ::std::remove_cvref_t<Env>&                                    env) {
+                                  const ::std::remove_cvref_t<Env>&                                  env) {
                         { env.query(self) } noexcept -> ::beman::execution::detail::almost_scheduler;
                         {
                             ::beman::execution::get_env(::beman::execution::schedule(env.query(self)))
@@ -65,9 +65,9 @@ struct get_completion_scheduler_t : ::beman::execution::forwarding_query_t {
         BEMAN_EXECUTION_DELETE("The environment's query(get_completion_scheduler_t) has to return a scheduler");
 
     template <typename Env>
-        requires requires(const get_completion_scheduler_t&                                    self,
+        requires requires(const get_completion_scheduler_t&                                  self,
                           const get_completion_scheduler_t<::beman::execution::set_value_t>& value_self,
-                          const ::std::remove_cvref_t<Env>&                                    env) {
+                          const ::std::remove_cvref_t<Env>&                                  env) {
             { env.query(self) } noexcept -> ::beman::execution::detail::almost_scheduler;
             {
                 ::beman::execution::get_env(::beman::execution::schedule(env.query(self))).query(value_self)

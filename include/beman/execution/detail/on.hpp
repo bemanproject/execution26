@@ -38,7 +38,7 @@ struct on_t : ::beman::execution::sender_adaptor_closure<on_t> {
             return ::beman::execution::detail::join_env(
                 ::beman::execution::detail::sched_env(::beman::execution::detail::forward_like<OutSndr>(data)
 
-                                                            ),
+                                                          ),
                 ::beman::execution::detail::fwd_env(::std::forward<Env>(env)));
         else
             return std::forward<Env>(env);
@@ -66,7 +66,7 @@ struct on_t : ::beman::execution::sender_adaptor_closure<on_t> {
             } else {
                 return ::beman::execution::continues_on(
                     ::beman::execution::starts_on(::beman::execution::detail::forward_like<OutSndr>(data),
-                                                    ::beman::execution::detail::forward_like<OutSndr>(child)),
+                                                  ::beman::execution::detail::forward_like<OutSndr>(child)),
                     ::std::move(sch));
             }
         } else {
@@ -82,12 +82,11 @@ struct on_t : ::beman::execution::sender_adaptor_closure<on_t> {
             } else {
                 return ::beman::execution::detail::write_env(
                     ::beman::execution::continues_on(
-                        ::beman::execution::detail::forward_like<OutSndr>(closure)(
-                            ::beman::execution::continues_on(
-                                ::beman::execution::detail::write_env(
-                                    ::beman::execution::detail::forward_like<OutSndr>(child),
-                                    ::beman::execution::detail::sched_env(orig_sch)),
-                                sch)),
+                        ::beman::execution::detail::forward_like<OutSndr>(closure)(::beman::execution::continues_on(
+                            ::beman::execution::detail::write_env(
+                                ::beman::execution::detail::forward_like<OutSndr>(child),
+                                ::beman::execution::detail::sched_env(orig_sch)),
+                            sch)),
                         orig_sch),
                     ::beman::execution::detail::sched_env(env));
             }

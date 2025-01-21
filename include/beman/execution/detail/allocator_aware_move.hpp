@@ -28,8 +28,7 @@ auto allocator_aware_move(T&& obj, Context&& context) noexcept -> decltype(auto)
                                      ::std::forward<T>(obj));
             } else {
                 return ::std::make_obj_using_allocator<T>(
-                    ::beman::execution::get_allocator(::beman::execution::get_env(context)),
-                    ::std::forward<T>(obj));
+                    ::beman::execution::get_allocator(::beman::execution::get_env(context)), ::std::forward<T>(obj));
             }
         } else {
             return ::std::forward<T>(obj);

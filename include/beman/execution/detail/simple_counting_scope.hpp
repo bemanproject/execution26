@@ -90,9 +90,9 @@ class beman::execution::simple_counting_scope : ::beman::execution::detail::immo
         }
         n.complete();
     }
-    ::std::mutex                           mutex;
-    ::std::size_t                          count{};
-    state_t                                state{state_t::unused};
+    ::std::mutex                         mutex;
+    ::std::size_t                        count{};
+    state_t                              state{state_t::unused};
     ::beman::execution::detail::notifier n;
 };
 

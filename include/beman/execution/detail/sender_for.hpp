@@ -13,8 +13,7 @@
 
 namespace beman::execution::detail {
 template <typename Sender, typename Tag>
-concept sender_for =
-    ::beman::execution::sender<Sender> && ::std::same_as<::beman::execution::tag_of_t<Sender>, Tag>;
+concept sender_for = ::beman::execution::sender<Sender> && ::std::same_as<::beman::execution::tag_of_t<Sender>, Tag>;
 }
 
 // ----------------------------------------------------------------------------

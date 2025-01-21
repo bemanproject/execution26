@@ -27,8 +27,8 @@ struct get_domain_t {
         requires(not requires(Object&& object, const get_domain_t& tag) {
                     { ::std::as_const(object).query(tag) } noexcept;
                 })
-    auto operator()(Object&&) const noexcept =
-        BEMAN_EXECUTION_DELETE("query(get_domain_t) overload needs to be noexcept");
+    auto
+    operator()(Object&&) const noexcept = BEMAN_EXECUTION_DELETE("query(get_domain_t) overload needs to be noexcept");
 
     template <typename Object>
     constexpr auto operator()(Object&& object) const noexcept {

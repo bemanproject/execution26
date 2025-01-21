@@ -31,8 +31,7 @@ struct connect_all_t {
     static auto apply_with_index_helper(::std::index_sequence<I...> seq, Fun&& fun, Tuple&& tuple) noexcept(noexcept(
         ::std::forward<Fun>(fun)(seq, ::beman::execution::detail::forward_like<Tuple>(::std::get<I>(tuple))...)))
         -> decltype(auto) {
-        return ::std::forward<Fun>(fun)(seq,
-                                        ::beman::execution::detail::forward_like<Tuple>(::std::get<I>(tuple))...);
+        return ::std::forward<Fun>(fun)(seq, ::beman::execution::detail::forward_like<Tuple>(::std::get<I>(tuple))...);
     }
     template <typename Fun, typename Tuple>
     static auto apply_with_index(Fun&& fun, Tuple&& tuple) noexcept(
@@ -99,7 +98,7 @@ struct connect_all_t {
             s.template get<0>();
         }
     auto operator()(::beman::execution::detail::basic_state<Sender, Receiver>* op,
-                    S&&                                                          sender,
+                    S&&                                                        sender,
                     ::std::index_sequence<I...>) const
         noexcept(noexcept(sub_apply_with_index<2>(connect_helper<Sender, Receiver>{op}, ::std::forward<S>(sender))))
             -> decltype(auto) {
@@ -107,7 +106,7 @@ struct connect_all_t {
     }
     template <typename Sender, typename S, typename Receiver, ::std::size_t... I>
     auto operator()(::beman::execution::detail::basic_state<Sender, Receiver>* op,
-                    S&&                                                          sender,
+                    S&&                                                        sender,
                     ::std::index_sequence<I...>) const
         noexcept(noexcept(apply_with_index(
             connect_helper<Sender, Receiver>{op},
