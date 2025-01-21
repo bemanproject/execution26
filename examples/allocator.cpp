@@ -1,4 +1,4 @@
-#include <beman/execution26/execution.hpp>
+#include <beman/execution/execution.hpp>
 #include <iostream>
 #include <string>
 #include <memory>
@@ -6,7 +6,7 @@
 #include <span>
 #include <vector>
 
-namespace ex = beman::execution26;
+namespace ex = beman::execution;
 
 namespace {
 template <std::size_t Size>

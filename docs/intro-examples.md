@@ -18,16 +18,16 @@ work.
 
 The componentes for `std::execution` are declared in the header
 `<execution>`.  This particular implementation implements the
-cmponents in namespace `beman::execution26` declared in the header
-`<beman/execution26/execution.hpp>`:
+cmponents in namespace `beman::execution` declared in the header
+`<beman/execution/execution.hpp>`:
 
 ```c++
-#include <beman/execution26/execution.hpp>
+#include <beman/execution/execution.hpp>
 #include <iostream>
 #include <string>
 #include <tuple>
 
-namespace ex = ::beman::execution26;
+namespace ex = ::beman::execution;
 using namespace std::string_literals;
 ```
 

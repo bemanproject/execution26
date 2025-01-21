@@ -26,7 +26,7 @@ Checks:
     -*-use-equals-default,
     -*-braces-around-statements
 '
-HeaderFilterRegex: '.*/execution26/(include|src|example|tests)/.*\.(hpp)$'
+HeaderFilterRegex: '.*/execution/(include|src|example|tests)/.*\.(hpp)$'
 WarningsAsErrors: 'clang*'
 FormatStyle: file
 

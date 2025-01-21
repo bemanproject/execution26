@@ -1,10 +1,10 @@
 // examples/doc-just.cpp                                              -*-C++-*-
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 
-#include <beman/execution26/execution.hpp>
+#include <beman/execution/execution.hpp>
 #include <cassert>
 #include <string>
-namespace ex = beman::execution26;
+namespace ex = beman::execution;
 using namespace std::string_literals;
 
 int main() {

@@ -1,5 +1,5 @@
-#include <beman/execution26/execution.hpp>
-namespace ex = beman::execution26;
+#include <beman/execution/execution.hpp>
+namespace ex = beman::execution;
 
 struct receiver {
     using receiver_concept = ex::receiver_t;

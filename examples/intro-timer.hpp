@@ -6,7 +6,7 @@
 #ifndef INCLUDED_EXAMPLES_INTRO_TIMER
 #define INCLUDED_EXAMPLES_INTRO_TIMER
 
-#include <beman/execution26/execution.hpp>
+#include <beman/execution/execution.hpp>
 #include <queue>
 #include <thread>
 #include <tuple>
@@ -14,7 +14,7 @@
 // ----------------------------------------------------------------------------
 
 namespace intro {
-namespace ex = beman::execution26;
+namespace ex = beman::execution;
 struct timer;
 } // namespace intro
 

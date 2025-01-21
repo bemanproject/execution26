@@ -6,15 +6,15 @@
 // which gets started in a thread. To stop this thread
 // the corresponding stop source is requested to stop.
 
-#include <beman/execution26/execution.hpp>
-#include <beman/execution26/stop_token.hpp>
+#include <beman/execution/execution.hpp>
+#include <beman/execution/stop_token.hpp>
 #include <chrono>
 #include <iostream>
 #include <thread>
 #include <cassert>
 
 using namespace std::chrono;
-namespace ex = beman::execution26;
+namespace ex = beman::execution;
 
 // ----------------------------------------------------------------------------
 

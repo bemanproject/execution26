@@ -1,11 +1,11 @@
-#include <beman/execution26/execution.hpp>
+#include <beman/execution/execution.hpp>
 #include <type_traits>
 #include <string>
 #include <memory_resource>
 #include <utility>
 #include <iostream>
 
-namespace ex = beman::execution26;
+namespace ex = beman::execution;
 
 template <typename Receiver>
 struct just_op_state {

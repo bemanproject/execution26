@@ -35,7 +35,7 @@ SANITIZER ?= default
 SOURCEDIR = $(CURDIR)
 BUILDROOT = build
 BUILD     = $(BUILDROOT)/$(SANITIZER)
-EXAMPLE   = beman.execution26.examples.stop_token
+EXAMPLE   = beman.execution.examples.stop_token
 CMAKE_CXX_COMPILER=$(COMPILER)
 
 ifeq ($(SANITIZER),release)
@@ -101,7 +101,7 @@ ce:
 	@mkdir -p $(BUILD)
 	bin/mk-compiler-explorer.py $(BUILD)
 
-SOURCE_CMAKELISTS = src/beman/execution26/CMakeLists.txt
+SOURCE_CMAKELISTS = src/beman/execution/CMakeLists.txt
 update:
 	bin/update-cmake-headers.py $(SOURCE_CMAKELISTS)
 
@@ -131,7 +131,7 @@ todo:
 	bin/mk-todo.py
 
 unstage:
-	git restore --staged tests/beman/execution26/CMakeLists.txt
+	git restore --staged tests/beman/execution/CMakeLists.txt
 
 .PHONY: clean-doc
 clean-doc:
