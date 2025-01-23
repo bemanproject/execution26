@@ -125,6 +125,6 @@ The components used in this example do all of that synchronously:
 <details>
 <summary>`"Hello, async"` - a simple asynchronous example</summary>
 
-Code: [`examples/intro-2-hello-async.cpp`]()
+@include examples/intro-2-hello-async.cpp
 
 </details>
