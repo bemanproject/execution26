@@ -21,7 +21,7 @@ The componentes for `std::execution` are declared in the header
 cmponents in namespace `beman::execution` declared in the header
 `<beman/execution/execution.hpp>`:
 
-```c++
+```cpp
 #include <beman/execution/execution.hpp>
 #include <iostream>
 #include <string>
@@ -40,7 +40,7 @@ to point out unusual parts like the use of custom components.
 
 All interesting work happens in the `main` function:
 
-```c++
+```cpp
 int main()
 {
     auto[result] = ex::sync_wait(
