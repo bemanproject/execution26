@@ -8,7 +8,7 @@ This page provides a series of examples showing how to use the
 <details>
 <summary>`"Hello, world"` - synchronous using asynchronous components</summary>
 
-Code: [`examples/intro-1-hello-world.cpp`]()
+@include examples/intro-1-hello-world.cpp
 
 The first example is a very complicated way to a version of `"Hello,
 world"`: it uses components for dealing with asynchronous work to
