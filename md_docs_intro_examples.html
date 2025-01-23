@@ -81,32 +81,56 @@ Introduction by Example</h1>
 <summary >
 <code>"Hello, world"</code> - synchronous using asynchronous components</summary>
 <p></p>
-<p>Code: [<code>examples/intro-1-hello-world.cpp</code>]()</p>
-<p>The first example is a very complicated way to a version of <code>"Hello,
+<div class="fragment"><div class="line"><span class="comment">// examples/intro-1-hello-world.cpp                                   -*-C++-*-</span></div>
+<div class="line"><span class="comment">// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception</span></div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#include &lt;beman/execution/execution.hpp&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;tuple&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">namespace </span>ex = ::beman::execution;</div>
+<div class="line"><span class="keyword">using namespace </span>std::string_literals;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// ----------------------------------------------------------------------------</span></div>
+<div class="line"><span class="comment">// Please see the explanation in docs/intro-examples.md for an explanation.</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    <span class="comment">// clang-format off</span></div>
+<div class="line">     <span class="keyword">auto</span> [result] = ex::sync_wait(</div>
+<div class="line">         ex::when_all(</div>
+<div class="line">             ex::just(<span class="stringliteral">&quot;hello, &quot;</span>s),</div>
+<div class="line">             ex::just(<span class="stringliteral">&quot;world&quot;</span>s)</div>
+<div class="line">         ) | ex::then([](<span class="keyword">auto</span> s1, <span class="keyword">auto</span> s2) { <span class="keywordflow">return</span> s1 + s2; })</div>
+<div class="line">         ).value_or(std::tuple(<span class="stringliteral">&quot;&quot;</span>s)</div>
+<div class="line">     );</div>
+<div class="line">    <span class="comment">// clang-format on</span></div>
+<div class="line"> </div>
+<div class="line">    std::cout &lt;&lt; result &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>The first example is a very complicated way to a version of <code>"Hello,
 world"</code>: it uses components for dealing with asynchronous work to synchronously produce the result. The intention is to show a basic use of some involved components to build up a feeling of how things work.</p>
 <p>The componentes for <code>std::execution</code> are declared in the header <code>&lt;execution&gt;</code>. This particular implementation implements the cmponents in namespace <code><a class="el" href="namespacebeman_1_1execution.html" title="Namespace for asynchronous operations and their vocabulary.">beman::execution</a></code> declared in the header <code>&lt;<a class="el" href="execution_2execution_8hpp_source.html">beman/execution/execution.hpp</a>&gt;</code>:</p>
-<div class="fragment"><div class="line"> {c++}</div>
-<div class="line">#include &lt;beman/execution/execution.hpp&gt;</div>
-<div class="line">#include &lt;iostream&gt;</div>
-<div class="line">#include &lt;string&gt;</div>
-<div class="line">#include &lt;tuple&gt;</div>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;beman/execution/execution.hpp&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;tuple&gt;</span></div>
 <div class="line"> </div>
-<div class="line">namespace ex = ::beman::execution;</div>
-<div class="line">using namespace std::string_literals;</div>
+<div class="line"><span class="keyword">namespace </span>ex = ::beman::execution;</div>
+<div class="line"><span class="keyword">using namespace </span>std::string_literals;</div>
 </div><!-- fragment --><p>Most of these declarations should be familiar. The namespace alias <code>ex</code> is used to support easy migration to a different implementation, in particular the standard name <code>std::execution</code> once it becomes available with standard library implementations. The other examples will have a similar start which is only mentioned in the explanation to point out unusual parts like the use of custom components.</p>
 <p>All interesting work happens in the <code>main</code> function:</p>
-<div class="fragment"><div class="line"> {c++}</div>
-<div class="line">int main()</div>
+<div class="fragment"><div class="line"><span class="keywordtype">int</span> main()</div>
 <div class="line">{</div>
-<div class="line">    auto[result] = ex::sync_wait(</div>
+<div class="line">    <span class="keyword">auto</span>[result] = ex::sync_wait(</div>
 <div class="line">        ex::when_all(</div>
-<div class="line">            ex::just(&quot;hello, &quot;s),</div>
-<div class="line">            ex::just(&quot;world&quot;s)</div>
+<div class="line">            ex::just(<span class="stringliteral">&quot;hello, &quot;</span>s),</div>
+<div class="line">            ex::just(<span class="stringliteral">&quot;world&quot;</span>s)</div>
 <div class="line">        )</div>
-<div class="line">        | ex::then([](auto s1, auto s2){ return s1 + s2; })</div>
-<div class="line">        ).value_or(std::tuple(&quot;&quot;s));</div>
+<div class="line">        | ex::then([](<span class="keyword">auto</span> s1, <span class="keyword">auto</span> s2){ <span class="keywordflow">return</span> s1 + s2; })</div>
+<div class="line">        ).value_or(std::tuple(<span class="stringliteral">&quot;&quot;</span>s));</div>
 <div class="line"> </div>
-<div class="line">    std::cout &lt;&lt; result &lt;&lt; &#39;\n&#39;;</div>
+<div class="line">    std::cout &lt;&lt; result &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
 <div class="line">}</div>
 </div><!-- fragment --><p>This code code be simpler even when using components from <code>std::execution</code>. Showing a few more components is intended to better reflect how an asynchronous program might look like. This examples uses a <em>sender factory</em> (<code>ex::just</code>), two <em>sender adaptors</em> (<code>ex::when_all</code> and <code>ex::then</code>), and finally a <em>sender consumer</em> (<code>ex::sync_wait</code>) to build up work and to execute it. The idea of a <em>sender</em> is that it represents work which can be composed with algorithms into a unit of work which is eventually executed.</p>
 <p>Each work item can complete asynchronously at some later time, i.e., calling it like a function and using a returned value isn't really an option. Instead, when the work is started it does whatever is needed to get the work completed and get a <em>completion signal</em> delivered. Delivering a completion signal consists of calling a function on a suitable objects. The important part is that once work is started it always delivers exactly one completion signal which can indicate success, failure, or cancellation. Later examples for creating senders will go into more details about the cancellation signals.</p>
@@ -123,8 +147,46 @@ world"</code>: it uses components for dealing with asynchronous work to synchron
 <summary >
 <code>"Hello, async"</code> - a simple asynchronous example</summary>
 <p></p>
-<p>Code: [<code>examples/intro-2-hello-async.cpp</code>]()</p>
-<p></p>
+<div class="fragment"><div class="line"><span class="comment">// examples/intro-2-hello-async.cpp                                   -*-C++-*-</span></div>
+<div class="line"><span class="comment">// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception</span></div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#include &lt;beman/execution/execution.hpp&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &quot;intro-timer.hpp&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;chrono&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;tuple&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">namespace </span>ex = ::beman::execution;</div>
+<div class="line"><span class="keyword">using namespace </span>std::string_literals;</div>
+<div class="line"><span class="keyword">using namespace </span>std::chrono_literals;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// ----------------------------------------------------------------------------</span></div>
+<div class="line"><span class="comment">// Please see the explanation in docs/intro-examples.md for an explanation.</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    std::cout &lt;&lt; std::unitbuf;</div>
+<div class="line">    intro::timer timer;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// clang-format off</span></div>
+<div class="line">     <span class="keyword">auto</span> [result] = ex::sync_wait(</div>
+<div class="line">         ex::when_all(</div>
+<div class="line">             timer.run(),</div>
+<div class="line">             ex::when_all(</div>
+<div class="line">                 timer.resume_after(3s)</div>
+<div class="line">                     | ex::then([] { std::cout &lt;&lt; <span class="stringliteral">&quot;h\n&quot;</span>; return std::string(<span class="stringliteral">&quot;hello&quot;</span>); }),</div>
+<div class="line">                 timer.resume_after(1s)</div>
+<div class="line">                     | ex::then([] { std::cout &lt;&lt; <span class="stringliteral">&quot;,\n&quot;</span>; return std::string(<span class="stringliteral">&quot;, &quot;</span>); }),</div>
+<div class="line">                 timer.resume_after(2s)</div>
+<div class="line">                     | ex::then([] { std::cout &lt;&lt; <span class="stringliteral">&quot;w\n&quot;</span>; return std::string(<span class="stringliteral">&quot;world&quot;</span>); })</div>
+<div class="line">             ) | ex::then([](<span class="keyword">auto</span> s1, <span class="keyword">auto</span> s2, <span class="keyword">auto</span> s3) { return s1 + s2 + s3; })</div>
+<div class="line">         )</div>
+<div class="line">     ).value_or(std::tuple(std::string(<span class="stringliteral">&quot;&quot;</span>)));</div>
+<div class="line">    <span class="comment">// clang-format on</span></div>
+<div class="line"> </div>
+<div class="line">    std::cout &lt;&lt; result &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line">}</div>
+</div><!-- fragment --><p></p>
 </details>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
