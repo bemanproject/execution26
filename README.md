@@ -41,15 +41,10 @@ e.g.:
 
 ## Help Welcome!
 
-There are plenty of things which need to be done. Some of these
-are listed in the [issues section](https://github.com/bemanproject/execution/issues).
-Other contributions are, of course, also welcome. Aside from contributing
-code the project welcomes reports on usage experience, code reviews, defect
-reports, features requests, etc. There are plenty contribution opportunities.
-
-If you want to contribute, you won't be left alone! Please e-mail
-[Dietmar Kühl](mailto:dietmar.kuehl@me.com) if you want help or mentoring
-for contributing to the library.
+There are plenty of things which need to be done. See the
+[contributions page](https://github.com/bemanproject/execution/docs/contributing.md)
+for some ideas how to contribute. The [resources page](https://github.com/bemanproject/execution/docs/resources.md)
+contains some links for general information about the sender/receivers and `std::execution`.
 
 ## Build
 
